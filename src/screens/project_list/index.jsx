@@ -3,11 +3,13 @@ import qs from "qs";
 
 import List from "screens/project_list/List";
 import SearchPanel from "screens/project_list/SearchPanel";
-import { removeURLEmptyValues } from "utils";
+import { removeEmptyQueryValues } from "utils";
+import { useDebounce, useMount } from "hooks";
 
 const api_URL = process.env.REACT_APP_API_URL;
 
 const ProjectListScreen = () => {
+  //query params
   const [params, setParams] = useState({
     name: "",
     teamLeadId: "",
@@ -15,8 +17,14 @@ const ProjectListScreen = () => {
   const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
 
+  const debouncedParams = useDebounce(params, 2000);
+
   useEffect(() => {
-    fetch(`${api_URL}/projects?${qs.stringify(removeURLEmptyValues(params))}`)
+    fetch(
+      `${api_URL}/projects?${qs.stringify(
+        removeEmptyQueryValues(debouncedParams)
+      )}`
+    )
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -26,9 +34,9 @@ const ProjectListScreen = () => {
       })
       .then((data) => setList(data))
       .catch((error) => console.dir(error.message));
-  }, [params]);
+  }, [debouncedParams]);
 
-  useEffect(() => {
+  useMount(() => {
     fetch(`${api_URL}/users`)
       .then((response) => {
         if (response.ok) {
@@ -39,7 +47,7 @@ const ProjectListScreen = () => {
       })
       .then((data) => setUsers(data))
       .catch((error) => console.dir(error.message));
-  }, []);
+  });
 
   return (
     <div>

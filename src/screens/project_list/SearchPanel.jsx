@@ -12,6 +12,7 @@ const SearchPanel = ({ params, setParams, users }) => {
             name: e.target.value,
           })
         }
+        placeholder="Project Name"
       />
       <select
         value={params.teamLeadId}
@@ -22,7 +23,7 @@ const SearchPanel = ({ params, setParams, users }) => {
           })
         }
       >
-        <option value="">Team Lead</option>
+        <option value="">Select Team Lead</option>
         {users.map((user) => (
           <option key={user.id} value={user.id}>
             {user.name}

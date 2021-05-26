@@ -1,7 +1,7 @@
 // take into account when value equals 0
 export const isFalsy = (value) => (value === 0 ? false : !value);
 
-export const removeURLEmptyValues = (object) => {
+export const removeEmptyQueryValues = (object) => {
   // no mutation in original objects
   const newObject = { ...object };
   Object.keys(newObject).forEach((key) => {
