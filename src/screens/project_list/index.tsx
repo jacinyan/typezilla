@@ -17,7 +17,7 @@ const ProjectListScreen = () => {
   const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
 
-  const debouncedParams = useDebounce(params, 2000);
+  const debouncedParams = useDebounce(params, 700);
 
   useEffect(() => {
     fetch(
@@ -25,11 +25,11 @@ const ProjectListScreen = () => {
         removeEmptyQueryValues(debouncedParams)
       )}`
     )
-      .then((response) => {
+      .then(async (response) => {
         if (response.ok) {
-          return response.json();
+          return await response.json();
         } else {
-          throw new Error(response.json());
+          throw new Error(await response.json());
         }
       })
       .then((data) => setList(data))
@@ -38,15 +38,15 @@ const ProjectListScreen = () => {
 
   useMount(() => {
     fetch(`${api_URL}/users`)
-      .then((response) => {
+      .then(async (response) => {
         if (response.ok) {
-          return response.json();
+          return await response.json();
         } else {
-          throw new Error(response.json());
+          throw new Error(await response.json());
         }
       })
       .then((data) => setUsers(data))
-      .catch((error) => console.dir(error.message));
+      .catch((error) => console.dir(error));
   });
 
   return (
