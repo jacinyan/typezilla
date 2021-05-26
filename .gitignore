@@ -4,9 +4,11 @@
 /node_modules
 /.pnp
 .pnp.js
+/json-server
 
 # testing
 /coverage
+rest.http
 
 # production
 /build
