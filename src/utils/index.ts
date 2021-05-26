@@ -1,5 +1,5 @@
 // take into account when value equals 0
-export const isFalsy = (value: any) => (value === 0 ? false : !value);
+export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 
 export const removeEmptyQueryValues = (object: object) => {
   // no mutation in original objects
