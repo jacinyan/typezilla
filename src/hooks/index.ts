@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "providers/AuthProvider";
-import { configureFetch } from "api/config";
+import { configureFetch } from "api";
 
 export const useMount = (callback: () => void) => {
   useEffect(() => {

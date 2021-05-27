@@ -1,8 +1,8 @@
 import { createContext, ReactNode, useState } from "react";
-import * as auth from "api/auth";
+import * as auth from "api";
 
 import { User } from "app/screens/project_list/SearchPanel";
-import { configureFetch } from "api/config";
+import { configureFetch } from "api";
 import { useMount } from "hooks";
 
 interface AuthForm {
