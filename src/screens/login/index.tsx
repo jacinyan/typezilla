@@ -11,7 +11,7 @@ const LoginScreen = () => {
     const password = (e.currentTarget.elements[1] as HTMLInputElement).value;
     login({ username, password });
   };
-
+  // const test = () => {};
   const login = (params: { username: string; password: string }) => {
     fetch(`${api_URL}/login`, {
       method: "POST",
