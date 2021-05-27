@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useState } from "react";
-import * as auth from "auth";
+import * as auth from "app/screens/auth";
 
-import { User } from "screens/project_list/SearchPanel";
+import { User } from "app/screens/project_list/SearchPanel";
 
 export const AuthContext =
   //avoid value type in AuthProvider being undefined from default when it is not

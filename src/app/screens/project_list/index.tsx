@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import qs from "qs";
 
-import List from "screens/project_list/List";
-import SearchPanel from "screens/project_list/SearchPanel";
+import List from "app/screens/project_list/List";
+import SearchPanel from "app/screens/project_list/SearchPanel";
 import { removeEmptyQueryValues } from "utils";
 import { useDebounce, useMount } from "hooks";
 

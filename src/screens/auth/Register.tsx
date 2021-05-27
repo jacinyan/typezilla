@@ -1,20 +1,20 @@
 import { useAuth } from "hooks";
 import { FormEvent } from "react";
 
-const LoginScreen = () => {
-  const { login, user } = useAuth();
+const RegisterScreen = () => {
+  const { register, user } = useAuth();
 
   //HTMLFormElement extends Elements
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const username = (e.currentTarget.elements[0] as HTMLInputElement).value;
     const password = (e.currentTarget.elements[1] as HTMLInputElement).value;
-    login({ username, password });
+    register({ username, password });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      {user && <div>Login Success, username: {user?.name}</div>}
+      {user && <div>Successful registered, username: {user?.name}</div>}
       <div>
         <label htmlFor="username">Username</label>
         <input type="text" id={"username"} />
@@ -28,4 +28,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;

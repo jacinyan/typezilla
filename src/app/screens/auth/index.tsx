@@ -1,5 +1,5 @@
 // simulate auth provider
-import { User } from "screens/project_list/SearchPanel";
+import { User } from "app/screens/project_list/SearchPanel";
 
 const api_URL = process.env.REACT_APP_API_URL;
 const localStorageKey = "__auth__provider__token__";

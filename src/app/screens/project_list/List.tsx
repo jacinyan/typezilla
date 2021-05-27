@@ -1,5 +1,5 @@
 import React from "react";
-import { User } from "screens/project_list/SearchPanel";
+import { User } from "app/screens/project_list/SearchPanel";
 
 interface Project {
   id: string;
