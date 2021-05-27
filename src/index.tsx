@@ -4,7 +4,7 @@ import "index.css";
 import App from "app/App";
 import reportWebVitals from "reportWebVitals";
 import { loadDevTools } from "typezilla-mockserver";
-import { AppProviders } from "contexts";
+import { AppProviders } from "providers";
 
 loadDevTools(() => {
   ReactDOM.render(

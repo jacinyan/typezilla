@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "contexts/AuthContext";
+import { AuthContext } from "providers/AuthProvider";
+import { configureFetch } from "api/config";
 
 export const useMount = (callback: () => void) => {
   useEffect(() => {
@@ -48,4 +49,10 @@ export const useAuth = () => {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
+};
+
+export const useConfigureFetch = () => {
+  const { user } = useAuth();
+  return (...[endpoint, config]: Parameters<typeof configureFetch>) =>
+    configureFetch(endpoint, { ...config, token: user?.token });
 };

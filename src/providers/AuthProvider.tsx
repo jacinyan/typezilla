@@ -1,7 +1,24 @@
 import { createContext, ReactNode, useState } from "react";
-import * as auth from "app/screens/auth";
+import * as auth from "api/auth";
 
 import { User } from "app/screens/project_list/SearchPanel";
+import { configureFetch } from "api/config";
+import { useMount } from "hooks";
+
+interface AuthForm {
+  username: string;
+  password: string;
+}
+
+const bootstrapUser = async () => {
+  let user = null;
+  const token = auth.getToken();
+  if (token) {
+    const data = await configureFetch("me", { token });
+    user = data.user;
+  }
+  return user;
+};
 
 export const AuthContext =
   //avoid value type in AuthProvider being undefined from default when it is not
@@ -16,11 +33,6 @@ export const AuthContext =
   >(undefined);
 AuthContext.displayName = "AuthContext";
 
-interface AuthForm {
-  username: string;
-  password: string;
-}
-
 //(alias) const AuthProvider: () => JSX.Element
 //import AuthProvider
 //Type '{ children: ReactNode; }' has no properties in common with type 'IntrinsicAttributes'
@@ -31,6 +43,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = (form: AuthForm) => auth.login(form).then(setUser);
   const register = (form: AuthForm) => auth.register(form).then(setUser);
   const logout = () => auth.logout().then(() => setUser(null));
+
+  useMount(() => {
+    bootstrapUser().then(setUser);
+  });
 
   return (
     <AuthContext.Provider

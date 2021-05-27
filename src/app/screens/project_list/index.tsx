@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
-import qs from "qs";
 
 import List from "app/screens/project_list/List";
 import SearchPanel from "app/screens/project_list/SearchPanel";
 import { removeEmptyQueryValues } from "utils";
-import { useDebounce, useMount } from "hooks";
-
-const api_URL = process.env.REACT_APP_API_URL;
+import { useDebounce, useMount, useConfigureFetch } from "hooks";
 
 const ProjectListScreen = () => {
   //query params
@@ -17,36 +14,19 @@ const ProjectListScreen = () => {
   const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
 
-  const debouncedParams = useDebounce(params, 700);
+  const configuredFetch = useConfigureFetch();
+
+  const debouncedParams = useDebounce(params, 500);
 
   useEffect(() => {
-    fetch(
-      `${api_URL}/projects?${qs.stringify(
-        removeEmptyQueryValues(debouncedParams)
-      )}`
-    )
-      .then(async (response) => {
-        if (response.ok) {
-          return await response.json();
-        } else {
-          throw new Error(await response.json());
-        }
-      })
-      .then((data) => setList(data))
-      .catch((error) => console.dir(error.message));
+    configuredFetch("projects", {
+      data: removeEmptyQueryValues(debouncedParams),
+    }).then(setList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedParams]);
 
   useMount(() => {
-    fetch(`${api_URL}/users`)
-      .then(async (response) => {
-        if (response.ok) {
-          return await response.json();
-        } else {
-          throw new Error(await response.json());
-        }
-      })
-      .then((data) => setUsers(data))
-      .catch((error) => console.dir(error));
+    configuredFetch("users").then(setUsers);
   });
 
   return (
