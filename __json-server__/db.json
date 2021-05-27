@@ -1,0 +1,46 @@
+{
+  "users": [
+    { "id": 1, "name": "Hewitt McGowan", "team": "Delivery" },
+    { "id": 2, "name": "Ed Grylls ", "team": "Delivery" },
+    { "id": 3, "name": "Mandy Cheung", "team": "Headquarters" },
+    { "id": 4, "name": "Jane Wang", "team": "Service Gateway" }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "name": "Drivers Management System",
+      "teamLeadId": 1,
+      "team": "Delivery",
+      "created": 1604989757139
+    },
+    {
+      "id": 2,
+      "name": "Group-buying System",
+      "teamLeadId": 5,
+      "team": "Group Buying",
+      "created": 1604989757139,
+      "pin": true
+    },
+    {
+      "id": 3,
+      "name": "Equipment Management System",
+      "teamLeadId": 2,
+      "team": "Equipment",
+      "created": 1546300800000
+    },
+    {
+      "id": 4,
+      "name": "Headquarters Management",
+      "teamLeadId": 3,
+      "team": "Headquarters",
+      "created": 1604980000011
+    },
+    {
+      "id": 5,
+      "name": "Route Planning System",
+      "teamLeadId": 4,
+      "team": "Delivery",
+      "created": 1546900800000
+    }
+  ]
+}
