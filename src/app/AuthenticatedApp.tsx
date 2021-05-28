@@ -1,7 +1,7 @@
 import { useAuth } from "hooks";
 import ProjectListScreen from "./screens/project_list";
 
-export const AuthenticatedApp = () => {
+const AuthenticatedApp = () => {
   const { logout } = useAuth();
   return (
     <div>
@@ -10,3 +10,4 @@ export const AuthenticatedApp = () => {
     </div>
   );
 };
+export default AuthenticatedApp;

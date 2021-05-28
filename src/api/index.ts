@@ -1,69 +1,70 @@
-// simulate auth provider
 import qs from "qs";
 import { User } from "app/screens/project_list/SearchPanel";
 
 const api_URL = process.env.REACT_APP_API_URL;
 const localStorageKey = "__auth__provider__token__";
 
+//params and token are customized, extends second param type in fetch api
 interface Config extends RequestInit {
+  params?: object;
   token?: string;
-  data?: object;
 }
-
 export const configureFetch = async (
   endpoint: string,
-  { data, token, headers, ...rest }: Config = {}
+  { params, token, headers, ...customConfig }: Config = {}
 ) => {
   const config = {
     method: "GET",
     headers: {
       Authorization: token ? `Bearer ${token}` : "",
-      "Content-Type": data ? "application/json" : "",
+      "Content-Type": params ? "application/json" : "",
     },
-    ...rest,
+    //re-write config on an ad hoc basis
+    ...customConfig,
   };
   if (config.method.toUpperCase() === "GET") {
-    endpoint += `?${qs.stringify(data)}`;
+    endpoint += `?${qs.stringify(params)}`;
   } else {
-    config.body = JSON.stringify(data || {});
+    config.body = JSON.stringify(params || {});
   }
+
   const response = await window.fetch(`${api_URL}/${endpoint}`, config);
-  if (response.status === 401) {
-    await logout();
-    window.location.reload();
-    return Promise.reject({ message: "Please log in again" });
-  }
   if (response.ok) {
-    const data = await response.json();
-    return data;
+    return await response.json();
   } else {
-    return Promise.reject(data);
+    if (response.status === 401) {
+      await logout();
+      window.location.reload();
+      return Promise.reject({ message: "Please log in again" });
+    } else {
+      return Promise.reject(await response.json());
+    }
   }
 };
 
+//auth separately
 export const getToken = () => window.localStorage.getItem(localStorageKey);
-
 export const handleUserResponse = ({ user }: { user: User }) => {
   window.localStorage.setItem(localStorageKey, user.token || "");
   return user;
 };
 
-export const login = async (data: { username: string; password: string }) => {
+export const login = async (params: { username: string; password: string }) => {
   const response = await fetch(`${api_URL}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(params),
   });
   if (response.ok) {
     return handleUserResponse(await response.json());
   } else {
-    return Promise.reject(data);
+    return Promise.reject(await response.json());
   }
 };
 
-export const register = async (data: {
+export const register = async (params: {
   username: string;
   password: string;
 }) => {
@@ -72,12 +73,12 @@ export const register = async (data: {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(params),
   });
   if (response.ok) {
     return handleUserResponse(await response.json());
   } else {
-    return Promise.reject(data);
+    return Promise.reject(await response.json());
   }
 };
 

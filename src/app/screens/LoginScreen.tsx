@@ -1,30 +1,34 @@
 import { useAuth } from "hooks";
-import { FormEvent } from "react";
+import { Button, Form, Input } from "antd";
 
 const LoginScreen = () => {
-  const { login, user } = useAuth();
+  const { login } = useAuth();
 
   //HTMLFormElement extends Elements
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const username = (e.currentTarget.elements[0] as HTMLInputElement).value;
-    const password = (e.currentTarget.elements[1] as HTMLInputElement).value;
-    login({ username, password });
+  const handleSubmit = (values: { username: string; password: string }) => {
+    login(values);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {user && <div>Successful logged in, username: {user?.name}</div>}
-      <div>
-        <label htmlFor="username">Username</label>
-        <input type="text" id={"username"} />
-      </div>
-      <div>
-        <label htmlFor="password">Password</label>
-        <input type="text" id={"password"} />
-      </div>
-      <button type="submit">Sign In</button>
-    </form>
+    <Form onFinish={handleSubmit}>
+      <Form.Item
+        name={"username"}
+        rules={[{ required: true, message: "Please enter your username" }]}
+      >
+        <Input type="text" id={"username"} placeholder="Username" />
+      </Form.Item>
+      <Form.Item
+        name={"password"}
+        rules={[{ required: true, message: "Please enter your password" }]}
+      >
+        <Input type="text" id={"password"} placeholder="Password" />
+      </Form.Item>
+      <Form.Item>
+        <Button type={"primary"} htmlType={"submit"}>
+          Sign In
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 

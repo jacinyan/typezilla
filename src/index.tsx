@@ -1,10 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "index.css";
 import App from "app/App";
 import reportWebVitals from "reportWebVitals";
 import { loadDevTools } from "typezilla-mockserver";
-import { AppProviders } from "providers";
+import { AppProviders } from "contexts";
+import "index.css";
+//override loadDevTools
+import "antd/dist/antd.less";
 
 loadDevTools(() => {
   ReactDOM.render(

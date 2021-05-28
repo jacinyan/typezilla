@@ -10,10 +10,13 @@ interface AuthForm {
   password: string;
 }
 
+//preload user log in/out state for persistency
 const bootstrapUser = async () => {
   let user = null;
+  //fetch token from localStorage
   const token = auth.getToken();
   if (token) {
+    //specify token
     const data = await configureFetch("me", { token });
     user = data.user;
   }
@@ -44,6 +47,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const register = (form: AuthForm) => auth.register(form).then(setUser);
   const logout = () => auth.logout().then(() => setUser(null));
 
+  //check token whenever the app loads
   useMount(() => {
     bootstrapUser().then(setUser);
   });

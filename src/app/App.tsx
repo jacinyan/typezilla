@@ -1,15 +1,20 @@
+import React from "react";
 import "./App.css";
+import Loading from "app/components/Loading";
 import { useAuth } from "hooks";
-import { AuthenticatedApp } from "./AuthenticatedApp";
-import { UnAuthenticatedApp } from "./UnauthenticatedApp";
+
+const AuthenticatedApp = React.lazy(() => import("./AuthenticatedApp"));
+const UnauthenticatedApp = React.lazy(() => import("./UnauthenticatedApp"));
 
 function App() {
   //https://kentcdodds.com/blog/authentication-in-react-applications
   const { user } = useAuth();
   return (
-    <div className="App">
-      {user ? <AuthenticatedApp /> : <UnAuthenticatedApp />}
-    </div>
+    <React.Suspense fallback={<Loading />}>
+      <div className="App">
+        {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+      </div>
+    </React.Suspense>
   );
 }
 

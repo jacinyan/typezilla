@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "providers/AuthProvider";
+import { AuthContext } from "contexts/AuthContext";
 import { configureFetch } from "api";
 
 export const useMount = (callback: () => void) => {
@@ -51,8 +51,11 @@ export const useAuth = () => {
   return context;
 };
 
+//embed token
 export const useConfigureFetch = () => {
   const { user } = useAuth();
+  //Parameters match configureFetch
+  //spread the tuple once and for all when myFetch [from useConfigureFetch()] is called
   return (...[endpoint, config]: Parameters<typeof configureFetch>) =>
     configureFetch(endpoint, { ...config, token: user?.token });
 };

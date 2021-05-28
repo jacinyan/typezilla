@@ -1,4 +1,4 @@
-import React from "react";
+import { Input, Select } from "antd";
 
 export interface User {
   id: string;
@@ -11,42 +11,42 @@ export interface User {
 
 interface SearchPanelProps {
   users: User[];
-  params: {
+  paramsObj: {
     name: string;
     teamLeadId: string;
   };
-  setParams: (params: SearchPanelProps["params"]) => void;
+  setParamsObj: (paramsObj: SearchPanelProps["paramsObj"]) => void;
 }
-const SearchPanel = ({ params, setParams, users }: SearchPanelProps) => {
+const SearchPanel = ({ paramsObj, setParamsObj, users }: SearchPanelProps) => {
   return (
     <form>
-      <input
+      <Input
         type="text"
-        value={params.name}
+        value={paramsObj.name}
         onChange={(e) =>
-          setParams({
-            ...params,
+          setParamsObj({
+            ...paramsObj,
             name: e.target.value,
           })
         }
         placeholder="Project Name"
       />
-      <select
-        value={params.teamLeadId}
-        onChange={(e) =>
-          setParams({
-            ...params,
-            teamLeadId: e.target.value,
+      <Select
+        value={paramsObj.teamLeadId}
+        onChange={(value) =>
+          setParamsObj({
+            ...paramsObj,
+            teamLeadId: value,
           })
         }
       >
-        <option value="">Select Team Lead</option>
+        <Select.Option value="">Select Team Lead</Select.Option>
         {users.map((user) => (
-          <option key={user.id} value={user.id}>
+          <Select.Option key={user.id} value={user.id}>
             {user.name}
-          </option>
+          </Select.Option>
         ))}
-      </select>
+      </Select>
     </form>
   );
 };
