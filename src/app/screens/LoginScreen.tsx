@@ -1,5 +1,10 @@
 import { useAuth } from "hooks";
 import { Button, Form, Input } from "antd";
+import styled from "@emotion/styled";
+
+const WideButton = styled(Button)`
+  width: 100%;
+`;
 
 const LoginScreen = () => {
   const { login } = useAuth();
@@ -24,9 +29,9 @@ const LoginScreen = () => {
         <Input type="text" id={"password"} placeholder="Password" />
       </Form.Item>
       <Form.Item>
-        <Button type={"primary"} htmlType={"submit"}>
+        <WideButton type={"primary"} htmlType={"submit"}>
           Sign In
-        </Button>
+        </WideButton>
       </Form.Item>
     </Form>
   );

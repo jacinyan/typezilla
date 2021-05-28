@@ -1,6 +1,12 @@
 import { useAuth } from "hooks";
 import { Button, Form, Input } from "antd";
 
+import styled from "@emotion/styled";
+
+const WideButton = styled(Button)`
+  width: 100%;
+`;
+
 const RegisterScreen = () => {
   const { register } = useAuth();
 
@@ -24,9 +30,9 @@ const RegisterScreen = () => {
         <Input type="text" id={"password"} placeholder="Password" />
       </Form.Item>
       <Form.Item>
-        <Button type={"primary"} htmlType={"submit"}>
+        <WideButton type={"primary"} htmlType={"submit"}>
           Sign Up
-        </Button>
+        </WideButton>
       </Form.Item>
     </Form>
   );

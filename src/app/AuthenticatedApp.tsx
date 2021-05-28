@@ -1,5 +1,5 @@
 import { useAuth } from "hooks";
-import ProjectListScreen from "./screens/project_list";
+import ProjectListScreen from "./screens/ProjectListScreen";
 
 const AuthenticatedApp = () => {
   const { logout } = useAuth();

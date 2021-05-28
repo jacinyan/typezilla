@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useState } from "react";
 import * as auth from "api";
 
-import { User } from "app/screens/project_list/SearchPanel";
+import { User } from "app/components/SearchPanel";
 import { configureFetch } from "api";
 import { useMount } from "hooks";
 

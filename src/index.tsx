@@ -4,7 +4,6 @@ import App from "app/App";
 import reportWebVitals from "reportWebVitals";
 import { loadDevTools } from "typezilla-mockserver";
 import { AppProviders } from "contexts";
-import "index.css";
 //override loadDevTools
 import "antd/dist/antd.less";
 
