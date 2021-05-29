@@ -35,7 +35,7 @@ const Background = styled.div`
   width: 100%;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-position: left 0 bottom 0, right 0 top 0;
+  background-position: left bottom, right top;
   background-size: 35%, 35%, contain;
   background-image: url(${left}), url(${right});
   opacity: 0.55;

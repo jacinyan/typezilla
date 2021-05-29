@@ -1,4 +1,5 @@
-import { Input, Select } from "antd";
+/** @jsxImportSource @emotion/react */
+import { Input, Select, Form } from "antd";
 
 export interface User {
   id: string;
@@ -15,39 +16,44 @@ interface SearchPanelProps {
     name: string;
     teamLeadId: string;
   };
+  //dynamically updates setParamsObj type WRT paramsObj
   setParamsObj: (paramsObj: SearchPanelProps["paramsObj"]) => void;
 }
 const SearchPanel = ({ paramsObj, setParamsObj, users }: SearchPanelProps) => {
   return (
-    <form>
-      <Input
-        type="text"
-        value={paramsObj.name}
-        onChange={(e) =>
-          setParamsObj({
-            ...paramsObj,
-            name: e.target.value,
-          })
-        }
-        placeholder="Project Name"
-      />
-      <Select
-        value={paramsObj.teamLeadId}
-        onChange={(value) =>
-          setParamsObj({
-            ...paramsObj,
-            teamLeadId: value,
-          })
-        }
-      >
-        <Select.Option value="">Select Team Lead</Select.Option>
-        {users.map((user) => (
-          <Select.Option key={user.id} value={user.id}>
-            {user.name}
-          </Select.Option>
-        ))}
-      </Select>
-    </form>
+    <Form layout={"inline"} css={{ marginBottom: "2rem" }}>
+      <Form.Item>
+        <Input
+          type="text"
+          value={paramsObj.name}
+          onChange={(e) =>
+            setParamsObj({
+              ...paramsObj,
+              name: e.target.value,
+            })
+          }
+          placeholder={"Project Name"}
+        />
+      </Form.Item>
+      <Form.Item>
+        <Select
+          value={paramsObj.teamLeadId}
+          onChange={(value) =>
+            setParamsObj({
+              ...paramsObj,
+              teamLeadId: value,
+            })
+          }
+        >
+          <Select.Option value="">Select Team Lead</Select.Option>
+          {users.map((user) => (
+            <Select.Option key={user.id} value={user.id}>
+              {user.name}
+            </Select.Option>
+          ))}
+        </Select>
+      </Form.Item>
+    </Form>
   );
 };
 

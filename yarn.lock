@@ -4561,6 +4561,11 @@ date-fns@^2.15.0:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.21.3.tgz#8f5f6889d7a96bbcc1f0ea50239b397a83357f9b"
   integrity sha512-HeYdzCaFflc1i4tGbj7JKMjM4cKGYoyxwcIIkHzNgCkX8xXDNJDZXgDDVchIWpN4eQc3lH37WarduXFZJOtxfw==
 
+dayjs@^1.10.5:
+  version "1.10.5"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.5.tgz#5600df4548fc2453b3f163ebb2abbe965ccfb986"
+  integrity sha512-BUFis41ikLz+65iH6LHQCDm4YPMj5r1YFLdupPIyM4SGcXMmtiLQ7U37i+hGS8urIuqe7I/ou3IS1jVc4nbN4g==
+
 debug@*, debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.0, debug@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.1.tgz#f0d229c505e0c6d8c49ac553d1b13dc183f6b2ee"
@@ -12510,10 +12515,10 @@ typescript@^4.2.4:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.2.tgz#399ab18aac45802d6f2498de5054fcbbe716a805"
   integrity sha512-zZ4hShnmnoVnAHpVHWpTcxdv7dWP60S2FsydQLV8V5PbS3FifjWFFRiHSWpDJahly88PRyV5teTSLoq4eG7mKw==
 
-typezilla-mockserver@0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/typezilla-mockserver/-/typezilla-mockserver-0.2.2.tgz#f1bb5f0f765f584024347151107cb2b33ed0fd4b"
-  integrity sha512-imk3wQOGaQ5rI+1w2uXo+0I3cqaEV8ncET+q8Rcb/9y5mijBLNWGYf+QbFyJ5GPuj01MTZYoeDUEmpzFTtOFlQ==
+typezilla-mockserver@0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/typezilla-mockserver/-/typezilla-mockserver-0.2.5.tgz#eb629ae3b2c8776d85fc4686172451706ddd230e"
+  integrity sha512-nIEIepDILBg7yv0wFhSwD1y2bUtfotEnLuiH5aaksEQdai8yec8PJObK7sE2QrbALm8PtuV8lzJaWZV7QoS7cg==
   dependencies:
     "@types/jest" "^26.0.15"
     "@types/node" "^12.0.0"

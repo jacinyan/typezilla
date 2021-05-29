@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-
 import List from "app/components/project-list/List";
 import SearchPanel from "app/components/project-list/SearchPanel";
 import { removeEmptyQueryValues } from "utils";
 import { useDebounce, useMount, useConfigureFetch } from "hooks";
+import * as S from "./index.styles";
 
 const ProjectListScreen = () => {
   //query params
@@ -15,7 +15,6 @@ const ProjectListScreen = () => {
   const [users, setUsers] = useState([]);
 
   const myFetch = useConfigureFetch();
-
   const debouncedParams = useDebounce(paramsObj, 500);
 
   useEffect(() => {
@@ -30,14 +29,15 @@ const ProjectListScreen = () => {
   });
 
   return (
-    <div>
+    <S.Container>
+      <h1>Project List</h1>
       <SearchPanel
         paramsObj={paramsObj}
         setParamsObj={setParamsObj}
         users={users}
       />
       <List list={list} users={users} />
-    </div>
+    </S.Container>
   );
 };
 
