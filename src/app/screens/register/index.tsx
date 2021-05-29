@@ -1,17 +1,13 @@
 import { useAuth } from "hooks";
-import { Button, Form, Input } from "antd";
-import styled from "@emotion/styled";
+import { Form, Input } from "antd";
+import * as S from "./index.styles";
 
-const WideButton = styled(Button)`
-  width: 100%;
-`;
-
-const LoginScreen = () => {
-  const { login } = useAuth();
+const RegisterScreen = () => {
+  const { register } = useAuth();
 
   //HTMLFormElement extends Elements
   const handleSubmit = (values: { username: string; password: string }) => {
-    login(values);
+    register(values);
   };
 
   return (
@@ -29,12 +25,12 @@ const LoginScreen = () => {
         <Input type="text" id={"password"} placeholder="Password" />
       </Form.Item>
       <Form.Item>
-        <WideButton type={"primary"} htmlType={"submit"}>
-          Sign In
-        </WideButton>
+        <S.WideButton type={"primary"} htmlType={"submit"}>
+          Sign Up
+        </S.WideButton>
       </Form.Item>
     </Form>
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
