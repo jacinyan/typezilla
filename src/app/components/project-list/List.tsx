@@ -1,5 +1,5 @@
 import React from "react";
-import { User } from "app/components/SearchPanel";
+import { User } from "app/components/project-list/SearchPanel";
 import { Table } from "antd";
 
 interface Project {

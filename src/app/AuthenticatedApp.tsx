@@ -6,22 +6,19 @@ const AuthenticatedApp = () => {
   const { logout } = useAuth();
   return (
     <S.Container>
-      <S.Header>
-        <S.HeaderLeft>
-          <h3>Logo</h3>
-          <h3>Projects</h3>
-          <h3>User</h3>
+      <S.Header spaceBetween>
+        <S.HeaderLeft gap={true}>
+          <h2>Logo</h2>
+          <h2>Projects</h2>
+          <h2>User</h2>
         </S.HeaderLeft>
         <S.HeaderRight>
           <button onClick={logout}>Log out</button>
         </S.HeaderRight>
       </S.Header>
-      <S.Nav>Navigation</S.Nav>
       <S.Main>
         <ProjectListScreen />
       </S.Main>
-      <S.Aside>Aside</S.Aside>
-      <S.Footer>Footer</S.Footer>
     </S.Container>
   );
 };

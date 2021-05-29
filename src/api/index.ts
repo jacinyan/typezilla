@@ -1,5 +1,5 @@
 import qs from "qs";
-import { User } from "app/components/SearchPanel";
+import { User } from "app/components/project-list/SearchPanel";
 
 const api_URL = process.env.REACT_APP_API_URL;
 const localStorageKey = "__auth__provider__token__";

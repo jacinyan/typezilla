@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-import List from "app/components/ProjectList";
-import SearchPanel from "app/components/SearchPanel";
+import List from "app/components/project-list/List";
+import SearchPanel from "app/components/project-list/SearchPanel";
 import { removeEmptyQueryValues } from "utils";
 import { useDebounce, useMount, useConfigureFetch } from "hooks";
 

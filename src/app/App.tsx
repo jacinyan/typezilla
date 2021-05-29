@@ -1,7 +1,7 @@
 import React from "react";
-import "./App.css";
-import Loading from "app/components/Loading";
+import Loading from "app/components/common/Loading";
 import { useAuth } from "hooks";
+import "./App.css";
 
 const AuthenticatedApp = React.lazy(() => import("./AuthenticatedApp"));
 const UnauthenticatedApp = React.lazy(() => import("./UnauthenticatedApp"));
