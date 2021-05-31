@@ -1,5 +1,5 @@
-import { Card } from "antd";
 import styled from "@emotion/styled";
+import { Card } from "antd";
 import logo from "assets/logo.svg";
 import right from "assets/right.svg";
 import left from "assets/left.svg";

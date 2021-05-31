@@ -1,9 +1,13 @@
 import { createContext, ReactNode, useState } from "react";
-import * as auth from "api";
-
-import { User } from "app/components/project-list/SearchPanel";
-import { configureFetch } from "api";
+import {
+  getToken,
+  configureFetch,
+  login as authLogin,
+  register as authRegister,
+  logout as authLogout,
+} from "api";
 import { useMount } from "hooks";
+import { User } from "types";
 
 interface AuthForm {
   username: string;
@@ -14,7 +18,7 @@ interface AuthForm {
 const bootstrapUser = async () => {
   let user = null;
   //fetch token from localStorage
-  const token = auth.getToken();
+  const token = getToken();
   if (token) {
     //specify token
     const data = await configureFetch("me", { token });
@@ -43,9 +47,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
   //point free setUser
-  const login = (form: AuthForm) => auth.login(form).then(setUser);
-  const register = (form: AuthForm) => auth.register(form).then(setUser);
-  const logout = () => auth.logout().then(() => setUser(null));
+  const login = (form: AuthForm) => authLogin(form).then(setUser);
+  const register = (form: AuthForm) => authRegister(form).then(setUser);
+  const logout = () => authLogout().then(() => setUser(null));
 
   //check token whenever the app loads
   useMount(() => {

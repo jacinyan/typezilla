@@ -1,8 +1,8 @@
 import { useAuth } from "hooks";
 import ProjectListScreen from "./screens/project-list";
+import { Button, Dropdown, Menu } from "antd";
 import * as S from "./AuthenticatedApp.styles";
 import logo from "assets/logo.svg";
-import { Button, Dropdown, Menu } from "antd";
 
 const AuthenticatedApp = () => {
   const { logout, user } = useAuth();

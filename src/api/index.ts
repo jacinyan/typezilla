@@ -1,10 +1,10 @@
 import qs from "qs";
-import { User } from "app/components/project-list/SearchPanel";
+import { User } from "types";
 
 const api_URL = process.env.REACT_APP_API_URL;
 const localStorageKey = "__auth__provider__token__";
 
-//params and token are customized, extends second param type in fetch api
+// custom params and token props
 interface Config extends RequestInit {
   params?: object;
   token?: string;

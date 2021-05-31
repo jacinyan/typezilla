@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useDebounce, useMount, useConfigureFetch, useAsync } from "hooks";
+
 import List from "app/components/project-list/List";
 import SearchPanel from "app/components/project-list/SearchPanel";
+import { Project } from "types";
 import { removeEmptyQueryValues } from "utils";
-import { useDebounce, useMount, useConfigureFetch } from "hooks";
 import * as S from "./index.styles";
 
 const ProjectListScreen = () => {
@@ -11,16 +13,18 @@ const ProjectListScreen = () => {
     name: "",
     teamLeadId: "",
   });
-  const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
 
+  const { call, loading, error, data: list } = useAsync<Project[]>();
   const myFetch = useConfigureFetch();
   const debouncedParams = useDebounce(paramsObj, 500);
 
   useEffect(() => {
-    myFetch("projects", {
-      params: removeEmptyQueryValues(debouncedParams),
-    }).then(setList);
+    call(
+      myFetch("projects", {
+        params: removeEmptyQueryValues(debouncedParams),
+      })
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedParams]);
 
@@ -36,7 +40,7 @@ const ProjectListScreen = () => {
         setParamsObj={setParamsObj}
         users={users}
       />
-      <List list={list} users={users} />
+      <List users={users} loading={loading} dataSource={list || []} />
     </S.Container>
   );
 };

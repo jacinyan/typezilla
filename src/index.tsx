@@ -1,16 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "app/App";
-import reportWebVitals from "reportWebVitals";
-import { loadDevTools } from "typezilla-mockserver";
+import { DevTools, loadServer } from "typezilla-mockserver";
 import { AppProviders } from "contexts";
-//override loadDevTools
+import reportWebVitals from "reportWebVitals";
+// have loadServer and DevTools override antd default styles
 import "antd/dist/antd.less";
 
-loadDevTools(() => {
+loadServer(() => {
   ReactDOM.render(
     <React.StrictMode>
       <AppProviders>
+        <DevTools />
         <App />
       </AppProviders>
     </React.StrictMode>,

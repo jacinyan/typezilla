@@ -1,25 +1,19 @@
-import React from "react";
-import { User } from "app/components/project-list/SearchPanel";
+import { Project, User } from "types";
 import { Table } from "antd";
+import { TableProps } from "antd/lib/table";
 import dayjs from "dayjs";
 
-interface Project {
-  id: string;
-  name: string;
-  teamLeadId: string;
-  pin: boolean;
-  team: string;
-  createdAt: number;
-}
-
-interface ListProps {
-  list: Project[];
+// access the Project types
+interface ListProps extends TableProps<Project> {
   users: User[];
 }
+//pseudo: type PropsType = Omit<ListProps, 'users'>
+const List = ({ users, ...props }: ListProps) => {
+  // console.log(users, props);
 
-const List = ({ list, users }: ListProps) => {
   return (
     <Table
+      rowKey={"id"}
       pagination={false}
       columns={[
         {
@@ -56,7 +50,7 @@ const List = ({ list, users }: ListProps) => {
           },
         },
       ]}
-      dataSource={list}
+      {...props}
     ></Table>
   );
 };
