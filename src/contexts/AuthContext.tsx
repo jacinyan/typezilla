@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const register = (form: AuthForm) => authRegister(form).then(setUser);
   const logout = () => authLogout().then(() => setUser(null));
 
-  //check token whenever the app loads
+  //check token whenever the app mounts
   useMount(() => {
     bootstrapUser().then(setUser);
   });

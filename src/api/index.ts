@@ -11,7 +11,7 @@ interface Config extends RequestInit {
 }
 export const configureFetch = async (
   endpoint: string,
-  { params, token, headers, ...customConfig }: Config = {}
+  { params, token, headers, ...restConfig }: Config = {}
 ) => {
   const config = {
     method: "GET",
@@ -19,8 +19,8 @@ export const configureFetch = async (
       Authorization: token ? `Bearer ${token}` : "",
       "Content-Type": params ? "application/json" : "",
     },
-    //re-write config on an ad hoc basis
-    ...customConfig,
+    //mainly to override method
+    ...restConfig,
   };
   if (config.method.toUpperCase() === "GET") {
     endpoint += `?${qs.stringify(params)}`;

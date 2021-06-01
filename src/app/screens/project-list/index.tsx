@@ -1,36 +1,22 @@
-import { useState, useEffect } from "react";
-import { useDebounce, useMount, useConfigureFetch, useAsync } from "hooks";
-
+import { useState } from "react";
+import { useDebounce, useProjects, useUsers } from "hooks";
 import List from "app/components/project-list/List";
 import SearchPanel from "app/components/project-list/SearchPanel";
-import { Project } from "types";
-import { removeEmptyQueryValues } from "utils";
+import { Typography } from "antd";
 import * as S from "./index.styles";
 
 const ProjectListScreen = () => {
+  // console.count("ProjectListScreen");
+
   //query params
   const [paramsObj, setParamsObj] = useState({
     name: "",
     teamLeadId: "",
   });
-  const [users, setUsers] = useState([]);
 
-  const { call, loading, error, data: list } = useAsync<Project[]>();
-  const myFetch = useConfigureFetch();
   const debouncedParams = useDebounce(paramsObj, 500);
-
-  useEffect(() => {
-    call(
-      myFetch("projects", {
-        params: removeEmptyQueryValues(debouncedParams),
-      })
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedParams]);
-
-  useMount(() => {
-    myFetch("users").then(setUsers);
-  });
+  const { loading, data: list, error } = useProjects(debouncedParams);
+  const { data: users } = useUsers();
 
   return (
     <S.Container>
@@ -38,9 +24,12 @@ const ProjectListScreen = () => {
       <SearchPanel
         paramsObj={paramsObj}
         setParamsObj={setParamsObj}
-        users={users}
+        users={users || []}
       />
-      <List users={users} loading={loading} dataSource={list || []} />
+      {error && (
+        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
+      )}
+      <List users={users || []} loading={loading} dataSource={list || []} />
     </S.Container>
   );
 };

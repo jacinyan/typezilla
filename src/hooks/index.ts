@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "contexts/AuthContext";
 import { configureFetch } from "api";
+import { Project, State, User } from "types";
+import { removeEmptyQueryValues } from "utils";
 
 export const useMount = (callback: () => void) => {
   useEffect(() => {
@@ -60,11 +62,6 @@ export const useConfigureFetch = () => {
     configureFetch(endpoint, { ...config, token: user?.token });
 };
 
-interface State<D> {
-  status: "idle" | "loading" | "error" | "success";
-  data: D | null;
-  error: Error | null;
-}
 export const useAsync = <D>(
   initialState: State<D> = {
     status: "idle",
@@ -73,6 +70,7 @@ export const useAsync = <D>(
   }
 ) => {
   const [state, setState] = useState<State<D>>({
+    //shallow clone
     ...initialState,
   });
 
@@ -91,7 +89,7 @@ export const useAsync = <D>(
     });
 
   //trigger async requests
-  const call = async (promise: Promise<D>) => {
+  const execute = async (promise: Promise<D>) => {
     if (!promise || !promise.then) {
       throw new Error("Please pass in a Promise type ");
     }
@@ -114,7 +112,40 @@ export const useAsync = <D>(
     success: state.status === "success",
     setData,
     setError,
-    call,
+    execute,
     ...state,
   };
+};
+
+// Partial
+export const useProjects = (params?: Partial<Project>) => {
+  const client = useConfigureFetch();
+  const { execute, ...result } = useAsync<Project[]>();
+
+  useEffect(() => {
+    execute(
+      client("projects", {
+        params: removeEmptyQueryValues(params || {}),
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params]);
+
+  return result;
+};
+
+export const useUsers = (params?: Partial<User>) => {
+  const client = useConfigureFetch();
+  const { execute, ...result } = useAsync<User[]>();
+
+  useEffect(() => {
+    execute(
+      client("users", {
+        params: removeEmptyQueryValues(params || {}),
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params]);
+
+  return result;
 };

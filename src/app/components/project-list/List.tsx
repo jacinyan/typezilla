@@ -7,9 +7,9 @@ import dayjs from "dayjs";
 interface ListProps extends TableProps<Project> {
   users: User[];
 }
-//pseudo: type PropsType = Omit<ListProps, 'users'>
-const List = ({ users, ...props }: ListProps) => {
-  // console.log(users, props);
+//pseudo: type RestPropsType = Omit<ListProps, 'users'>
+const List = ({ users, ...restProps }: ListProps) => {
+  // console.log(users, restProps);
 
   return (
     <Table
@@ -50,7 +50,7 @@ const List = ({ users, ...props }: ListProps) => {
           },
         },
       ]}
-      {...props}
+      {...restProps}
     ></Table>
   );
 };
