@@ -67,12 +67,13 @@ export const useAsync = <D>(
     status: "idle",
     data: null,
     error: null,
-  }
+  },
+  initialConfig = { throwOnError: false }
 ) => {
   const [state, setState] = useState<State<D>>({
-    //shallow clone
     ...initialState,
   });
+  const config = { ...initialConfig };
 
   const setData = (data: D) =>
     setState({
@@ -101,6 +102,9 @@ export const useAsync = <D>(
       return data;
     } catch (error) {
       setError(error);
+      if (config.throwOnError) {
+        return Promise.reject(error);
+      }
       return error;
     }
   };
