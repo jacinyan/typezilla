@@ -4,7 +4,7 @@ import * as S from "./index.styles";
 
 const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
   const { login } = useAuth();
-  const { execute, loading } = useAsync(undefined, { throwOnError: true });
+  const { execute, isLoading } = useAsync(undefined, { throwOnError: true });
   //HTMLFormElement extends Elements
   const handleSubmit = async (values: {
     username: string;
@@ -32,7 +32,7 @@ const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
         <Input type={"text"} id={"password"} placeholder={"Password"} />
       </Form.Item>
       <Form.Item>
-        <S.WideButton type={"primary"} htmlType={"submit"} loading={loading}>
+        <S.WideButton type={"primary"} htmlType={"submit"} loading={isLoading}>
           Sign In
         </S.WideButton>
       </Form.Item>

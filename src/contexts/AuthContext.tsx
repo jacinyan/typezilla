@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode } from "react";
 import {
   getToken,
   configureFetch,
@@ -6,8 +6,9 @@ import {
   register as authRegister,
   logout as authLogout,
 } from "api";
-import { useMount } from "hooks";
+import { useAsync, useMount } from "hooks";
 import { User } from "types";
+import FullPageLoader from "app/components/common/FullPageLoader";
 
 interface AuthForm {
   username: string;
@@ -44,7 +45,15 @@ AuthContext.displayName = "AuthContext";
 //import AuthProvider
 //Type '{ children: ReactNode; }' has no properties in common with type 'IntrinsicAttributes'
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const {
+    data: user,
+    error,
+    isRejected,
+    isLoading,
+    isIdle,
+    execute,
+    setData: setUser,
+  } = useAsync<User | null>();
 
   //point free setUser
   const login = (form: AuthForm) => authLogin(form).then(setUser);
@@ -53,10 +62,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   //check token whenever the app mounts
   useMount(() => {
-    bootstrapUser().then(setUser);
+    execute(bootstrapUser());
   });
 
-  return (
+  return isIdle || isLoading ? (
+    <FullPageLoader />
+  ) : isRejected ? (
+    <FullPageLoader error={error} />
+  ) : (
     <AuthContext.Provider
       value={{ user, login, register, logout }}
       children={children}

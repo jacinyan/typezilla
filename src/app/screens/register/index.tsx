@@ -4,23 +4,23 @@ import * as S from "./index.styles";
 
 const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
   const { register } = useAuth();
-  const { execute, loading } = useAsync(undefined, { throwOnError: true });
+  const { execute, isLoading } = useAsync(undefined, { throwOnError: true });
 
   //HTMLFormElement extends Elements
   const handleSubmit = async ({
     confirm_password,
-    ...values
+    ...rest
   }: {
     username: string;
     password: string;
     confirm_password: string;
   }) => {
-    if (confirm_password !== values.password) {
+    if (confirm_password !== rest.password) {
       onError(new Error("Passwords do not match"));
       return;
     }
     try {
-      await execute(register(values));
+      await execute(register(rest));
     } catch (error) {
       onError(error);
     }
@@ -51,7 +51,7 @@ const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
         />
       </Form.Item>
       <Form.Item>
-        <S.WideButton type={"primary"} htmlType={"submit"} loading={loading}>
+        <S.WideButton type={"primary"} htmlType={"submit"} loading={isLoading}>
           Sign Up
         </S.WideButton>
       </Form.Item>

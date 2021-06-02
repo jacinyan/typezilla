@@ -102,6 +102,7 @@ export const useAsync = <D>(
       return data;
     } catch (error) {
       setError(error);
+      //two strategies for error handling WRT Promises in sequence
       if (config.throwOnError) {
         return Promise.reject(error);
       }
@@ -110,10 +111,10 @@ export const useAsync = <D>(
   };
 
   return {
-    idle: state.status === "idle",
-    loading: state.status === "loading",
-    error: state.status === "error",
-    success: state.status === "success",
+    isIdle: state.status === "idle",
+    isLoading: state.status === "loading",
+    isRejected: state.status === "error",
+    isResolved: state.status === "success",
     setData,
     setError,
     execute,
