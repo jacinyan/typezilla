@@ -1,3 +1,4 @@
+//simple simulation of 3rd party auth provider
 import { createContext, ReactNode } from "react";
 import {
   getToken,
@@ -8,7 +9,10 @@ import {
 } from "api";
 import { useAsync, useMount } from "hooks";
 import { User } from "types";
-import FullPageLoader from "app/components/common/FullPageLoader";
+import {
+  FullPageLoader,
+  FullPageError,
+} from "app/components/common/FullPageFallBack";
 
 interface AuthForm {
   username: string;
@@ -48,10 +52,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const {
     data: user,
     error,
-    isRejected,
+    isError,
     isLoading,
     isIdle,
-    execute,
+    exeAsync,
     setData: setUser,
   } = useAsync<User | null>();
 
@@ -62,13 +66,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   //check token whenever the app mounts
   useMount(() => {
-    execute(bootstrapUser());
+    exeAsync(bootstrapUser());
   });
 
   return isIdle || isLoading ? (
     <FullPageLoader />
-  ) : isRejected ? (
-    <FullPageLoader error={error} />
+  ) : isError ? (
+    <FullPageError error={error} />
   ) : (
     <AuthContext.Provider
       value={{ user, login, register, logout }}

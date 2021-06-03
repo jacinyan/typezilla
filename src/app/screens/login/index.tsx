@@ -4,14 +4,14 @@ import * as S from "./index.styles";
 
 const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
   const { login } = useAuth();
-  const { execute, isLoading } = useAsync(undefined, { throwOnError: true });
+  const { exeAsync, isLoading } = useAsync(undefined, { throwOnError: true });
   //HTMLFormElement extends Elements
   const handleSubmit = async (values: {
     username: string;
     password: string;
   }) => {
     try {
-      await execute(login(values));
+      await exeAsync(login(values));
     } catch (error) {
       onError(error);
     }

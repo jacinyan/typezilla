@@ -53,11 +53,11 @@ export const useAuth = () => {
   return context;
 };
 
-//embed token
+//embed token if it exists for every request when calling when myFetch is instantiated from configureFetch in api/index
 export const useConfigureFetch = () => {
   const { user } = useAuth();
   //Parameters match configureFetch
-  //spread the tuple once and for all when myFetch [from useConfigureFetch()] is called
+  //spread the tuple once and for all
   return (...[endpoint, config]: Parameters<typeof configureFetch>) =>
     configureFetch(endpoint, { ...config, token: user?.token });
 };
@@ -90,7 +90,7 @@ export const useAsync = <D>(
     });
 
   //trigger async requests
-  const execute = async (promise: Promise<D>) => {
+  const exeAsync = async (promise: Promise<D>) => {
     if (!promise || !promise.then) {
       throw new Error("Please pass in a Promise type ");
     }
@@ -102,7 +102,7 @@ export const useAsync = <D>(
       return data;
     } catch (error) {
       setError(error);
-      //two strategies for error handling WRT Promises in sequence
+      //throw error on occasion
       if (config.throwOnError) {
         return Promise.reject(error);
       }
@@ -113,11 +113,11 @@ export const useAsync = <D>(
   return {
     isIdle: state.status === "idle",
     isLoading: state.status === "loading",
-    isRejected: state.status === "error",
-    isResolved: state.status === "success",
+    isError: state.status === "error",
+    isSuccess: state.status === "success",
     setData,
     setError,
-    execute,
+    exeAsync,
     ...state,
   };
 };
@@ -125,10 +125,10 @@ export const useAsync = <D>(
 // Partial
 export const useProjects = (params?: Partial<Project>) => {
   const client = useConfigureFetch();
-  const { execute, ...result } = useAsync<Project[]>();
+  const { exeAsync, ...result } = useAsync<Project[]>();
 
   useEffect(() => {
-    execute(
+    exeAsync(
       client("projects", {
         params: removeEmptyQueryValues(params || {}),
       })
@@ -141,10 +141,10 @@ export const useProjects = (params?: Partial<Project>) => {
 
 export const useUsers = (params?: Partial<User>) => {
   const client = useConfigureFetch();
-  const { execute, ...result } = useAsync<User[]>();
+  const { exeAsync, ...result } = useAsync<User[]>();
 
   useEffect(() => {
-    execute(
+    exeAsync(
       client("users", {
         params: removeEmptyQueryValues(params || {}),
       })

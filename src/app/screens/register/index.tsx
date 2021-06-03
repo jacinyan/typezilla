@@ -4,7 +4,7 @@ import * as S from "./index.styles";
 
 const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
   const { register } = useAuth();
-  const { execute, isLoading } = useAsync(undefined, { throwOnError: true });
+  const { exeAsync, isLoading } = useAsync(undefined, { throwOnError: true });
 
   //HTMLFormElement extends Elements
   const handleSubmit = async ({
@@ -20,7 +20,7 @@ const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
       return;
     }
     try {
-      await execute(register(rest));
+      await exeAsync(register(rest));
     } catch (error) {
       onError(error);
     }

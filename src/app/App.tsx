@@ -1,6 +1,10 @@
 import React from "react";
 import { useAuth } from "hooks";
-import FullPageLoader from "app/components/common/FullPageLoader";
+import {
+  FullPageError,
+  FullPageLoader,
+} from "app/components/common/FullPageFallBack";
+import ErrorBoundary from "app/components/common/ErrorBoundary";
 import "./App.css";
 
 const AuthenticatedApp = React.lazy(() => import("./AuthenticatedApp"));
@@ -10,9 +14,11 @@ function App() {
   //https://kentcdodds.com/blog/authentication-in-react-applications
   const { user } = useAuth();
   return (
-    <React.Suspense fallback={<FullPageLoader />}>
+    <React.Suspense fallback={FullPageLoader}>
       <div className="App">
-        {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+        <ErrorBoundary fallbackRender={FullPageError}>
+          {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+        </ErrorBoundary>
       </div>
     </React.Suspense>
   );

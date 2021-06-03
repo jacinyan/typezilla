@@ -2,22 +2,28 @@ import styled from "@emotion/styled";
 import { Spin, Typography } from "antd";
 import { DevTools } from "typezilla-mockserver";
 
-const FullPageLoader = ({ error }: { error?: Error | null }): JSX.Element => {
-  return error === undefined ? (
-    <FullPage>
+export const FullPageLoader = (): JSX.Element => {
+  return (
+    <FullPageStyles>
       <Spin size="large" />
-    </FullPage>
-  ) : (
-    <FullPage>
-      <DevTools />
-      <Typography.Text type={"danger"}>{error?.message}</Typography.Text>
-    </FullPage>
+    </FullPageStyles>
   );
 };
 
-export default FullPageLoader;
+export const FullPageError = ({
+  error,
+}: {
+  error?: Error | null;
+}): JSX.Element => {
+  return (
+    <FullPageStyles>
+      <DevTools />
+      <Typography.Text type={"danger"}>{error?.message}</Typography.Text>
+    </FullPageStyles>
+  );
+};
 
-const FullPage = styled.div`
+const FullPageStyles = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
