@@ -3,10 +3,14 @@ import LoginScreen from "app/screens/login";
 import RegisterScreen from "app/screens/register";
 import { Divider, Button, Typography } from "antd";
 import * as S from "./UnunthenticatedApp.styles";
+import { useDocumentTitle } from "hooks";
 
 const UnAuthenticatedApp = () => {
+  useDocumentTitle("Please log in to continue");
+
   const [registered, setRegistered] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+
   return (
     <S.Container>
       <S.Header />

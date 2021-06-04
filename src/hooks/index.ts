@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "contexts/AuthContext";
 import { configureFetch } from "api";
 import { Project, State, User } from "types";
@@ -153,4 +153,22 @@ export const useUsers = (params?: Partial<User>) => {
   }, [params]);
 
   return result;
+};
+
+export const useDocumentTitle = (title: string, persistOnUnmount = false) => {
+  const prevTitle = useRef(document.title).current;
+  //rending: prevTitle
+  //onmount: a new title
+
+  useEffect(() => {
+    document.title = title;
+  }, [title, prevTitle, persistOnUnmount]);
+
+  useEffect(() => {
+    return () => {
+      if (!persistOnUnmount) {
+        document.title = prevTitle;
+      }
+    };
+  }, [persistOnUnmount, prevTitle]);
 };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDebounce, useProjects, useUsers } from "hooks";
+import { useDebounce, useDocumentTitle, useProjects, useUsers } from "hooks";
 import List from "app/components/project-list/List";
 import SearchPanel from "app/components/project-list/SearchPanel";
 import { Typography } from "antd";
@@ -7,6 +7,7 @@ import * as S from "./index.styles";
 
 const ProjectListScreen = () => {
   // console.count("ProjectListScreen");
+  useDocumentTitle("Project List", false);
 
   //query params
   const [paramsObj, setParamsObj] = useState({
