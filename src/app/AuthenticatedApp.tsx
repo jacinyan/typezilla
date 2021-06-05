@@ -10,6 +10,7 @@ import {
   Routes,
   BrowserRouter as Router,
 } from "react-router-dom";
+import { resetRoutes } from "utils";
 
 export default function AuthenticatedApp() {
   return (
@@ -37,9 +38,15 @@ const AuthenticatedHeader = () => {
   return (
     <S.Header spaceBetween>
       <S.HeaderLeft gap={true}>
-        <img src={logo} alt={"logo"} style={{ maxHeight: "4.6rem" }} />
-        <h2>Projects</h2>
-        <h2>User</h2>
+        <Button
+          type={"link"}
+          onClick={resetRoutes}
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <img src={logo} alt={"logo"} style={{ height: "4.5rem" }} />
+        </Button>
+        <h4>Projects</h4>
+        <h4>Users</h4>
       </S.HeaderLeft>
       {user && (
         <S.HeaderRight>

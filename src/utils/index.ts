@@ -16,3 +16,6 @@ export const removeEmptyQueryValues = (object: { [key: string]: unknown }) => {
 
   return newObject;
 };
+
+export const resetRoutes = () =>
+  (window.location.href = window.location.origin);
