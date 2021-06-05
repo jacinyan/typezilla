@@ -1,8 +1,10 @@
-import { useAsync, useAuth } from "hooks";
+import { useAsync, useAuth, useDocumentTitle } from "hooks";
 import { Form, Input } from "antd";
 import * as S from "./index.styles";
 
 const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
+  useDocumentTitle("Sign Up", false);
+
   const { register } = useAuth();
   const { exeAsync, isLoading } = useAsync(undefined, { throwOnError: true });
 

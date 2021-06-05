@@ -1,3 +1,5 @@
+import { TableProps } from "antd/lib/table";
+
 export interface State<D> {
   status: "idle" | "loading" | "error" | "success";
   data: D | null;
@@ -20,4 +22,18 @@ export interface Project {
   pin: boolean;
   team: string;
   createdAt: number;
+}
+
+export interface SearchPanelProps {
+  users: User[];
+  paramsObj: {
+    name: string;
+    teamLeadId: string;
+  };
+  //dynamically updates setParamsObj type WRT paramsObj
+  setParamsObj: (paramsObj: SearchPanelProps["paramsObj"]) => void;
+}
+
+export interface ListProps extends TableProps<Project> {
+  users: User[];
 }

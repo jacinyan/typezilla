@@ -3,11 +3,8 @@ import LoginScreen from "app/screens/login";
 import RegisterScreen from "app/screens/register";
 import { Divider, Button, Typography } from "antd";
 import * as S from "./UnunthenticatedApp.styles";
-import { useDocumentTitle } from "hooks";
 
 const UnAuthenticatedApp = () => {
-  useDocumentTitle("Please log in to continue");
-
   const [registered, setRegistered] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -26,33 +23,16 @@ const UnAuthenticatedApp = () => {
           <LoginScreen onError={setError} />
         )}
         <Divider />
-        {registered ? (
-          <>
-            <span>Already a user? </span>
-            <Button
-              type="link"
-              size={"small"}
-              onClick={() => {
-                setRegistered(!registered);
-              }}
-            >
-              Sign In
-            </Button>
-          </>
-        ) : (
-          <>
-            <span>Not a user? </span>
-            <Button
-              type="link"
-              size={"small"}
-              onClick={() => {
-                setRegistered(!registered);
-              }}
-            >
-              Sign Up
-            </Button>
-          </>
-        )}
+        <span>{registered ? "Already a user?" : "Not a user?"}</span>
+        <Button
+          type="link"
+          size={"small"}
+          onClick={() => {
+            setRegistered(!registered);
+          }}
+        >
+          {registered ? "Sign In" : "Sign Up"}
+        </Button>
       </S.ShadowCard>
     </S.Container>
   );

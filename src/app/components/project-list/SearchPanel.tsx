@@ -1,16 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { Input, Select, Form } from "antd";
-import { User } from "types";
+import { SearchPanelProps } from "types";
 
-interface SearchPanelProps {
-  users: User[];
-  paramsObj: {
-    name: string;
-    teamLeadId: string;
-  };
-  //dynamically updates setParamsObj type WRT paramsObj
-  setParamsObj: (paramsObj: SearchPanelProps["paramsObj"]) => void;
-}
 const SearchPanel = ({ paramsObj, setParamsObj, users }: SearchPanelProps) => {
   return (
     <Form layout={"inline"} css={{ marginBottom: "2rem" }}>

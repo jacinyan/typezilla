@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { StyledRow } from "./components/common/StyledRow";
+import { StyledRow } from "./components/misc/StyledRow";
 
 const Container = styled.div`
   display: grid;

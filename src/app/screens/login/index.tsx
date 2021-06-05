@@ -1,8 +1,10 @@
-import { useAsync, useAuth } from "hooks";
+import { useAsync, useAuth, useDocumentTitle } from "hooks";
 import { Form, Input } from "antd";
 import * as S from "./index.styles";
 
 const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
+  useDocumentTitle("Log in", false);
+
   const { login } = useAuth();
   const { exeAsync, isLoading } = useAsync(undefined, { throwOnError: true });
   //HTMLFormElement extends Elements

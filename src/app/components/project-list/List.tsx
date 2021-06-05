@@ -1,12 +1,8 @@
-import { Project, User } from "types";
+import { ListProps } from "types";
+import { Link } from "react-router-dom";
 import { Table } from "antd";
-import { TableProps } from "antd/lib/table";
 import dayjs from "dayjs";
 
-// access the Project types
-interface ListProps extends TableProps<Project> {
-  users: User[];
-}
 //pseudo: type RestPropsType = Omit<ListProps, 'users'>
 const List = ({ users, ...restProps }: ListProps) => {
   // console.log(users, restProps);
@@ -18,8 +14,10 @@ const List = ({ users, ...restProps }: ListProps) => {
       columns={[
         {
           title: "Name",
-          dataIndex: "name",
           sorter: (a, b) => a.name.localeCompare(b.name),
+          render(value, project) {
+            return <Link to={String(project.id)}>{project.name}</Link>;
+          },
         },
         {
           title: "Team",
