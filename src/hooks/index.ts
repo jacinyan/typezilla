@@ -1,4 +1,5 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { URLSearchParamsInit, useSearchParams } from "react-router-dom";
 import { AuthContext } from "contexts/AuthContext";
 import { configureFetch } from "api";
 import { Project, State, User } from "types";
@@ -171,4 +172,28 @@ export const useDocumentTitle = (title: string, persistOnUnmount = false) => {
       }
     };
   }, [persistOnUnmount, prevTitle]);
+};
+
+//return values of keys in query params dynamically with generics
+export const useUrlQueryParams = <K extends string>(keys: K[]) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  return [
+    useMemo(
+      () =>
+        keys.reduce((prev, key) => {
+          return { ...prev, [key]: searchParams.get(key) || "" };
+        }, {} as { [key in K]: string }),
+      // memoized state values from useSearchParams and also omit 'keys' this plain non-state object from useMemo deps in this case
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [searchParams]
+    ),
+    (params: Partial<{ [key in K]: unknown }>) => {
+      const obj = removeEmptyQueryValues({
+        //iterator interface
+        ...Object.fromEntries(searchParams),
+        ...params,
+      }) as URLSearchParamsInit;
+      return setSearchParams(obj);
+    },
+  ] as const;
 };

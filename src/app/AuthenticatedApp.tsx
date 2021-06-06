@@ -1,15 +1,15 @@
-import { useAuth } from "hooks";
-import ProjectListScreen from "./screens/project-list";
-import ProjectScreen from "./screens/project";
-import logo from "assets/logo.svg";
-import { Button, Dropdown, Menu } from "antd";
-import * as S from "./AuthenticatedApp.styles";
 import {
   Navigate,
   Route,
   Routes,
   BrowserRouter as Router,
 } from "react-router-dom";
+import { Button, Dropdown, Menu } from "antd";
+import ProjectListScreen from "./screens/project-list";
+import ProjectScreen from "./screens/project";
+import { useAuth } from "hooks";
+import logo from "assets/logo.svg";
+import * as S from "./AuthenticatedApp.styles";
 import { resetRoutes } from "utils";
 
 export default function AuthenticatedApp() {
@@ -21,6 +21,7 @@ export default function AuthenticatedApp() {
           <Routes>
             <Route path={"/projects"} element={<ProjectListScreen />} />
             <Route
+              //https://reacttraining.com/blog/react-router-v6-pre/
               path={"/projects/:projectId/*"}
               element={<ProjectScreen />}
             />

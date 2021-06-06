@@ -1,5 +1,10 @@
-import { useState } from "react";
-import { useDebounce, useDocumentTitle, useProjects, useUsers } from "hooks";
+import {
+  useDebounce,
+  useDocumentTitle,
+  useProjects,
+  useUrlQueryParams,
+  useUsers,
+} from "hooks";
 import List from "app/components/project-list/List";
 import SearchPanel from "app/components/project-list/SearchPanel";
 import { Typography } from "antd";
@@ -8,13 +13,17 @@ import * as S from "./index.styles";
 const ProjectListScreen = () => {
   // console.count("ProjectListScreen");
   useDocumentTitle("Project List", false);
+  //#region
+  //   (alias) useUrlQueryParams<"name" | "teamLeadId">(keys: ("name" | "teamLeadId")[]//): readonly [{
+  //     name: string;
+  //     teamLeadId: string;
+  // }, (params: Partial<{
+  //     name: unknown;
+  //     teamLeadId: unknown;
+  // }>) => void]
+  //#endregion
 
-  //query params
-  const [paramsObj, setParamsObj] = useState({
-    name: "",
-    teamLeadId: "",
-  });
-
+  const [paramsObj, setParamsObj] = useUrlQueryParams(["name", "teamLeadId"]);
   const debouncedParams = useDebounce(paramsObj, 500);
   const { isLoading, data: list, error } = useProjects(debouncedParams);
   const { data: users } = useUsers();
@@ -34,5 +43,10 @@ const ProjectListScreen = () => {
     </S.Container>
   );
 };
+
+ProjectListScreen.whyDidYouRender = false;
+// class ProjectListScreen extends React.Component<any, any>{
+// static whyDidYouRender = true
+// }
 
 export default ProjectListScreen;

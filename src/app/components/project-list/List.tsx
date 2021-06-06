@@ -16,6 +16,8 @@ const List = ({ users, ...restProps }: ListProps) => {
           title: "Name",
           sorter: (a, b) => a.name.localeCompare(b.name),
           render(value, project) {
+            //https://reacttraining.com/blog/react-router-v6-pre/
+            // declare relative paths to append them to the current location
             return <Link to={String(project.id)}>{project.name}</Link>;
           },
         },

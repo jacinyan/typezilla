@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { Divider, Button, Typography } from "antd";
 import LoginScreen from "app/screens/login";
 import RegisterScreen from "app/screens/register";
-import { Divider, Button, Typography } from "antd";
 import * as S from "./UnunthenticatedApp.styles";
 
 const UnAuthenticatedApp = () => {

@@ -30,7 +30,7 @@ const SearchPanel = ({ paramsObj, setParamsObj, users }: SearchPanelProps) => {
         >
           <Select.Option value="">Select Team Lead</Select.Option>
           {users.map((user) => (
-            <Select.Option key={user.id} value={user.id}>
+            <Select.Option key={user.id} value={String(user.id)}>
               {user.name}
             </Select.Option>
           ))}
