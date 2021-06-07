@@ -1,5 +1,7 @@
 import { TableProps } from "antd/lib/table";
 
+export type StringOrNumber = string | number;
+
 export interface State<D> {
   status: "idle" | "loading" | "error" | "success";
   data: D | null;
