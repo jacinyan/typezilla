@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     isError,
     isLoading,
     isIdle,
-    exeAsync,
+    runAsync,
     setData: setUser,
   } = useAsync<User | null>();
 
@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   //check token whenever the app mounts
   useMount(() => {
-    exeAsync(bootstrapUser());
+    runAsync(bootstrapUser());
   });
 
   return isIdle || isLoading ? (

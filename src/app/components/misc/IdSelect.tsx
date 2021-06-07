@@ -1,5 +1,5 @@
-import { Select } from "antd";
 import React from "react";
+import { Select } from "antd";
 import { StringOrNumber } from "types";
 
 type SelectProps = React.ComponentProps<typeof Select>;
@@ -13,8 +13,8 @@ interface IdSelectProps
 }
 
 /**
- * values accepts various types
- * onChange takes callbacks that accepts only 'number|undefined'
+ * 'values' accepts various types
+ * 'onChange' takes callbacks that accepts only 'number|undefined'
  * when isNan(Number(value)) is true, defaultOption is selected
  * when defaultOption is selected, onChange takes undefined
  * @param props
@@ -27,7 +27,7 @@ const IdSelect = (props: IdSelectProps) => {
 
   return (
     <Select
-      value={toNumber(value)}
+      value={options?.length ? toNumber(value) : 0}
       onChange={(value) => onChange(toNumber(value) || undefined)}
       {...restProps}
     >

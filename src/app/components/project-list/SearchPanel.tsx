@@ -1,6 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { Input, Select, Form } from "antd";
-import { SearchPanelProps } from "types";
+import { Input, Form } from "antd";
+import { Project, User } from "types";
+import UserSelect from "./UserSelect";
+
+interface SearchPanelProps {
+  users: User[];
+  paramsObj: Partial<Pick<Project, "name" | "supervisorId">>;
+  //dynamically updates setParamsObj type WRT paramsObj
+  setParamsObj: (paramsObj: SearchPanelProps["paramsObj"]) => void;
+}
 
 const SearchPanel = ({ paramsObj, setParamsObj, users }: SearchPanelProps) => {
   return (
@@ -19,22 +27,16 @@ const SearchPanel = ({ paramsObj, setParamsObj, users }: SearchPanelProps) => {
         />
       </Form.Item>
       <Form.Item>
-        <Select
-          value={paramsObj.teamLeadId}
+        <UserSelect
+          defaultOption={"Team Lead"}
+          value={paramsObj.supervisorId}
           onChange={(value) =>
             setParamsObj({
               ...paramsObj,
-              teamLeadId: value,
+              supervisorId: value,
             })
           }
-        >
-          <Select.Option value="">Select Team Lead</Select.Option>
-          {users.map((user) => (
-            <Select.Option key={user.id} value={String(user.id)}>
-              {user.name}
-            </Select.Option>
-          ))}
-        </Select>
+        />
       </Form.Item>
     </Form>
   );

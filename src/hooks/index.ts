@@ -74,6 +74,8 @@ export const useAsync = <D>(
   const [state, setState] = useState<State<D>>({
     ...initialState,
   });
+  // useState lazy initialization
+  const [retry, setRetry] = useState(() => () => {});
   const config = { ...initialConfig };
 
   const setData = (data: D) =>
@@ -91,10 +93,19 @@ export const useAsync = <D>(
     });
 
   //trigger async requests
-  const exeAsync = async (promise: Promise<D>) => {
+  const runAsync = async (
+    promise: Promise<D>,
+    runAsyncConfig?: { retry: () => Promise<D> }
+  ) => {
     if (!promise || !promise.then) {
       throw new Error("Please pass in a Promise type ");
     }
+
+    setRetry(() => () => {
+      if (runAsyncConfig?.retry) {
+        runAsync(runAsyncConfig?.retry(), runAsyncConfig);
+      }
+    });
     setState({ ...state, status: "loading" });
 
     try {
@@ -118,22 +129,24 @@ export const useAsync = <D>(
     isSuccess: state.status === "success",
     setData,
     setError,
-    exeAsync,
+    runAsync,
+    retry,
     ...state,
   };
 };
 
 // Partial
 export const useProjects = (params?: Partial<Project>) => {
-  const client = useConfigureFetch();
-  const { exeAsync, ...result } = useAsync<Project[]>();
+  const $fetch = useConfigureFetch();
+  const { runAsync, ...result } = useAsync<Project[]>();
+
+  const fetchProjects = () =>
+    $fetch("projects", {
+      params: removeEmptyQueryValues(params || {}),
+    });
 
   useEffect(() => {
-    exeAsync(
-      client("projects", {
-        params: removeEmptyQueryValues(params || {}),
-      })
-    );
+    runAsync(fetchProjects(), { retry: fetchProjects });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]);
 
@@ -141,12 +154,12 @@ export const useProjects = (params?: Partial<Project>) => {
 };
 
 export const useUsers = (params?: Partial<User>) => {
-  const client = useConfigureFetch();
-  const { exeAsync, ...result } = useAsync<User[]>();
+  const $fetch = useConfigureFetch();
+  const { runAsync, ...result } = useAsync<User[]>();
 
   useEffect(() => {
-    exeAsync(
-      client("users", {
+    runAsync(
+      $fetch("users", {
         params: removeEmptyQueryValues(params || {}),
       })
     );
@@ -196,4 +209,46 @@ export const useUrlQueryParams = <K extends string>(keys: K[]) => {
       return setSearchParams(obj);
     },
   ] as const;
+};
+
+export const useProjectsSearchParams = () => {
+  const [paramsObj, setParamsObj] = useUrlQueryParams(["name", "supervisorId"]);
+  return [
+    useMemo(
+      () => ({
+        ...paramsObj,
+        supervisorId: Number(paramsObj.supervisorId) || undefined,
+      }),
+      [paramsObj]
+    ),
+    setParamsObj,
+  ] as const;
+};
+
+export const useEditProject = () => {
+  const { runAsync, ...result } = useAsync();
+  const $fetch = useConfigureFetch();
+  const mutate = (params: Partial<Project>) => {
+    return runAsync(
+      $fetch(`projects/${params.id}`, {
+        params,
+        method: "PATCH",
+      })
+    );
+  };
+  return { mutate, ...result };
+};
+
+export const useAddProject = () => {
+  const { runAsync, ...result } = useAsync();
+  const $fetch = useConfigureFetch();
+  const mutate = (params: Partial<Project>) => {
+    return runAsync(
+      $fetch(`projects/${params.id}`, {
+        params,
+        method: "POST",
+      })
+    );
+  };
+  return { mutate, ...result };
 };

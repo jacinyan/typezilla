@@ -6,7 +6,7 @@ const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
   useDocumentTitle("Sign Up", false);
 
   const { register } = useAuth();
-  const { exeAsync, isLoading } = useAsync(undefined, { throwOnError: true });
+  const { runAsync, isLoading } = useAsync(undefined, { throwOnError: true });
 
   //HTMLFormElement extends Elements
   const handleSubmit = async ({
@@ -22,7 +22,7 @@ const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
       return;
     }
     try {
-      await exeAsync(register(rest));
+      await runAsync(register(rest));
     } catch (error) {
       onError(error);
     }

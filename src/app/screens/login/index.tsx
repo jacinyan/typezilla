@@ -6,14 +6,14 @@ const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
   useDocumentTitle("Log in", false);
 
   const { login } = useAuth();
-  const { exeAsync, isLoading } = useAsync(undefined, { throwOnError: true });
+  const { runAsync, isLoading } = useAsync(undefined, { throwOnError: true });
   //HTMLFormElement extends Elements
   const handleSubmit = async (values: {
     username: string;
     password: string;
   }) => {
     try {
-      await exeAsync(login(values));
+      await runAsync(login(values));
     } catch (error) {
       onError(error);
     }
