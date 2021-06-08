@@ -1,11 +1,11 @@
 import React from "react";
-import { useAuth } from "hooks";
 import {
   FullPageError,
   FullPageLoader,
 } from "app/components/misc/FullPageFallBack";
 import ErrorBoundary from "app/components/misc/ErrorBoundary";
 import "./App.css";
+import { useAuth } from "hooks/auth";
 
 const AuthenticatedApp = React.lazy(() => import("./AuthenticatedApp"));
 const UnauthenticatedApp = React.lazy(() => import("./UnauthenticatedApp"));

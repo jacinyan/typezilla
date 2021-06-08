@@ -1,6 +1,8 @@
-import { useAsync, useAuth, useDocumentTitle } from "hooks";
+import { useDocumentTitle } from "hooks/_helpers";
 import { Form, Input } from "antd";
 import * as S from "./index.styles";
+import { useAuth } from "hooks/auth";
+import { useAsync } from "hooks/api";
 
 const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
   useDocumentTitle("Log in", false);

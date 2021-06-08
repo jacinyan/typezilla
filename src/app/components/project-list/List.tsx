@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { Table } from "antd";
 import { TableProps } from "antd/lib/table";
+import { useEditProject } from "hooks/projects";
+import Marking from "../misc/Marking";
 import { User, Project } from "types";
 import dayjs from "dayjs";
-import Marking from "../misc/Marking";
-import { useEditProject } from "hooks";
 
 interface ListProps extends TableProps<Project> {
   users: User[];

@@ -1,4 +1,6 @@
-import { useAsync, useAuth, useDocumentTitle } from "hooks";
+import { useAuth } from "hooks/auth";
+import { useAsync } from "hooks/api";
+import { useDocumentTitle } from "hooks/_helpers";
 import { Form, Input } from "antd";
 import * as S from "./index.styles";
 

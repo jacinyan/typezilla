@@ -7,7 +7,8 @@ import {
   register as authRegister,
   logout as authLogout,
 } from "api";
-import { useAsync, useMount } from "hooks";
+import { useAsync } from "hooks/api";
+import { useMount } from "hooks/_helpers";
 import { User } from "types";
 import {
   FullPageLoader,

@@ -1,7 +1,7 @@
 import { Link, Route, Routes, Navigate } from "react-router-dom";
 import EpicScreen from "../epic";
 import KanbanScreen from "../kanban";
-import { useDocumentTitle } from "hooks";
+import { useDocumentTitle } from "hooks/_helpers";
 
 const ProjectScreen = () => {
   useDocumentTitle("Project");

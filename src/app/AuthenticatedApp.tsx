@@ -7,10 +7,10 @@ import {
 import { Button, Dropdown, Menu } from "antd";
 import ProjectListScreen from "./screens/project-list";
 import ProjectScreen from "./screens/project";
-import { useAuth } from "hooks";
+import { useAuth } from "hooks/auth";
+import { resetRoutes } from "utils";
 import logo from "assets/logo.svg";
 import * as S from "./AuthenticatedApp.styles";
-import { resetRoutes } from "utils";
 
 export default function AuthenticatedApp() {
   return (
