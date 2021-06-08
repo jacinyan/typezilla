@@ -12480,10 +12480,10 @@ typescript@^4.2.4:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.2.tgz#399ab18aac45802d6f2498de5054fcbbe716a805"
   integrity sha512-zZ4hShnmnoVnAHpVHWpTcxdv7dWP60S2FsydQLV8V5PbS3FifjWFFRiHSWpDJahly88PRyV5teTSLoq4eG7mKw==
 
-typezilla-mockserver@0.5.4:
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/typezilla-mockserver/-/typezilla-mockserver-0.5.4.tgz#ec618915a3ea299c1fb7be8dd1cae6ad5e3f13f1"
-  integrity sha512-NjQDNvQgQ3VyOzHFWsIg/BaS2TIBuv/osmsU9j8oDuzlYRpmlsiytPw7LB3yvqkXzgPtgbYESM5V8P3KphrWbQ==
+typezilla-mockserver@0.5.5:
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/typezilla-mockserver/-/typezilla-mockserver-0.5.5.tgz#4fc3fe1b29ee00ee79307532fae88792b98f239f"
+  integrity sha512-ceXCY8MLicAVO8KeJX2WHykw7gyrQaY2dCx/vOXBVqv+lQUdBzxJWTWuy7k3z8Wif2NgIhCHuCAIPmjsvo6riQ==
   dependencies:
     "@types/jest" "^26.0.15"
     "@types/node" "^12.0.0"

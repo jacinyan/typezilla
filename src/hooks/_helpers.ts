@@ -9,6 +9,20 @@ export const useMount = (callback: () => void) => {
   }, []);
 };
 
+//return the status that indicates whether or not a comp is mounted, false by default
+export const useMountedRef = () => {
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  });
+
+  return mountedRef;
+};
+
 export const useDebounce = <V>(value: V, delay?: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 

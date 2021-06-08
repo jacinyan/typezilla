@@ -1,10 +1,10 @@
 import { Typography } from "antd";
+import SearchPanel from "app/components/project-list/SearchPanel";
+import List from "app/components/project-list/List";
+import { useProjects, useProjectsSearchParams } from "hooks/projects";
 import { useDebounce, useDocumentTitle } from "hooks/_helpers";
 import { useUsers } from "hooks/users";
-import List from "app/components/project-list/List";
-import SearchPanel from "app/components/project-list/SearchPanel";
 import * as S from "./index.styles";
-import { useProjects, useProjectsSearchParams } from "hooks/projects";
 
 const ProjectListScreen = () => {
   // console.count("ProjectListScreen");

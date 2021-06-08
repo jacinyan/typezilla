@@ -17,6 +17,7 @@ const List = ({ users, ...restProps }: ListProps) => {
   const { mutate } = useEditProject();
   // curried point free because of existing projectId awaiting a marked prop later
   const markProject = (id: number) => (marked: boolean) =>
+    //refresh on updates
     mutate({ id, marked }).then(restProps.refresh);
 
   return (
