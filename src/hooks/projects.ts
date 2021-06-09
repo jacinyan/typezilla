@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { useAsync, useConfigureFetch } from "./api";
+import { useAsyncTask, useConfigureFetch } from "./api";
 import { useUrlQueryParams } from "./_helpers";
 import { Project } from "types";
 import { removeEmptyQueryValues } from "utils";
@@ -20,14 +20,14 @@ export const useProjectsSearchParams = () => {
 // Partial
 export const useProjects = (params?: Partial<Project>) => {
   const $fetch = useConfigureFetch();
-  const { runAsync, ...result } = useAsync<Project[]>();
+  const { asyncRun, ...result } = useAsyncTask<Project[]>();
 
-  //wrapped $fetch(...) in a function as a callback instead of runAsync handling its returned value only, for triggering auto refresh on updates
+  //wrapped $fetch(...) in a function as a callback instead of asyncRun handling its returned value only, for triggering auto refresh on updates
   //#region
   //e.g.
   //var getPromise = () => new Promise()
-  // var runAsync = (callback) => {}
-  // runAsync(getPromise()) // callback missing on the way
+  // var asyncRun = (callback) => {}
+  // asyncRun(getPromise()) // callback missing on the way
   //#endregion
   const fetchProjects = useCallback(
     () =>
@@ -38,8 +38,8 @@ export const useProjects = (params?: Partial<Project>) => {
   );
 
   useEffect(() => {
-    runAsync(fetchProjects(), { retry: fetchProjects });
-  }, [params, runAsync, fetchProjects]);
+    asyncRun(fetchProjects(), { retry: fetchProjects });
+  }, [params, asyncRun, fetchProjects]);
 
   return result;
 };
@@ -47,9 +47,9 @@ export const useProjects = (params?: Partial<Project>) => {
 export const useEditProject = () => {
   const $fetch = useConfigureFetch();
 
-  const { runAsync, ...result } = useAsync();
+  const { asyncRun, ...result } = useAsyncTask();
   const mutate = (params: Partial<Project>) => {
-    return runAsync(
+    return asyncRun(
       $fetch(`projects/${params.id}`, {
         params,
         method: "PATCH",
@@ -62,10 +62,10 @@ export const useEditProject = () => {
 
 export const useAddProject = () => {
   const $fetch = useConfigureFetch();
-  const { runAsync, ...result } = useAsync();
+  const { asyncRun, ...result } = useAsyncTask();
 
   const mutate = (params: Partial<Project>) => {
-    return runAsync(
+    return asyncRun(
       $fetch(`projects/${params.id}`, {
         params,
         method: "POST",

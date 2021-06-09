@@ -1,6 +1,19 @@
+import { REDO, RESET, SET, UNDO } from "redux/constants";
+
 export type StringOrNumber = string | number;
 
-export interface State<D> {
+export type UndoState<T> = {
+  past: T[];
+  present: T;
+  future: T[];
+};
+
+export type UndoAction<T> = {
+  newPresent?: T;
+  type: typeof UNDO | typeof REDO | typeof SET | typeof RESET;
+};
+
+export interface AsyncState<D> {
   status: "idle" | "loading" | "error" | "success";
   data: D | null;
   error: Error | null;

@@ -1,5 +1,5 @@
 import { useAuth } from "hooks/auth";
-import { useAsync } from "hooks/api";
+import { useAsyncTask } from "hooks/api";
 import { useDocumentTitle } from "hooks/_helpers";
 import { Form, Input } from "antd";
 import * as S from "./index.styles";
@@ -8,7 +8,9 @@ const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
   useDocumentTitle("Sign Up", false);
 
   const { register } = useAuth();
-  const { runAsync, isLoading } = useAsync(undefined, { throwOnError: true });
+  const { asyncRun, isLoading } = useAsyncTask(undefined, {
+    throwOnError: true,
+  });
 
   //HTMLFormElement extends Elements
   const handleSubmit = async ({
@@ -24,7 +26,7 @@ const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
       return;
     }
     try {
-      await runAsync(register(rest));
+      await asyncRun(register(rest));
     } catch (error) {
       onError(error);
     }

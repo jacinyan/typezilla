@@ -2,20 +2,22 @@ import { useDocumentTitle } from "hooks/_helpers";
 import { Form, Input } from "antd";
 import * as S from "./index.styles";
 import { useAuth } from "hooks/auth";
-import { useAsync } from "hooks/api";
+import { useAsyncTask } from "hooks/api";
 
 const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
   useDocumentTitle("Log in", false);
 
   const { login } = useAuth();
-  const { runAsync, isLoading } = useAsync(undefined, { throwOnError: true });
+  const { asyncRun, isLoading } = useAsyncTask(undefined, {
+    throwOnError: true,
+  });
   //HTMLFormElement extends Elements
   const handleSubmit = async (values: {
     username: string;
     password: string;
   }) => {
     try {
-      await runAsync(login(values));
+      await asyncRun(login(values));
     } catch (error) {
       onError(error);
     }

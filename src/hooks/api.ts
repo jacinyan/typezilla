@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useAuth } from "./auth";
 import { configureFetch } from "api";
-import { State } from "types";
+import { AsyncState } from "types";
 import { useMountedRef } from "./_helpers";
 
 //embed token if it exists for every request when calling when myFetch is instantiated from configureFetch in api/index
@@ -16,15 +16,15 @@ export const useConfigureFetch = () => {
   );
 };
 
-export const useAsync = <D>(
-  initialState: State<D> = {
+export const useAsyncTask = <D>(
+  initialState: AsyncState<D> = {
     status: "idle",
     data: null,
     error: null,
   },
   initialConfig = { throwOnError: false }
 ) => {
-  const [state, setState] = useState<State<D>>({
+  const [state, setState] = useState<AsyncState<D>>({
     ...initialState,
   });
   const config = { ...initialConfig };
@@ -54,19 +54,19 @@ export const useAsync = <D>(
   );
 
   //trigger async code;
-  //runAsyncConfig to retrigger async code on updates automatically
-  const runAsync = useCallback(
+  //asyncRunConfig to retrigger async code on updates automatically
+  const asyncRun = useCallback(
     async (
       promise: Promise<D>,
-      runAsyncConfig?: { retry: () => Promise<D> }
+      asyncRunConfig?: { retry: () => Promise<D> }
     ) => {
       if (!promise || !promise.then) {
         throw new Error("Please pass in a Promise type ");
       }
       //recursive calls
       setRetry(() => () => {
-        if (runAsyncConfig?.retry) {
-          runAsync(runAsyncConfig?.retry(), runAsyncConfig);
+        if (asyncRunConfig?.retry) {
+          asyncRun(asyncRunConfig?.retry(), asyncRunConfig);
         }
       });
       setState((prevState) => ({ ...prevState, status: "loading" }));
@@ -97,7 +97,7 @@ export const useAsync = <D>(
     isSuccess: state.status === "success",
     setData,
     setError,
-    runAsync,
+    asyncRun,
     retry,
     ...state,
   };

@@ -7,7 +7,7 @@ import {
   register as authRegister,
   logout as authLogout,
 } from "api";
-import { useAsync } from "hooks/api";
+import { useAsyncTask } from "hooks/api";
 import { useMount } from "hooks/_helpers";
 import { User } from "types";
 import {
@@ -56,9 +56,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     isError,
     isLoading,
     isIdle,
-    runAsync,
+    asyncRun,
     setData: setUser,
-  } = useAsync<User | null>();
+  } = useAsyncTask<User | null>();
 
   //point free setUser
   const login = (form: AuthForm) => authLogin(form).then(setUser);
@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   //check token whenever the app mounts
   useMount(() => {
-    runAsync(bootstrapUser());
+    asyncRun(bootstrapUser());
   });
 
   return isIdle || isLoading ? (

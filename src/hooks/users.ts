@@ -1,14 +1,14 @@
 import { useEffect } from "react";
-import { useAsync, useConfigureFetch } from "./api";
+import { useAsyncTask, useConfigureFetch } from "./api";
 import { User } from "types";
 import { removeEmptyQueryValues } from "utils";
 
 export const useUsers = (params?: Partial<User>) => {
   const $fetch = useConfigureFetch();
-  const { runAsync, ...result } = useAsync<User[]>();
+  const { asyncRun, ...result } = useAsyncTask<User[]>();
 
   useEffect(() => {
-    runAsync(
+    asyncRun(
       $fetch("users", {
         params: removeEmptyQueryValues(params || {}),
       })
