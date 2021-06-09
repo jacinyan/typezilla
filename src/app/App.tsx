@@ -2,7 +2,7 @@ import React from "react";
 import {
   FullPageError,
   FullPageLoader,
-} from "app/components/misc/FullPageFallBack";
+} from "app/components/misc/FullPageFallBacks";
 import ErrorBoundary from "app/components/misc/ErrorBoundary";
 import "./App.css";
 import { useAuth } from "hooks/auth";

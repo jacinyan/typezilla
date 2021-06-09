@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Navigate,
   Route,
@@ -11,15 +12,24 @@ import { useAuth } from "hooks/auth";
 import { resetRoutes } from "utils";
 import logo from "assets/logo.svg";
 import * as S from "./AuthenticatedApp.styles";
+import ProjectModal from "./components/misc/Modal";
+import { ProjectPopover } from "./components/misc/Popovers";
 
 export default function AuthenticatedApp() {
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
+
   return (
     <S.Container>
-      <AuthenticatedHeader />
+      <AuthedHeader setProjectModalOpen={setProjectModalOpen} />
       <S.Main>
         <Router>
           <Routes>
-            <Route path={"/projects"} element={<ProjectListScreen />} />
+            <Route
+              path={"/projects"}
+              element={
+                <ProjectListScreen setProjectModalOpen={setProjectModalOpen} />
+              }
+            />
             <Route
               //https://reacttraining.com/blog/react-router-v6-pre/
               path={"/projects/:projectId/*"}
@@ -29,13 +39,19 @@ export default function AuthenticatedApp() {
           </Routes>
         </Router>
       </S.Main>
+      <ProjectModal
+        projectModalOpen={projectModalOpen}
+        onClose={() => {
+          setProjectModalOpen(false);
+        }}
+      />
     </S.Container>
   );
 }
 
-const AuthenticatedHeader = () => {
-  const { logout, user } = useAuth();
-
+const AuthedHeader = (props: {
+  setProjectModalOpen: (isOpen: boolean) => void;
+}) => {
   return (
     <S.Header spaceBetween>
       <S.HeaderLeft gap={true}>
@@ -46,35 +62,45 @@ const AuthenticatedHeader = () => {
         >
           <img src={logo} alt={"logo"} style={{ height: "4.5rem" }} />
         </Button>
-        <h4>Projects</h4>
-        <h4>Users</h4>
+        <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} />
+        <span>Users</span>
       </S.HeaderLeft>
-      {user && (
-        <S.HeaderRight>
-          <span>Hi,</span>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item key={"logout"}>
-                  <Button type={"link"} onClick={logout}>
-                    Log Out
-                  </Button>
-                </Menu.Item>
-              </Menu>
-            }
-          >
-            <Button
-              type={"link"}
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-              style={{ padding: "0.5rem" }}
-            >
-              {user.name}
-            </Button>
-          </Dropdown>
-        </S.HeaderRight>
-      )}
+      <S.HeaderRight>
+        <User />
+      </S.HeaderRight>
     </S.Header>
+  );
+};
+
+const User = () => {
+  const { logout, user } = useAuth();
+
+  return (
+    user && (
+      <>
+        <span>Hi,</span>
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item key={"logout"}>
+                <Button type={"link"} onClick={logout}>
+                  Log Out
+                </Button>
+              </Menu.Item>
+            </Menu>
+          }
+        >
+          <Button
+            type={"link"}
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+            style={{ padding: "0.5rem" }}
+          >
+            {user.name}
+          </Button>
+        </Dropdown>
+      </>
+    )
   );
 };

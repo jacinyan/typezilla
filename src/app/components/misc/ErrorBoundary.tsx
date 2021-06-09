@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 type FallbackRender = (props: { error: Error | null }) => React.ReactElement;
-//https://github.com/bvaughn/react-error-boundary
+
 export default class ErrorBoundary extends Component<
   React.PropsWithChildren<{ fallbackRender: FallbackRender }>
 > {

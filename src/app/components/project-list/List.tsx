@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Table } from "antd";
+import { Button, Dropdown, Menu, Table } from "antd";
 import { TableProps } from "antd/lib/table";
 import { useEditProject } from "hooks/projects";
 import Marking from "../misc/Marking";
@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 interface ListProps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
+  setProjectModalOpen: (isOpen: boolean) => void;
 }
 
 //pseudo: type RestPropsType = Omit<ListProps, 'users'>
@@ -70,6 +71,30 @@ const List = ({ users, ...restProps }: ListProps) => {
                   ? dayjs(project.createdAt).format("DD-MM-YYYY")
                   : "Null"}
               </span>
+            );
+          },
+        },
+        {
+          render(value, project) {
+            return (
+              <Dropdown
+                overlay={
+                  <Menu>
+                    <Menu.Item key={"edit"}>
+                      <Button
+                        type={"link"}
+                        onClick={() => restProps.setProjectModalOpen(true)}
+                      >
+                        Edit
+                      </Button>
+                    </Menu.Item>
+                  </Menu>
+                }
+              >
+                <Button style={{ padding: 0 }} type={"link"}>
+                  ...
+                </Button>
+              </Dropdown>
             );
           },
         },

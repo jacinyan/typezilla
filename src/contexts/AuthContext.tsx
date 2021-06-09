@@ -13,7 +13,7 @@ import { User } from "types";
 import {
   FullPageLoader,
   FullPageError,
-} from "app/components/misc/FullPageFallBack";
+} from "app/components/misc/FullPageFallBacks";
 
 interface AuthForm {
   username: string;
