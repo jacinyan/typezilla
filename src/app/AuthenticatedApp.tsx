@@ -14,20 +14,37 @@ import logo from "assets/logo.svg";
 import * as S from "./AuthenticatedApp.styles";
 import ProjectModal from "./components/misc/Modal";
 import { ProjectPopover } from "./components/misc/Popovers";
+import { StyledButton } from "./components/misc/GeneralComps";
 
 export default function AuthenticatedApp() {
   const [projectModalOpen, setProjectModalOpen] = useState(false);
-
+  //refactored with a Button JSX ele itself all the way down for decoupling List and and ProjectPopover from AuthedApp
+  //Composition right here at AuthedApp
   return (
     <S.Container>
-      <AuthedHeader setProjectModalOpen={setProjectModalOpen} />
+      <AuthedHeader
+        projectButton={
+          <StyledButton type={"link"} onClick={() => setProjectModalOpen(true)}>
+            Create Project
+          </StyledButton>
+        }
+      />
       <S.Main>
         <Router>
           <Routes>
             <Route
               path={"/projects"}
               element={
-                <ProjectListScreen setProjectModalOpen={setProjectModalOpen} />
+                <ProjectListScreen
+                  projectButton={
+                    <StyledButton
+                      type={"link"}
+                      onClick={() => setProjectModalOpen(true)}
+                    >
+                      Create Project
+                    </StyledButton>
+                  }
+                />
               }
             />
             <Route
@@ -49,9 +66,7 @@ export default function AuthenticatedApp() {
   );
 }
 
-const AuthedHeader = (props: {
-  setProjectModalOpen: (isOpen: boolean) => void;
-}) => {
+const AuthedHeader = (props: { projectButton: JSX.Element }) => {
   return (
     <S.Header spaceBetween>
       <S.HeaderLeft gap={true}>
@@ -62,7 +77,7 @@ const AuthedHeader = (props: {
         >
           <img src={logo} alt={"logo"} style={{ height: "4.5rem" }} />
         </Button>
-        <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} />
+        <ProjectPopover {...props} />
         <span>Users</span>
       </S.HeaderLeft>
       <S.HeaderRight>

@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
-import { Button, Dropdown, Menu, Table } from "antd";
+import { Dropdown, Menu, Table } from "antd";
 import { TableProps } from "antd/lib/table";
 import { useEditProject } from "hooks/projects";
 import Marking from "../misc/Marking";
 import { User, Project } from "types";
 import dayjs from "dayjs";
+import { StyledButton } from "../misc/GeneralComps";
 
 interface ListProps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
-  setProjectModalOpen: (isOpen: boolean) => void;
+  projectButton: JSX.Element;
 }
 
 //pseudo: type RestPropsType = Omit<ListProps, 'users'>
@@ -81,19 +82,12 @@ const List = ({ users, ...restProps }: ListProps) => {
                 overlay={
                   <Menu>
                     <Menu.Item key={"edit"}>
-                      <Button
-                        type={"link"}
-                        onClick={() => restProps.setProjectModalOpen(true)}
-                      >
-                        Edit
-                      </Button>
+                      {restProps.projectButton}
                     </Menu.Item>
                   </Menu>
                 }
               >
-                <Button style={{ padding: 0 }} type={"link"}>
-                  ...
-                </Button>
+                <StyledButton type={"link"}>...</StyledButton>
               </Dropdown>
             );
           },
