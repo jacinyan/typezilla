@@ -1,8 +1,8 @@
-import { useCallback, useState } from "react";
+import { useCallback, useReducer, useState } from "react";
 import { useAuth } from "./auth";
 import { configureFetch } from "api";
 import { AsyncState } from "types";
-import { useMountedRef } from "./_helpers";
+import { useSafeDispatch } from "./_helpers";
 
 //embed token if it exists for every request when calling when myFetch is instantiated from configureFetch in api/index
 export const useConfigureFetch = () => {
@@ -24,33 +24,39 @@ export const useAsyncTask = <D>(
   },
   initialConfig = { throwOnError: false }
 ) => {
-  const [state, setState] = useState<AsyncState<D>>({
-    ...initialState,
-  });
+  const [state, dispatch] = useReducer(
+    (state: AsyncState<D>, action: Partial<AsyncState<D>>) => ({
+      ...state,
+      ...action,
+    }),
+    {
+      ...initialState,
+    }
+  );
   const config = { ...initialConfig };
-
-  const mountedRef = useMountedRef();
+  //no ops after comps being unmounted
+  const safeDispatch = useSafeDispatch(dispatch);
   //  refresh on updates using lazy initialization, but to cache a function
   const [retry, setRetry] = useState(() => () => {});
 
   const setData = useCallback(
     (data: D) =>
-      setState({
+      safeDispatch({
         data,
         status: "success",
         error: null,
       }),
-    []
+    [safeDispatch]
   );
 
   const setError = useCallback(
     (error: Error) =>
-      setState({
+      safeDispatch({
         error,
         status: "error",
         data: null,
       }),
-    []
+    [safeDispatch]
   );
 
   //trigger async code;
@@ -69,13 +75,11 @@ export const useAsyncTask = <D>(
           asyncRun(asyncRunConfig?.retry(), asyncRunConfig);
         }
       });
-      setState((prevState) => ({ ...prevState, status: "loading" }));
+      safeDispatch({ status: "loading" });
       //TODO: test minimum request time, followed by refactoring with useCallback for setData ops
       try {
         const data = await promise;
-        if (mountedRef.current) {
-          setData(data);
-        }
+        setData(data);
         return data;
       } catch (error) {
         setError(error);
@@ -86,8 +90,7 @@ export const useAsyncTask = <D>(
         return error;
       }
     },
-    //callback func in setState instead of direct reference
-    [config.throwOnError, mountedRef, setData, setError]
+    [config.throwOnError, setData, setError, safeDispatch]
   );
 
   return {

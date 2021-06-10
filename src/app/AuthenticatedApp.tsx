@@ -17,36 +17,13 @@ import { ProjectPopover } from "./components/misc/Popovers";
 import { StyledButton } from "./components/misc/GeneralComps";
 
 export default function AuthenticatedApp() {
-  const [projectModalOpen, setProjectModalOpen] = useState(false);
-  //refactored with a Button JSX ele itself all the way down for decoupling List and and ProjectPopover from AuthedApp
-  //Composition right here at AuthedApp
   return (
     <S.Container>
-      <AuthedHeader
-        projectButton={
-          <StyledButton type={"link"} onClick={() => setProjectModalOpen(true)}>
-            Create Project
-          </StyledButton>
-        }
-      />
-      <S.Main>
-        <Router>
+      <Router>
+        <AuthedHeader />
+        <S.Main>
           <Routes>
-            <Route
-              path={"/projects"}
-              element={
-                <ProjectListScreen
-                  projectButton={
-                    <StyledButton
-                      type={"link"}
-                      onClick={() => setProjectModalOpen(true)}
-                    >
-                      Create Project
-                    </StyledButton>
-                  }
-                />
-              }
-            />
+            <Route path={"/projects"} element={<ProjectListScreen />} />
             <Route
               //https://reacttraining.com/blog/react-router-v6-pre/
               path={"/projects/:projectId/*"}
@@ -54,19 +31,14 @@ export default function AuthenticatedApp() {
             />
             <Navigate to={"/projects"} />
           </Routes>
-        </Router>
-      </S.Main>
-      <ProjectModal
-        projectModalOpen={projectModalOpen}
-        onClose={() => {
-          setProjectModalOpen(false);
-        }}
-      />
+        </S.Main>
+        <ProjectModal />
+      </Router>
     </S.Container>
   );
 }
 
-const AuthedHeader = (props: { projectButton: JSX.Element }) => {
+const AuthedHeader = () => {
   return (
     <S.Header spaceBetween>
       <S.HeaderLeft gap={true}>
@@ -77,7 +49,7 @@ const AuthedHeader = (props: { projectButton: JSX.Element }) => {
         >
           <img src={logo} alt={"logo"} style={{ height: "4.5rem" }} />
         </Button>
-        <ProjectPopover {...props} />
+        <ProjectPopover />
         <span>Users</span>
       </S.HeaderLeft>
       <S.HeaderRight>

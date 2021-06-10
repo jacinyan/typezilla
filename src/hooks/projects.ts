@@ -4,20 +4,7 @@ import { useUrlQueryParams } from "./_helpers";
 import { Project } from "types";
 import { removeEmptyQueryValues } from "utils";
 
-export const useProjectsSearchParams = () => {
-  const [paramsObj, setParamsObj] = useUrlQueryParams(["name", "supervisorId"]);
-  return [
-    useMemo(
-      () => ({
-        ...paramsObj,
-        supervisorId: Number(paramsObj.supervisorId) || undefined,
-      }),
-      [paramsObj]
-    ),
-    setParamsObj,
-  ] as const;
-};
-// Partial
+// projects fetching
 export const useProjects = (params?: Partial<Project>) => {
   const $fetch = useConfigureFetch();
   const { asyncRun, ...result } = useAsyncTask<Project[]>();
@@ -42,6 +29,20 @@ export const useProjects = (params?: Partial<Project>) => {
   }, [params, asyncRun, fetchProjects]);
 
   return result;
+};
+
+export const useProjectsSearchParams = () => {
+  const [paramsObj, setParamsObj] = useUrlQueryParams(["name", "supervisorId"]);
+  return [
+    useMemo(
+      () => ({
+        ...paramsObj,
+        supervisorId: Number(paramsObj.supervisorId) || undefined,
+      }),
+      [paramsObj]
+    ),
+    setParamsObj,
+  ] as const;
 };
 
 export const useEditProject = () => {
@@ -74,4 +75,20 @@ export const useAddProject = () => {
   };
 
   return { mutate, ...result };
+};
+
+//using url to manage modal states
+export const useProjectModal = () => {
+  const [{ projectCreate }, setProjectCreate] = useUrlQueryParams([
+    "projectCreate",
+  ]);
+
+  const open = () => setProjectCreate({ projectCreate: true });
+  const close = () => setProjectCreate({ projectCreate: undefined });
+
+  return {
+    projectModalOpen: projectCreate === "true",
+    open,
+    close,
+  };
 };

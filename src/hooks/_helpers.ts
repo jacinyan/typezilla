@@ -139,3 +139,11 @@ export const useUndo = <T>(initialPresent: T) => {
     },
   ] as const;
 };
+
+export const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
+  const mountedRef = useMountedRef();
+  return useCallback(
+    (...args: T[]) => (mountedRef.current ? dispatch(...args) : void 0),
+    [dispatch, mountedRef]
+  );
+};

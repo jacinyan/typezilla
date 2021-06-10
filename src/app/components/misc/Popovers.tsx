@@ -1,9 +1,11 @@
 import styled from "@emotion/styled";
 import { Popover, Typography, List, Divider } from "antd";
-import { useProjects } from "hooks/projects";
+import { useProjectModal, useProjects } from "hooks/projects";
+import { StyledButton } from "./GeneralComps";
 
-export const ProjectPopover = (props: { projectButton: JSX.Element }) => {
+export const ProjectPopover = () => {
   const { data: projects } = useProjects();
+  const { open } = useProjectModal();
   const markedProjects = projects?.filter((project) => project.marked);
 
   const content = (
@@ -17,7 +19,9 @@ export const ProjectPopover = (props: { projectButton: JSX.Element }) => {
         ))}
       </List>
       <Divider />
-      {props.projectButton}
+      <StyledButton onClick={open} type={"link"}>
+        Create Project
+      </StyledButton>
     </ContentContainer>
   );
 

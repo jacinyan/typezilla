@@ -10,7 +10,6 @@ import { StyledButton } from "../misc/GeneralComps";
 interface ListProps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
-  projectButton: JSX.Element;
 }
 
 //pseudo: type RestPropsType = Omit<ListProps, 'users'>
@@ -81,9 +80,7 @@ const List = ({ users, ...restProps }: ListProps) => {
               <Dropdown
                 overlay={
                   <Menu>
-                    <Menu.Item key={"edit"}>
-                      {restProps.projectButton}
-                    </Menu.Item>
+                    <Menu.Item key={"edit"}></Menu.Item>
                   </Menu>
                 }
               >

@@ -1,13 +1,17 @@
 import { Typography } from "antd";
 import SearchPanel from "app/components/project-list/SearchPanel";
 import List from "app/components/project-list/List";
-import { useProjects, useProjectsSearchParams } from "hooks/projects";
+import {
+  useProjectModal,
+  useProjects,
+  useProjectsSearchParams,
+} from "hooks/projects";
 import { useDebounce, useDocumentTitle } from "hooks/_helpers";
 import { useUsers } from "hooks/users";
 import * as S from "./index.styles";
-import { StyledRow } from "app/components/misc/GeneralComps";
+import { StyledButton, StyledRow } from "app/components/misc/GeneralComps";
 
-const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
+const ProjectListScreen = () => {
   // console.count("ProjectListScreen");
   useDocumentTitle("Project List", false);
 
@@ -18,13 +22,17 @@ const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
     error,
     retry,
   } = useProjects(useDebounce(paramsObj, 500));
+  const { open } = useProjectModal();
+
   const { data: users } = useUsers();
 
   return (
     <S.Container>
       <StyledRow spaceBetween>
         <h1>Project List</h1>
-        {props.projectButton}
+        <StyledButton onClick={open} type={"link"}>
+          Create Project
+        </StyledButton>
       </StyledRow>
       <SearchPanel
         paramsObj={paramsObj}
@@ -35,7 +43,6 @@ const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
       )}
       <List
-        projectButton={props.projectButton}
         refresh={retry}
         users={users || []}
         loading={isLoading}

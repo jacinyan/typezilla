@@ -1,17 +1,13 @@
 import { Button, Drawer } from "antd";
+import { useProjectModal } from "hooks/projects";
 
-const ProjectModal = (props: {
-  projectModalOpen: boolean;
-  onClose: () => void;
-}) => {
+const ProjectModal = () => {
+  const { projectModalOpen, close } = useProjectModal();
+
   return (
-    <Drawer
-      visible={props.projectModalOpen}
-      width={"100%"}
-      onClose={props.onClose}
-    >
+    <Drawer visible={projectModalOpen} width={"100%"} onClose={close}>
       <h1>Project Modal</h1>
-      <Button onClick={props.onClose}>Cancel</Button>
+      <Button onClick={close}>Cancel</Button>
     </Drawer>
   );
 };
