@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import { Button } from "antd";
+import { Button as BaseButton } from "app/components/misc/General";
 
-export const WideButton = styled(Button)`
+export const Button = styled(BaseButton)`
   width: 100%;
 `;

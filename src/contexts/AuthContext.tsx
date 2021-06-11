@@ -1,4 +1,4 @@
-//simple simulation of 3rd party auth provider
+//infinitely simplified simulation of a 3rd party auth provider
 import { createContext, ReactNode } from "react";
 import {
   getToken,
@@ -20,13 +20,13 @@ interface AuthForm {
   password: string;
 }
 
-//preload user log in/out state for persistency
+//pre-loads the user log in/out state for persistency
 const bootstrapUser = async () => {
   let user = null;
-  //fetch token from localStorage
+  //fetches token from localStorage
   const token = getToken();
   if (token) {
-    //specify token
+    //specifies the token instead of calling the useConfigureFetch hook for general purposes
     const data = await configureFetch("me", { token });
     user = data.user;
   }
@@ -34,7 +34,7 @@ const bootstrapUser = async () => {
 };
 
 export const AuthContext =
-  //avoid value type in AuthProvider being undefined from default when it is not
+  //avoids the value type in AuthProvider being undefined from default when it is obviously not
   createContext<
     | {
         user: User | null;
@@ -46,9 +46,6 @@ export const AuthContext =
   >(undefined);
 AuthContext.displayName = "AuthContext";
 
-//(alias) const AuthProvider: () => JSX.Element
-//import AuthProvider
-//Type '{ children: ReactNode; }' has no properties in common with type 'IntrinsicAttributes'
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const {
     data: user,
@@ -60,12 +57,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setData: setUser,
   } = useAsyncTask<User | null>();
 
-  //point free setUser
+  //point free
   const login = (form: AuthForm) => authLogin(form).then(setUser);
   const register = (form: AuthForm) => authRegister(form).then(setUser);
   const logout = () => authLogout().then(() => setUser(null));
 
-  //check token whenever the app mounts
+  //checks token whenever the app mounts
   useMount(() => {
     asyncRun(bootstrapUser());
   });

@@ -1,4 +1,3 @@
-import { Typography } from "antd";
 import SearchPanel from "app/components/project-list/SearchPanel";
 import List from "app/components/project-list/List";
 import {
@@ -8,47 +7,39 @@ import {
 } from "hooks/projects";
 import { useDebounce, useDocumentTitle } from "hooks/_helpers";
 import { useUsers } from "hooks/users";
-import * as S from "./index.styles";
-import { StyledButton, StyledRow } from "app/components/misc/GeneralComps";
+import { Container } from "./index.styles";
+import { Button, ErrorBox, Row } from "app/components/misc/General";
 
 const ProjectListScreen = () => {
-  // console.count("ProjectListScreen");
   useDocumentTitle("Project List", false);
+  // console.count("ProjectListScreen");
+  const { open } = useProjectModal();
 
   const [paramsObj, setParamsObj] = useProjectsSearchParams();
   const {
     isLoading,
     data: list,
     error,
-    retry,
   } = useProjects(useDebounce(paramsObj, 500));
-  const { open } = useProjectModal();
 
   const { data: users } = useUsers();
 
   return (
-    <S.Container>
-      <StyledRow spaceBetween>
+    <Container>
+      <Row spaceBetween>
         <h1>Project List</h1>
-        <StyledButton onClick={open} type={"link"}>
+        <Button onClick={open} type={"link"}>
           Create Project
-        </StyledButton>
-      </StyledRow>
+        </Button>
+      </Row>
       <SearchPanel
         paramsObj={paramsObj}
         setParamsObj={setParamsObj}
         users={users || []}
       />
-      {error && (
-        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
-      )}
-      <List
-        refresh={retry}
-        users={users || []}
-        loading={isLoading}
-        dataSource={list || []}
-      />
-    </S.Container>
+      {error && <ErrorBox error={error}></ErrorBox>}
+      <List users={users || []} loading={isLoading} dataSource={list || []} />
+    </Container>
   );
 };
 

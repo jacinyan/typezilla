@@ -6,7 +6,7 @@ import UserSelect from "./UserSelect";
 interface SearchPanelProps {
   users: User[];
   paramsObj: Partial<Pick<Project, "name" | "supervisorId">>;
-  //dynamically updates setParamsObj type WRT paramsObj
+  //dynamically updates the type of setParamsObj WRT paramsObj
   setParamsObj: (paramsObj: SearchPanelProps["paramsObj"]) => void;
 }
 

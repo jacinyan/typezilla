@@ -1,15 +1,16 @@
 import styled from "@emotion/styled";
 import { Popover, Typography, List, Divider } from "antd";
 import { useProjectModal, useProjects } from "hooks/projects";
-import { StyledButton } from "./GeneralComps";
+import { Button } from "./General";
 
 export const ProjectPopover = () => {
-  const { data: projects } = useProjects();
   const { open } = useProjectModal();
-  const markedProjects = projects?.filter((project) => project.marked);
+
+  const { data: projects } = useProjects();
+  const markedProjects = projects?.filter((project) => project.marked === true);
 
   const content = (
-    <ContentContainer>
+    <Container>
       <Typography.Text type={"secondary"}>Marked Projects</Typography.Text>
       <List>
         {markedProjects?.map((project) => (
@@ -19,10 +20,10 @@ export const ProjectPopover = () => {
         ))}
       </List>
       <Divider />
-      <StyledButton onClick={open} type={"link"}>
+      <Button onClick={open} type={"link"}>
         Create Project
-      </StyledButton>
-    </ContentContainer>
+      </Button>
+    </Container>
   );
 
   return (
@@ -32,6 +33,6 @@ export const ProjectPopover = () => {
   );
 };
 
-const ContentContainer = styled.div`
+const Container = styled.div`
   min-width: 30rem;
 `;

@@ -1,7 +1,11 @@
 import styled from "@emotion/styled";
-import { Button } from "antd";
+import { Button as BaseButton, Typography } from "antd";
 
-export const StyledRow = styled.div<{
+export const Button = styled(BaseButton)`
+  padding: 0;
+`;
+
+export const Row = styled.div<{
   gap?: number | boolean;
   spaceBetween?: boolean;
   marginBottom?: number;
@@ -23,6 +27,11 @@ export const StyledRow = styled.div<{
   }
 `;
 
-export const StyledButton = styled(Button)`
-  padding: 0;
-`;
+export const ErrorBox = ({ error }: { error: unknown }) => {
+  //type guard
+  const isError = (value: any): value is Error => value?.message;
+  if (isError(error)) {
+    return <Typography.Text type={"danger"}>{error?.message}</Typography.Text>;
+  }
+  return null;
+};

@@ -1,6 +1,7 @@
-import styled from "@emotion/styled";
-import { Spin, Typography } from "antd";
 import { DevTools } from "typezilla-mockserver";
+import styled from "@emotion/styled";
+import { Spin } from "antd";
+import { ErrorBox } from "./General";
 
 export const FullPageLoader = (): JSX.Element => {
   return (
@@ -18,7 +19,7 @@ export const FullPageError = ({
   return (
     <FullPageStyles>
       <DevTools />
-      <Typography.Text type={"danger"}>{error?.message}</Typography.Text>
+      <ErrorBox error={error}></ErrorBox>
     </FullPageStyles>
   );
 };

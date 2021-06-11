@@ -1,27 +1,32 @@
-import { useState } from "react";
 import {
   Navigate,
   Route,
   Routes,
   BrowserRouter as Router,
 } from "react-router-dom";
-import { Button, Dropdown, Menu } from "antd";
+import { Dropdown, Menu } from "antd";
 import ProjectListScreen from "./screens/project-list";
 import ProjectScreen from "./screens/project";
 import { useAuth } from "hooks/auth";
 import { resetRoutes } from "utils";
 import logo from "assets/logo.svg";
-import * as S from "./AuthenticatedApp.styles";
-import ProjectModal from "./components/misc/Modal";
+import {
+  Container,
+  Header,
+  HeaderLeft,
+  HeaderRight,
+  Main,
+} from "./AuthenticatedApp.styles";
+import { Button } from "app/components/misc/General";
+import ProjectModal from "./components/misc/Modals";
 import { ProjectPopover } from "./components/misc/Popovers";
-import { StyledButton } from "./components/misc/GeneralComps";
 
 export default function AuthenticatedApp() {
   return (
-    <S.Container>
+    <Container>
       <Router>
         <AuthedHeader />
-        <S.Main>
+        <Main>
           <Routes>
             <Route path={"/projects"} element={<ProjectListScreen />} />
             <Route
@@ -31,17 +36,17 @@ export default function AuthenticatedApp() {
             />
             <Navigate to={"/projects"} />
           </Routes>
-        </S.Main>
+        </Main>
         <ProjectModal />
       </Router>
-    </S.Container>
+    </Container>
   );
 }
 
 const AuthedHeader = () => {
   return (
-    <S.Header spaceBetween>
-      <S.HeaderLeft gap={true}>
+    <Header spaceBetween>
+      <HeaderLeft gap={true}>
         <Button
           type={"link"}
           onClick={resetRoutes}
@@ -51,11 +56,11 @@ const AuthedHeader = () => {
         </Button>
         <ProjectPopover />
         <span>Users</span>
-      </S.HeaderLeft>
-      <S.HeaderRight>
+      </HeaderLeft>
+      <HeaderRight>
         <User />
-      </S.HeaderRight>
-    </S.Header>
+      </HeaderRight>
+    </Header>
   );
 };
 

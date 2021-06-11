@@ -1,15 +1,5 @@
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { URLSearchParamsInit, useSearchParams } from "react-router-dom";
-import { REDO, RESET, SET, UNDO } from "redux/constants";
-import { undoReducer } from "redux/reducers";
-import { UndoState } from "types";
 import { removeEmptyQueryValues } from "utils";
 
 export const useMount = (callback: () => void) => {
@@ -19,7 +9,7 @@ export const useMount = (callback: () => void) => {
   }, []);
 };
 
-//return the status that indicates whether or not a comp is mounted, false by default
+//returns the status that indicates whether or not a comp is mounted, false by default
 export const useMountedRef = () => {
   const mountedRef = useRef(false);
 
@@ -49,93 +39,47 @@ export const useDebounce = <V>(value: V, delay?: number) => {
 };
 
 export const useDocumentTitle = (title: string, persistOnUnmount = false) => {
-  const prevTitle = useRef(document.title).current;
-  //rending: prevTitle
+  const defaultTitle = useRef(document.title).current;
+  //loading: prevTitle
   //onUnmount: a new title
 
   useEffect(() => {
     document.title = title;
-  }, [title, prevTitle, persistOnUnmount]);
+  }, [title, defaultTitle, persistOnUnmount]);
 
   useEffect(() => {
     return () => {
       if (!persistOnUnmount) {
-        document.title = prevTitle;
+        document.title = defaultTitle;
       }
     };
-  }, [persistOnUnmount, prevTitle]);
+  }, [persistOnUnmount, defaultTitle]);
 };
 
-//return values of keys in query params dynamically with generics
+// 'useUrlQueryParams' accesses the values of specific keys from the address bar and returns them in the form of object
 export const useUrlQueryParams = <K extends string>(keys: K[]) => {
+  //with the help of react-router-dom
   const [searchParams, setSearchParams] = useSearchParams();
+  //Array.prototype.reduce obviously returns a new object on each render and has its very 1s impart on useEffect in useDebounce and many more upcoming ones
   return [
+    // A memoized state object from useSearchParams is safe, but also 'keys' this plain non-state object param is omitted from the useMemo deps in this case for this reason
     useMemo(
       () =>
         keys.reduce((prev, key) => {
           return { ...prev, [key]: searchParams.get(key) || "" };
         }, {} as { [key in K]: string }),
-      // memoized state values from useSearchParams and also omit 'keys' this plain non-state object from useMemo deps in this case
+
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [searchParams]
     ),
+    //reason for this anonymous func is to restrict the type of input params to a narrower range instead of a plain 'set' method, where the keys are dependent on the generic K
     (params: Partial<{ [key in K]: unknown }>) => {
-      const obj = removeEmptyQueryValues({
-        //iterator interface
+      const newSearchParams = removeEmptyQueryValues({
+        //transforms the searchParams iterable(array) into an object with the iterator interface
         ...Object.fromEntries(searchParams),
         ...params,
       }) as URLSearchParamsInit;
-      return setSearchParams(obj);
-    },
-  ] as const;
-};
-
-//https://github.com/homerchen19/use-undo
-export const useUndo = <T>(initialPresent: T) => {
-  const [state, dispatch] = useReducer(undoReducer, {
-    past: [],
-    present: initialPresent,
-    future: [],
-  } as UndoState<T>);
-
-  const canUndo = state.past.length !== 0;
-  const canRedo = state.future.length !== 0;
-
-  const undo = useCallback(
-    () =>
-      dispatch({
-        type: UNDO,
-      }),
-    []
-  );
-
-  const redo = useCallback(
-    () =>
-      dispatch({
-        type: REDO,
-      }),
-    []
-  );
-
-  const set = useCallback(
-    (newPresent: T) => dispatch({ type: SET, newPresent }),
-    []
-  );
-
-  const reset = useCallback(
-    (newPresent: T) => dispatch({ type: RESET, newPresent }),
-    []
-  );
-
-  return [
-    state,
-    {
-      set,
-      reset,
-      undo,
-      redo,
-      canUndo,
-      canRedo,
+      return setSearchParams(newSearchParams);
     },
   ] as const;
 };

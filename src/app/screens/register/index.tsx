@@ -1,8 +1,8 @@
+import { Form, Input } from "antd";
 import { useAuth } from "hooks/auth";
 import { useAsyncTask } from "hooks/api";
 import { useDocumentTitle } from "hooks/_helpers";
-import { Form, Input } from "antd";
-import * as S from "./index.styles";
+import { Button } from "./index.styles";
 
 const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
   useDocumentTitle("Sign Up", false);
@@ -12,7 +12,6 @@ const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
     throwOnError: true,
   });
 
-  //HTMLFormElement extends Elements
   const handleSubmit = async ({
     confirm_password,
     ...rest
@@ -57,9 +56,9 @@ const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
         />
       </Form.Item>
       <Form.Item>
-        <S.WideButton type={"primary"} htmlType={"submit"} loading={isLoading}>
+        <Button type={"primary"} htmlType={"submit"} loading={isLoading}>
           Sign Up
-        </S.WideButton>
+        </Button>
       </Form.Item>
     </Form>
   );

@@ -4,7 +4,6 @@ import { User } from "types";
 const api_URL = process.env.REACT_APP_API_URL;
 const localStorageKey = "__auth__provider__token__";
 
-// custom params and token props
 interface Config extends RequestInit {
   params?: object;
   token?: string;
@@ -19,7 +18,7 @@ export const configureFetch = async (
       Authorization: token ? `Bearer ${token}` : "",
       "Content-Type": params ? "application/json" : "",
     },
-    //mainly to override method
+    //overrides the method prop depending on the input config
     ...restConfig,
   };
   if (config.method.toUpperCase() === "GET") {

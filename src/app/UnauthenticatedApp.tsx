@@ -1,22 +1,27 @@
 import { useState } from "react";
-import { Divider, Button, Typography } from "antd";
+import { Divider } from "antd";
 import LoginScreen from "app/screens/login";
 import RegisterScreen from "app/screens/register";
-import * as S from "./UnunthenticatedApp.styles";
+import {
+  Container,
+  Card,
+  Header,
+  Background,
+  Title,
+} from "./UnunthenticatedApp.styles";
+import { Button, ErrorBox } from "app/components/misc/General";
 
 const UnAuthenticatedApp = () => {
   const [registered, setRegistered] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
   return (
-    <S.Container>
-      <S.Header />
-      <S.Background />
-      <S.ShadowCard>
-        <S.Title>{registered ? "Sign Up" : "Login"}</S.Title>
-        {error && (
-          <Typography.Text type={"danger"}>{error.message}</Typography.Text>
-        )}
+    <Container>
+      <Header />
+      <Background />
+      <Card>
+        <Title>{registered ? "Sign Up" : "Login"}</Title>
+        {error && <ErrorBox error={error}></ErrorBox>}
         {registered ? (
           <RegisterScreen onError={setError} />
         ) : (
@@ -33,8 +38,8 @@ const UnAuthenticatedApp = () => {
         >
           {registered ? "Sign In" : "Sign Up"}
         </Button>
-      </S.ShadowCard>
-    </S.Container>
+      </Card>
+    </Container>
   );
 };
 

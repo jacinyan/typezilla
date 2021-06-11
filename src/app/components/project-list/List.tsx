@@ -1,25 +1,23 @@
 import { Link } from "react-router-dom";
 import { Dropdown, Menu, Table } from "antd";
 import { TableProps } from "antd/lib/table";
-import { useEditProject } from "hooks/projects";
+import { useEditProject, useProjectModal } from "hooks/projects";
 import Marking from "../misc/Marking";
 import { User, Project } from "types";
 import dayjs from "dayjs";
-import { StyledButton } from "../misc/GeneralComps";
+import { Button } from "../misc/General";
 
 interface ListProps extends TableProps<Project> {
   users: User[];
-  refresh?: () => void;
 }
 
-//pseudo: type RestPropsType = Omit<ListProps, 'users'>
 const List = ({ users, ...restProps }: ListProps) => {
-  // console.log(users, restProps);
   const { mutate } = useEditProject();
-  // curried point free because of existing projectId awaiting a marked prop later
+  const { startEdit } = useProjectModal();
+  // curried point free for the pre-existing id param
   const markProject = (id: number) => (marked: boolean) =>
-    //refresh on updates
-    mutate({ id, marked }).then(restProps.refresh);
+    mutate({ id, marked });
+  const editProject = (id: number) => () => startEdit(id);
 
   return (
     <Table
@@ -80,11 +78,14 @@ const List = ({ users, ...restProps }: ListProps) => {
               <Dropdown
                 overlay={
                   <Menu>
-                    <Menu.Item key={"edit"}></Menu.Item>
+                    <Menu.Item onClick={editProject(project.id)} key={"edit"}>
+                      Edit
+                    </Menu.Item>
+                    <Menu.Item key={"delete"}>Delete</Menu.Item>
                   </Menu>
                 }
               >
-                <StyledButton type={"link"}>...</StyledButton>
+                <Button type={"link"}>...</Button>
               </Dropdown>
             );
           },

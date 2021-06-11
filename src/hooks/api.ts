@@ -4,11 +4,10 @@ import { configureFetch } from "api";
 import { AsyncState } from "types";
 import { useSafeDispatch } from "./_helpers";
 
-//embed token if it exists for every request when calling when myFetch is instantiated from configureFetch in api/index
+//embeds the token if it exists when $fetch is instantiated from configureFetch
 export const useConfigureFetch = () => {
   const { user } = useAuth();
-  //Parameters match configureFetch
-  //spread the tuple once and for all
+
   return useCallback(
     (...[endpoint, config]: Parameters<typeof configureFetch>) =>
       configureFetch(endpoint, { ...config, token: user?.token }),
@@ -34,9 +33,9 @@ export const useAsyncTask = <D>(
     }
   );
   const config = { ...initialConfig };
-  //no ops after comps being unmounted
+  //prevents no ops after comps being unmounted
   const safeDispatch = useSafeDispatch(dispatch);
-  //  refresh on updates using lazy initialization, but to cache a function
+  //refreshes on updates using lazy initialization, but here we are to cache a function
   const [retry, setRetry] = useState(() => () => {});
 
   const setData = useCallback(
@@ -59,7 +58,7 @@ export const useAsyncTask = <D>(
     [safeDispatch]
   );
 
-  //trigger async code;
+  //triggers async code;
   //asyncRunConfig to retrigger async code on updates automatically
   const asyncRun = useCallback(
     async (

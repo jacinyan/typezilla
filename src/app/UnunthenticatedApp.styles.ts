@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Card } from "antd";
+import { Card as BaseCard } from "antd";
 import logo from "assets/logo.svg";
 import right from "assets/right.svg";
 import left from "assets/left.svg";
@@ -11,7 +11,7 @@ const Container = styled.div`
   min-height: 100vh;
 `;
 
-const ShadowCard = styled(Card)`
+const Card = styled(BaseCard)`
   width: 40rem;
   min-height: 56rem;
   padding: 3.2rem 4rem;
@@ -46,4 +46,4 @@ const Title = styled.h2`
   color: rgb(94, 108, 132);
 `;
 
-export { Container, ShadowCard, Header, Background, Title };
+export { Container, Card, Header, Background, Title };

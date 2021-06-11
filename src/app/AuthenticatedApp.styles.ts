@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { StyledRow } from "./components/misc/GeneralComps";
+import { Row } from "./components/misc/General";
 
 const Container = styled.div`
   display: grid;
@@ -7,13 +7,13 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const Header = styled(StyledRow)`
+const Header = styled(Row)`
   padding: 3.2rem;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
   z-index: 1;
 `;
 
-const HeaderLeft = styled(StyledRow)``;
+const HeaderLeft = styled(Row)``;
 
 const HeaderRight = styled.div``;
 

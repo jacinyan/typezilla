@@ -4,22 +4,17 @@ import { StringOrNumber } from "types";
 
 type SelectProps = React.ComponentProps<typeof Select>;
 
+//'value' accepts various types
+//'onChange' calls callbacks that accept only 'number|undefined'
+//when isNan(Number(value)) is true, defaultOption is selected and subsequently 'onChange' calls callbacks that accept undefined only
 interface IdSelectProps
   extends Omit<SelectProps, "value" | "onChange" | "options"> {
-  value: StringOrNumber | null | undefined;
-  onChange: (value?: number) => void;
+  value?: StringOrNumber | null | undefined;
+  onChange?: (value?: number) => void;
   defaultOption?: string;
   options?: { name: string; id: number }[];
 }
 
-/**
- * 'values' accepts various types
- * 'onChange' takes callbacks that accepts only 'number|undefined'
- * when isNan(Number(value)) is true, defaultOption is selected
- * when defaultOption is selected, onChange takes undefined
- * @param props
- * @returns
- */
 const IdSelect = (props: IdSelectProps) => {
   const { value, onChange, defaultOption, options, ...restProps } = props;
   const toNumber = (value: unknown) =>
@@ -28,7 +23,7 @@ const IdSelect = (props: IdSelectProps) => {
   return (
     <Select
       value={options?.length ? toNumber(value) : 0}
-      onChange={(value) => onChange(toNumber(value) || undefined)}
+      onChange={(value) => onChange?.(toNumber(value) || undefined)}
       {...restProps}
     >
       {defaultOption && (
