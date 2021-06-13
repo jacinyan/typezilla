@@ -1,11 +1,15 @@
 import { useMemo } from "react";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import { useConfigureFetch } from "./api";
-import { useUrlQueryParams } from "./_helpers";
+import { useQuery, useMutation, QueryKey } from "react-query";
+import {
+  useConfigureFetch,
+  useEditQueriesConfig,
+  useCreateQueriesConfig,
+  useDeleteQueriesConfig,
+} from "./api";
+import { useSetSearchParams, useURLSearchParams } from "./_helpers";
 import { Project } from "types";
-import { useSearchParams } from "react-router-dom";
 
-// fetches projects when ProjectScreen loads
+// fetches projects when ProjectScreen loads, when no params are specified the whole project list is returned
 export const useProjects = (params?: Partial<Project>) => {
   const $fetch = useConfigureFetch();
 
@@ -20,37 +24,53 @@ export const useProjectDetails = (id?: number) => {
   return useQuery<Project>(
     ["project", { id }],
     () => $fetch(`projects/${id}`),
+    //enabled prop is to prevent react-query from running this callback if the id is undefined
     {
-      enabled: !!id,
+      enabled: Boolean(id),
     }
   );
 };
 
-export const useEditProject = () => {
+export const useEditProject = (queryKey: QueryKey) => {
   const $fetch = useConfigureFetch();
-  const queryClient = useQueryClient();
 
   return useMutation(
     (params: Partial<Project>) =>
       $fetch(`projects/${params.id}`, { method: "PATCH", params }),
-    { onSuccess: () => queryClient.invalidateQueries("projects") }
+    useEditQueriesConfig(queryKey)
   );
 };
 
-export const useAddProject = () => {
+export const useCreateProject = (queryKey: QueryKey) => {
   const $fetch = useConfigureFetch();
-  const queryClient = useQueryClient();
 
   return useMutation(
     (params: Partial<Project>) =>
       $fetch(`projects`, { method: "POST", params }),
-    { onSuccess: () => queryClient.invalidateQueries("projects") }
+    useCreateQueriesConfig(queryKey)
   );
 };
 
-// handles id data type in conjunction with the IdSelect comp
+export const useDeleteProject = (queryKey: QueryKey) => {
+  const $fetch = useConfigureFetch();
+
+  return useMutation(
+    ({ id }: { id: number }) => $fetch(`projects/${id}`, { method: "DELETE" }),
+    useDeleteQueriesConfig(queryKey)
+  );
+};
+
+export const useProjectsQueryKey = () => {
+  const [paramsObj] = useProjectsSearchParams();
+  return ["projects", paramsObj];
+};
+
+// in sync with the id string/num conversion
 export const useProjectsSearchParams = () => {
-  const [paramsObj, setParamsObj] = useUrlQueryParams(["name", "supervisorId"]);
+  const [paramsObj, setParamsObj] = useURLSearchParams([
+    "name",
+    "supervisorId",
+  ]);
   return [
     useMemo(
       () => ({
@@ -63,31 +83,33 @@ export const useProjectsSearchParams = () => {
   ] as const;
 };
 
-// manages the modal states with URL
+// manages the modal open/close states with URL, where create/edit merge
 export const useProjectModal = () => {
-  const [{ projectCreate }, setProjectCreate] = useUrlQueryParams([
+  const [{ projectCreate }, setProjectCreate] = useURLSearchParams([
     "projectCreate",
   ]);
-  const [{ editingProjectId }, setEditingProjectId] = useUrlQueryParams([
+  const [{ editingProjectId }, setEditingProjectId] = useURLSearchParams([
     "editingProjectId",
   ]);
-
-  const { data: editingProject, isLoading } = useProjectDetails(
+  //if editing a project, its details are fetched first
+  const { data: projectDetails, isLoading } = useProjectDetails(
     Number(editingProjectId)
   );
-  const [, setUrlParams] = useSearchParams();
+  const setSearchParams = useSetSearchParams();
 
   const open = () => setProjectCreate({ projectCreate: true });
-  const close = () => setUrlParams({ projectCreate: "", editingProjectId: "" });
+  const close = () =>
+    setSearchParams({ projectCreate: "", editingProjectId: "" });
+
   const startEdit = (id: number) =>
     setEditingProjectId({ editingProjectId: id });
 
   return {
-    projectModalOpen: projectCreate === "true" || Boolean(editingProject),
+    projectModalOpen: projectCreate === "true" || Boolean(projectDetails),
     open,
     close,
     startEdit,
-    editingProject,
+    projectDetails,
     isLoading,
   };
 };

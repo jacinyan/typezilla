@@ -7,7 +7,7 @@ export const ProjectPopover = () => {
   const { open } = useProjectModal();
 
   const { data: projects } = useProjects();
-  const markedProjects = projects?.filter((project) => project.marked === true);
+  const markedProjects = projects?.filter((project) => project.marked);
 
   const content = (
     <Container>

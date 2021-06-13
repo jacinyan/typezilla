@@ -3,6 +3,7 @@ import { useAuth } from "./auth";
 import { configureFetch } from "api";
 import { AsyncState } from "types";
 import { useSafeDispatch } from "./_helpers";
+import { QueryKey, useQueryClient } from "react-query";
 
 //embeds the token if it exists when $fetch is instantiated from configureFetch
 export const useConfigureFetch = () => {
@@ -104,3 +105,49 @@ export const useAsyncTask = <D>(
     ...state,
   };
 };
+
+//general config for optimistic updates with methods except 'GET'
+export const useQueriesConfig = (
+  queryKey: QueryKey,
+  //given the complexity of types , the infamous 'any' has to show up :(
+  //yet optimistic updates is an isolate feature so we can live with that
+  callback: (target: any, prev?: any[]) => any[]
+) => {
+  const queryClient = useQueryClient();
+  return {
+    onSuccess: () => queryClient.invalidateQueries(queryKey),
+    //https://react-query.tanstack.com/reference/useMutation
+    onMutate: async (target: any) => {
+      // fetch the local data beforehand
+      const prevItems = queryClient.getQueryData(queryKey);
+      // console.log((prevItems as any[]).map((prevItem: any) => prevItem.marked));
+      queryClient.setQueryData(queryKey, (prev?: any[]) => {
+        return callback(target, prev);
+      });
+      return { prevItems };
+    },
+    onError(error: any, newItem: any, context: any) {
+      queryClient.setQueryData(queryKey, context.prevItems);
+    },
+  };
+};
+
+export const useDeleteQueriesConfig = (queryKey: QueryKey) =>
+  useQueriesConfig(
+    queryKey,
+    (target, prev) => prev?.filter((item) => item.id !== target.id) || []
+  );
+
+export const useEditQueriesConfig = (queryKey: QueryKey) =>
+  useQueriesConfig(
+    queryKey,
+    (target, prev) =>
+      prev?.map((item) =>
+        item.id === target.id ? { ...item, ...target } : item
+      ) || []
+  );
+
+export const useCreateQueriesConfig = (queryKey: QueryKey) =>
+  useQueriesConfig(queryKey, (target, prev) =>
+    prev ? [...prev, target] : [target]
+  );

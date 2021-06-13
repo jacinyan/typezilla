@@ -22,6 +22,7 @@ const IdSelect = (props: IdSelectProps) => {
 
   return (
     <Select
+      // simply prevents default display from antd of an id instead of some text when loading
       value={options?.length ? toNumber(value) : 0}
       onChange={(value) => onChange?.(toNumber(value) || undefined)}
       {...restProps}

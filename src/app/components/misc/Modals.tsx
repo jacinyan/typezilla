@@ -1,32 +1,44 @@
-import styled from "@emotion/styled";
+import { useEffect } from "react";
 import { Drawer, Spin, Form, Input } from "antd";
 import { useForm } from "antd/lib/form/Form";
-import { useEditProject, useAddProject, useProjectModal } from "hooks/projects";
-import { useEffect } from "react";
+import {
+  useEditProject,
+  useCreateProject,
+  useProjectModal,
+  useProjectsQueryKey,
+} from "hooks/projects";
+import styled from "@emotion/styled";
 import UserSelect from "../project-list/UserSelect";
 import { Button, ErrorBox } from "./General";
 
 const ProjectModal = () => {
-  const { projectModalOpen, close, editingProject, isLoading } =
-    useProjectModal();
-  const useMutateProject = editingProject ? useEditProject : useAddProject;
+  const {
+    projectModalOpen,
+    projectDetails,
+    isLoading: modalLoading,
+    close,
+  } = useProjectModal();
+  //determine whether editing or creating a project
+  const useMutateProject = projectDetails ? useEditProject : useCreateProject;
+  const {
+    mutateAsync,
+    error,
+    isLoading: mutateLoading,
+  } = useMutateProject(useProjectsQueryKey());
 
-  const { mutateAsync, error, isLoading: mutateLoading } = useMutateProject();
   const [form] = useForm();
   const onFinish = (values: any) => {
-    mutateAsync({ ...editingProject, ...values }).then(() => {
+    //reset the form and close the modal only after async tasks are done
+    mutateAsync({ ...projectDetails, ...values }).then(() => {
       form.resetFields();
       close();
     });
   };
-
+  //reset project details
   useEffect(() => {
-    console.log("useEffect in modals");
-
-    if (editingProject) {
-      form.setFieldsValue(editingProject);
-    }
-  }, [editingProject, form]);
+    //console.log("useEffect in modals");
+    form.setFieldsValue(projectDetails);
+  }, [projectDetails, form]);
 
   return (
     <Drawer
@@ -36,11 +48,11 @@ const ProjectModal = () => {
       width={"100%"}
     >
       <Container>
-        {isLoading ? (
+        {modalLoading ? (
           <Spin size={"large"} />
         ) : (
           <>
-            <h1>{editingProject ? "Edit Project" : "Create Project"}</h1>
+            <h1>{projectDetails ? "Edit Project" : "Create Project"}</h1>
             <ErrorBox error={error} />
             <Form
               form={form}

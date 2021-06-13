@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setData: setUser,
   } = useAsyncTask<User | null>();
 
-  //point free
+  //point free for (user)=> setUser(user)
   const login = (form: AuthForm) => authLogin(form).then(setUser);
   const register = (form: AuthForm) => authRegister(form).then(setUser);
   const logout = () => authLogout().then(() => setUser(null));

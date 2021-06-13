@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { URLSearchParamsInit, useSearchParams } from "react-router-dom";
-import { removeEmptyQueryValues } from "utils";
+import { removeEmptyQueryValues, subset } from "utils";
 
 export const useMount = (callback: () => void) => {
   useEffect(() => {
@@ -21,6 +21,14 @@ export const useMountedRef = () => {
   });
 
   return mountedRef;
+};
+
+export const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
+  const mountedRef = useMountedRef();
+  return useCallback(
+    (...args: T[]) => (mountedRef.current ? dispatch(...args) : void 0),
+    [dispatch, mountedRef]
+  );
 };
 
 export const useDebounce = <V>(value: V, delay?: number) => {
@@ -56,38 +64,40 @@ export const useDocumentTitle = (title: string, persistOnUnmount = false) => {
   }, [persistOnUnmount, defaultTitle]);
 };
 
-// 'useUrlQueryParams' accesses the values of specific keys from the address bar and returns them in the form of object
-export const useUrlQueryParams = <K extends string>(keys: K[]) => {
-  //with the help of react-router-dom
-  const [searchParams, setSearchParams] = useSearchParams();
-  //Array.prototype.reduce obviously returns a new object on each render and has its very 1s impart on useEffect in useDebounce and many more upcoming ones
+// 'useURLSearchParams' accesses the values of specific keys from the address bar and returns them in the form of objects
+export const useURLSearchParams = <K extends string>(keys: K[]) => {
+  //with the help of react-router-dom v6 using URLSearchParams API
+  const [searchParams] = useSearchParams();
+  //'set' method is accessed from another custom hook
+  const setSearchParams = useSetSearchParams();
+
+  const [stateKeys] = useState(keys);
   return [
-    // A memoized state object from useSearchParams is safe, but also 'keys' this plain non-state object param is omitted from the useMemo deps in this case for this reason
     useMemo(
       () =>
-        keys.reduce((prev, key) => {
-          return { ...prev, [key]: searchParams.get(key) || "" };
-        }, {} as { [key in K]: string }),
-
+        subset(Object.fromEntries(searchParams), stateKeys) as {
+          [key in K]: string;
+        },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [searchParams]
+      [searchParams, stateKeys]
     ),
     //reason for this anonymous func is to restrict the type of input params to a narrower range instead of a plain 'set' method, where the keys are dependent on the generic K
     (params: Partial<{ [key in K]: unknown }>) => {
-      const newSearchParams = removeEmptyQueryValues({
-        //transforms the searchParams iterable(array) into an object with the iterator interface
-        ...Object.fromEntries(searchParams),
-        ...params,
-      }) as URLSearchParamsInit;
-      return setSearchParams(newSearchParams);
+      return setSearchParams(params);
     },
   ] as const;
 };
 
-export const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
-  const mountedRef = useMountedRef();
-  return useCallback(
-    (...args: T[]) => (mountedRef.current ? dispatch(...args) : void 0),
-    [dispatch, mountedRef]
-  );
+//separate the 'set' method from  useSearchParams to avoid two entries to control the URl
+export const useSetSearchParams = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  return (params: { [key in string]: unknown }) => {
+    const newSearchParams = removeEmptyQueryValues({
+      //transforms the searchParams iterable(array) into an object with the iterator interface
+      ...Object.fromEntries(searchParams),
+      ...params,
+    }) as URLSearchParamsInit;
+    return setSearchParams(newSearchParams);
+  };
 };

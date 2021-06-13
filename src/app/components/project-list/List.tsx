@@ -1,23 +1,22 @@
 import { Link } from "react-router-dom";
-import { Dropdown, Menu, Table } from "antd";
+import { Table } from "antd";
 import { TableProps } from "antd/lib/table";
-import { useEditProject, useProjectModal } from "hooks/projects";
+import { useEditProject, useProjectsQueryKey } from "hooks/projects";
 import Marking from "../misc/Marking";
 import { User, Project } from "types";
 import dayjs from "dayjs";
-import { Button } from "../misc/General";
+import { More } from "./More";
 
 interface ListProps extends TableProps<Project> {
   users: User[];
 }
 
 const List = ({ users, ...restProps }: ListProps) => {
-  const { mutate } = useEditProject();
-  const { startEdit } = useProjectModal();
-  // curried point free for the pre-existing id param
+  const { mutate } = useEditProject(useProjectsQueryKey());
+
+  // curried point free with the pre-existing id param
   const markProject = (id: number) => (marked: boolean) =>
     mutate({ id, marked });
-  const editProject = (id: number) => () => startEdit(id);
 
   return (
     <Table
@@ -74,20 +73,7 @@ const List = ({ users, ...restProps }: ListProps) => {
         },
         {
           render(value, project) {
-            return (
-              <Dropdown
-                overlay={
-                  <Menu>
-                    <Menu.Item onClick={editProject(project.id)} key={"edit"}>
-                      Edit
-                    </Menu.Item>
-                    <Menu.Item key={"delete"}>Delete</Menu.Item>
-                  </Menu>
-                }
-              >
-                <Button type={"link"}>...</Button>
-              </Dropdown>
-            );
+            return <More project={project} />;
           },
         },
       ]}
