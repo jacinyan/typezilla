@@ -23,3 +23,22 @@ export interface Project {
   marked: boolean;
   createdAt: number;
 }
+
+export interface Kanban {
+  id: number;
+  name: string;
+  projectId: number;
+}
+
+export interface Task {
+  id: number;
+  name: string;
+  assigneeId: number;
+  projectId: number;
+  //task group
+  epicId: number;
+  kanbanId: number;
+  //bug or task
+  typeId: number;
+  note: string;
+}

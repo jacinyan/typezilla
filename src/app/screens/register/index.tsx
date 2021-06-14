@@ -5,7 +5,7 @@ import { useDocumentTitle } from "hooks/_helpers";
 import { Button } from "./index.styles";
 
 const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
-  useDocumentTitle("Sign Up", false);
+  useDocumentTitle("Sign Up");
 
   const { register } = useAuth();
   const { asyncRun, isLoading } = useAsyncTask(undefined, {

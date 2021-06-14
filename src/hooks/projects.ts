@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useLocation } from "react-router";
 import { useQuery, useMutation, QueryKey } from "react-query";
 import {
   useConfigureFetch,
@@ -83,6 +84,16 @@ export const useProjectsSearchParams = () => {
     setParamsObj,
   ] as const;
 };
+
+export const useProjectIdInURL = () => {
+  const { pathname } = useLocation();
+  const id = pathname.match(/projects\/(\d+)/)?.[1];
+
+  return Number(id);
+};
+
+export const useProjectDetailsFromURL = () =>
+  useProjectDetails(useProjectIdInURL());
 
 // manages the modal open/close states with URL, where create/edit are taken care of respectively
 export const useProjectModal = () => {

@@ -17,7 +17,8 @@ const ProjectScreen = () => {
         <Route path={"kanban"} element={<KanbanScreen />} />
         {/* projcects/:projectsId/epic */}
         <Route path={"epic"} element={<EpicScreen />} />
-        <Navigate to={window.location.pathname + "/kanban"}></Navigate>
+        {/* remove unmatched routes from the history stack to get out of the infinite loop by replacing them so that home page is reachable*/}
+        <Navigate to={window.location.pathname + "/kanban"} replace />
       </Routes>
     </div>
   );

@@ -5,7 +5,7 @@ import { useAsyncTask } from "hooks/api";
 import { Button } from "./index.styles";
 
 const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
-  useDocumentTitle("Log in", false);
+  useDocumentTitle("Log in");
 
   const { login } = useAuth();
   const { asyncRun, isLoading } = useAsyncTask(undefined, {
@@ -26,6 +26,7 @@ const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
   return (
     <Form onFinish={handleSubmit}>
       <Form.Item
+        //type inference for input in handleSubmit with the name prop
         name={"username"}
         rules={[{ required: true, message: "Please enter your username" }]}
       >

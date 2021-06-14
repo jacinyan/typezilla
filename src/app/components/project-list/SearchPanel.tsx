@@ -10,8 +10,9 @@ interface SearchPanelProps {
   setParamsObj: (paramsObj: SearchPanelProps["paramsObj"]) => void;
 }
 
-const SearchPanel = ({ paramsObj, setParamsObj, users }: SearchPanelProps) => {
+const SearchPanel = ({ paramsObj, setParamsObj }: SearchPanelProps) => {
   return (
+    // @emotion supports inline styles while React doesn't ...
     <Form layout={"inline"} css={{ marginBottom: "2rem" }}>
       <Form.Item>
         <Input
