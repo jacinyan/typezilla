@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { Drawer, Spin, Form, Input } from "antd";
 import { useForm } from "antd/lib/form/Form";
+import styled from "@emotion/styled";
 import {
-  useEditProject,
-  useCreateProject,
   useProjectModal,
   useProjectsQueryKey,
+  useEditProject,
+  useCreateProject,
 } from "hooks/projects";
-import styled from "@emotion/styled";
 import UserSelect from "../project-list/UserSelect";
 import { Button, ErrorBox } from "./General";
 
@@ -34,6 +34,11 @@ const ProjectModal = () => {
       close();
     });
   };
+  const closeModal = () => {
+    form.resetFields();
+    close();
+  };
+
   //reset project details
   useEffect(() => {
     //console.log("useEffect in modals");
@@ -43,7 +48,7 @@ const ProjectModal = () => {
   return (
     <Drawer
       forceRender={true}
-      onClose={close}
+      onClose={closeModal}
       visible={projectModalOpen}
       width={"100%"}
     >
@@ -78,8 +83,8 @@ const ProjectModal = () => {
               >
                 <Input placeholder={"Please enter the team name"} />
               </Form.Item>
-              <Form.Item label={"Supervisor"} name={"supervisorId"}>
-                <UserSelect defaultOption={"Supervisor"} />
+              <Form.Item label={"Project Lead"} name={"projectLeadId"}>
+                <UserSelect defaultOption={"Project Lead"} />
               </Form.Item>
               <Form.Item>
                 <Button

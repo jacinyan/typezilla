@@ -126,16 +126,15 @@ export const useQueriesConfig = (
       });
       return { prevItems };
     },
-    onError(error: any, newItem: any, context: any) {
+    onError: (error: any, newItem: any, context: any) => {
       queryClient.setQueryData(queryKey, context.prevItems);
     },
   };
 };
 
-export const useDeleteQueriesConfig = (queryKey: QueryKey) =>
-  useQueriesConfig(
-    queryKey,
-    (target, prev) => prev?.filter((item) => item.id !== target.id) || []
+export const useCreateQueriesConfig = (queryKey: QueryKey) =>
+  useQueriesConfig(queryKey, (target, prev) =>
+    prev ? [...prev, target] : [target]
   );
 
 export const useEditQueriesConfig = (queryKey: QueryKey) =>
@@ -147,7 +146,8 @@ export const useEditQueriesConfig = (queryKey: QueryKey) =>
       ) || []
   );
 
-export const useCreateQueriesConfig = (queryKey: QueryKey) =>
-  useQueriesConfig(queryKey, (target, prev) =>
-    prev ? [...prev, target] : [target]
+export const useDeleteQueriesConfig = (queryKey: QueryKey) =>
+  useQueriesConfig(
+    queryKey,
+    (target, prev) => prev?.filter((item) => item.id !== target.id) || []
   );

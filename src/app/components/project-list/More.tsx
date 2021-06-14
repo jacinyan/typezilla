@@ -10,8 +10,10 @@ import { Button } from "../misc/General";
 
 export const More = ({ project }: { project: Project }) => {
   const { startEdit } = useProjectModal();
-  const editProject = (id: number) => () => startEdit(id);
   const { mutate: deleteProject } = useDeleteProject(useProjectsQueryKey());
+
+  // curried point free with the pre-existing id param
+  const editProject = (id: number) => () => startEdit(id);
 
   const confirmDeleteProject = (id: number) => {
     Modal.confirm({

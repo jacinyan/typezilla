@@ -46,6 +46,7 @@ const ProjectListScreen = () => {
 ProjectListScreen.whyDidYouRender = false;
 // class ProjectListScreen extends React.Component<any, any>{
 // static whyDidYouRender = true
+//....
 // }
 
 export default ProjectListScreen;

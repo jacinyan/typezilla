@@ -19,7 +19,7 @@ export interface Project {
   id: number;
   name: string;
   team: string;
-  supervisorId: number;
+  projectLeadId: number;
   marked: boolean;
   createdAt: number;
 }

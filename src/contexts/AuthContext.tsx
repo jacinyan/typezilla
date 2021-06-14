@@ -1,5 +1,6 @@
 //infinitely simplified simulation of a 3rd party auth provider
 import { createContext, ReactNode } from "react";
+import { useQueryClient } from "react-query";
 import {
   getToken,
   configureFetch,
@@ -56,11 +57,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     asyncRun,
     setData: setUser,
   } = useAsyncTask<User | null>();
+  const queryClient = useQueryClient();
 
   //point free for (user)=> setUser(user)
   const login = (form: AuthForm) => authLogin(form).then(setUser);
   const register = (form: AuthForm) => authRegister(form).then(setUser);
-  const logout = () => authLogout().then(() => setUser(null));
+  const logout = () =>
+    authLogout().then(() => {
+      setUser(null);
+      queryClient.clear();
+    });
 
   //checks token whenever the app mounts
   useMount(() => {

@@ -65,17 +65,18 @@ export const useProjectsQueryKey = () => {
   return ["projects", paramsObj];
 };
 
-// in sync with the id string/num conversion
+// final process to confine the data type of projectLeadId to number
 export const useProjectsSearchParams = () => {
   const [paramsObj, setParamsObj] = useURLSearchParams([
     "name",
-    "supervisorId",
+    "projectLeadId",
   ]);
+
   return [
     useMemo(
       () => ({
         ...paramsObj,
-        supervisorId: Number(paramsObj.supervisorId) || undefined,
+        projectLeadId: Number(paramsObj.projectLeadId) || undefined,
       }),
       [paramsObj]
     ),
@@ -83,7 +84,7 @@ export const useProjectsSearchParams = () => {
   ] as const;
 };
 
-// manages the modal open/close states with URL, where create/edit merge
+// manages the modal open/close states with URL, where create/edit are taken care of respectively
 export const useProjectModal = () => {
   const [{ projectCreate }, setProjectCreate] = useURLSearchParams([
     "projectCreate",
@@ -91,11 +92,13 @@ export const useProjectModal = () => {
   const [{ editingProjectId }, setEditingProjectId] = useURLSearchParams([
     "editingProjectId",
   ]);
+  // comes from useSetSearchParams only
+  const setSearchParams = useSetSearchParams();
+
   //if editing a project, its details are fetched first
   const { data: projectDetails, isLoading } = useProjectDetails(
     Number(editingProjectId)
   );
-  const setSearchParams = useSetSearchParams();
 
   const open = () => setProjectCreate({ projectCreate: true });
   const close = () =>
@@ -105,7 +108,8 @@ export const useProjectModal = () => {
     setEditingProjectId({ editingProjectId: id });
 
   return {
-    projectModalOpen: projectCreate === "true" || Boolean(projectDetails),
+    // open the modal immediately without waiting for project details to be in place
+    projectModalOpen: projectCreate === "true" || Boolean(editingProjectId),
     open,
     close,
     startEdit,

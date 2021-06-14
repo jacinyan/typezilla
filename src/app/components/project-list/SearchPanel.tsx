@@ -5,7 +5,7 @@ import UserSelect from "./UserSelect";
 
 interface SearchPanelProps {
   users: User[];
-  paramsObj: Partial<Pick<Project, "name" | "supervisorId">>;
+  paramsObj: Partial<Pick<Project, "name" | "projectLeadId">>;
   //dynamically updates the type of setParamsObj WRT paramsObj
   setParamsObj: (paramsObj: SearchPanelProps["paramsObj"]) => void;
 }
@@ -28,12 +28,12 @@ const SearchPanel = ({ paramsObj, setParamsObj, users }: SearchPanelProps) => {
       </Form.Item>
       <Form.Item>
         <UserSelect
-          defaultOption={"Team Lead"}
-          value={paramsObj.supervisorId}
+          defaultOption={"Project Lead"}
+          value={paramsObj.projectLeadId}
           onChange={(value) =>
             setParamsObj({
               ...paramsObj,
-              supervisorId: value,
+              projectLeadId: value,
             })
           }
         />

@@ -49,12 +49,12 @@ const List = ({ users, ...restProps }: ListProps) => {
           sorter: (a, b) => a.team.localeCompare(b.team),
         },
         {
-          title: "Team Lead",
+          title: "Project Lead",
           render(value, project) {
             return (
               <span>
-                {users.find((user) => user.id === project.supervisorId)?.name ||
-                  "Unknown"}
+                {users.find((user) => user.id === project.projectLeadId)
+                  ?.name || "Unknown"}
               </span>
             );
           },

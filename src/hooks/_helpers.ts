@@ -64,21 +64,25 @@ export const useDocumentTitle = (title: string, persistOnUnmount = false) => {
   }, [persistOnUnmount, defaultTitle]);
 };
 
-// 'useURLSearchParams' accesses the values of specific keys from the address bar and returns them in the form of objects
-export const useURLSearchParams = <K extends string>(keys: K[]) => {
-  //with the help of react-router-dom v6 using URLSearchParams API
+// 'useURLSearchParams' accesses the values of specific keys from the address bar and returns them in the form of objects with the help of react-router-dom v6 using URLSearchParams API
+export const useURLSearchParams = <K extends string>(
+  keys: K[]
+): readonly [
+  { [key in K]: string },
+  (params: Partial<{ [key in K]: unknown }>) => void
+] => {
   const [searchParams] = useSearchParams();
-  //'set' method is accessed from another custom hook
+  //calling another custom hook, only whom controls the state of search params
   const setSearchParams = useSetSearchParams();
 
   const [stateKeys] = useState(keys);
+
   return [
     useMemo(
       () =>
         subset(Object.fromEntries(searchParams), stateKeys) as {
           [key in K]: string;
         },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [searchParams, stateKeys]
     ),
     //reason for this anonymous func is to restrict the type of input params to a narrower range instead of a plain 'set' method, where the keys are dependent on the generic K
@@ -88,7 +92,7 @@ export const useURLSearchParams = <K extends string>(keys: K[]) => {
   ] as const;
 };
 
-//separate the 'set' method from  useSearchParams to avoid two entries to control the URl
+// only this hooks is able to manipulate the state of searchParams instead of multiple entries
 export const useSetSearchParams = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
