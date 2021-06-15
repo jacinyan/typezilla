@@ -39,8 +39,9 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  overflow: scroll;
-  flex: 1;
+  display: flex;
+  overflow-x: scroll;
+  /* flex: 1; */
 
   ::-webkit-scrollbar {
     display: none;

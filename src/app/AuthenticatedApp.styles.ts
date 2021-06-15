@@ -17,6 +17,9 @@ const HeaderLeft = styled(Row)``;
 
 const HeaderRight = styled.div``;
 
-const Main = styled.main``;
+const Main = styled.main`
+  display: flex;
+  overflow: hidden;
+`;
 
 export { Container, Header, HeaderLeft, HeaderRight, Main };

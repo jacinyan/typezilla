@@ -8,7 +8,7 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
       {/* <AuthProvider children={children}> */}
-      <AuthProvider>{children}</AuthProvider>;
+      <AuthProvider>{children}</AuthProvider>
     </QueryClientProvider>
   );
 };

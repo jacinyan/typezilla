@@ -26,7 +26,7 @@ const ProjectListScreen = () => {
 
   return (
     <Container>
-      <Row spaceBetween>
+      <Row spaceBetween marginBottom={2}>
         <h1>Project List</h1>
         <Button onClick={open} type={"link"}>
           Create Project

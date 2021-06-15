@@ -1,4 +1,4 @@
-import { useTaskTypes } from "hooks/task-type";
+import { useTaskTypes } from "hooks/task-types";
 import taskIcon from "assets/task.svg";
 import bugIcon from "assets/bug.svg";
 

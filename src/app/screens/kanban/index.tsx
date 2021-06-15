@@ -3,7 +3,7 @@ import KanbanLane from "app/components/kanban/Swimlane";
 import { useSwimlanes, useSwimlanesSearchParams } from "hooks/kanban";
 import { useProjecInURL } from "hooks/projects";
 import { useDocumentTitle } from "hooks/_helpers";
-import { Container } from "./index.styles";
+import { Container, Wrapper } from "./index.styles";
 
 const KanbanScreen = () => {
   useDocumentTitle("Kanban");
@@ -12,15 +12,15 @@ const KanbanScreen = () => {
   const { data: swimlanes } = useSwimlanes(useSwimlanesSearchParams());
 
   return (
-    <div>
-      <h3>{currProject?.name} Kanban</h3>
+    <Container>
+      <h1>{currProject?.name} Kanban</h1>
       <SearchPanel />
-      <Container>
+      <Wrapper>
         {swimlanes?.map((swimlane) => (
           <KanbanLane key={swimlane.id} swimlane={swimlane} />
         ))}
-      </Container>
-    </div>
+      </Wrapper>
+    </Container>
   );
 };
 

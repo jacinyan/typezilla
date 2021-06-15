@@ -21,17 +21,17 @@ const SearchPanel = () => {
     <Row marginBottom={4} gap>
       <Input
         style={{ width: "20rem" }}
-        placeholder={"task"}
+        placeholder={"Task Name"}
         value={searchParams.name}
         onChange={(e) => setSearchParams({ name: e.target.value })}
       />
       <UserSelect
-        defaultOption={"assignee"}
+        defaultOption={"Assignee"}
         value={searchParams.assigneeId}
         onChange={(value) => setSearchParams({ assigneeId: value })}
       />
       <TaskTypeSelect
-        defaultOption={"type"}
+        defaultOption={"Type"}
         value={searchParams.typeId}
         onChange={(value) => setSearchParams({ typeId: value })}
       />

@@ -1,4 +1,4 @@
-import { useTaskTypes } from "hooks/task-type";
+import { useTaskTypes } from "hooks/task-types";
 import React from "react";
 import IdSelect from "../misc/IdSelect";
 
