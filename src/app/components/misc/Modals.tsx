@@ -1,25 +1,22 @@
-import { useEffect } from "react";
-import { Drawer, Spin, Form, Input } from "antd";
-import { useForm } from "antd/lib/form/Form";
 import styled from "@emotion/styled";
+import { Drawer, Spin, Form, Input, Modal } from "antd";
+import { useForm } from "antd/lib/form/Form";
 import {
-  useProjectModal,
-  useProjectsQueryKey,
   useEditProject,
   useCreateProject,
+  useProjectModal,
+  useProjectsQueryKey,
 } from "hooks/projects";
+import { useEditTask, useTaskModal, useTaskQueryKey } from "hooks/tasks";
+import { useEffect } from "react";
 import UserSelect from "../project-list/UserSelect";
 import { Button, ErrorBox } from "./General";
 
-const ProjectModal = () => {
-  const {
-    projectModalOpen,
-    projectDetails,
-    isLoading: modalLoading,
-    close,
-  } = useProjectModal();
-  //determine whether editing or creating a project
+export const ProjectModal = () => {
+  const { projectModalOpen, close, projectDetails, isLoading } =
+    useProjectModal();
   const useMutateProject = projectDetails ? useEditProject : useCreateProject;
+
   const {
     mutateAsync,
     error,
@@ -28,20 +25,18 @@ const ProjectModal = () => {
 
   const [form] = useForm();
   const onFinish = (values: any) => {
-    //reset the form and close the modal only after async tasks are done
     mutateAsync({ ...projectDetails, ...values }).then(() => {
       form.resetFields();
       close();
     });
   };
+
   const closeModal = () => {
     form.resetFields();
     close();
   };
 
-  //reset project details
   useEffect(() => {
-    //console.log("useEffect in modals");
     form.setFieldsValue(projectDetails);
   }, [projectDetails, form]);
 
@@ -53,7 +48,7 @@ const ProjectModal = () => {
       width={"100%"}
     >
       <Container>
-        {modalLoading ? (
+        {isLoading ? (
           <Spin size={"large"} />
         ) : (
           <>
@@ -83,8 +78,8 @@ const ProjectModal = () => {
               >
                 <Input placeholder={"Please enter the team name"} />
               </Form.Item>
-              <Form.Item label={"Project Lead"} name={"projectLeadId"}>
-                <UserSelect defaultOption={"Project Lead"} />
+              <Form.Item label={"Supervisor"} name={"supervisorId"}>
+                <UserSelect defaultOption={"Supervisor"} />
               </Form.Item>
               <Form.Item>
                 <Button
@@ -103,7 +98,44 @@ const ProjectModal = () => {
   );
 };
 
-export default ProjectModal;
+export const TaskModal = () => {
+  const [form] = useForm();
+  const { editingTaskId, taskDetails, close } = useTaskModal();
+  const { mutateAsync: editTask, isLoading: editLoading } = useEditTask(
+    useTaskQueryKey()
+  );
+
+  const onCancel = () => {
+    close();
+    form.resetFields();
+  };
+
+  const onOk = async () => {
+    await editTask({ ...taskDetails, ...form.getFieldsValue() });
+    close();
+  };
+
+  useEffect(() => {
+    form.setFieldsValue(taskDetails);
+  }, [form, taskDetails]);
+
+  return (
+    <Modal
+      okText={"Confirm"}
+      cancelText={"Cancel"}
+      confirmLoading={editLoading}
+      title={"Edit Task"}
+      visible={!!editingTaskId}
+    >
+      <Form
+        initialValues={taskDetails}
+        form={form}
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+      ></Form>
+    </Modal>
+  );
+};
 
 const Container = styled.div`
   flex-direction: column;

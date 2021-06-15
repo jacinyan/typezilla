@@ -12,7 +12,7 @@ const KanbanLane = ({ swimlane }: { swimlane: Swimlane }) => {
   return (
     <Container>
       <Wrapper>
-        <h3>{swimlane.name}</h3>
+        <h4>{swimlane.name}</h4>
         <div>
           {tasks?.map((task) => (
             <Card style={{ marginBottom: "0.5rem" }} key={task.id}>
@@ -40,8 +40,9 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   overflow-x: scroll;
-  /* flex: 1; */
+  flex: 1;
 
   ::-webkit-scrollbar {
     display: none;

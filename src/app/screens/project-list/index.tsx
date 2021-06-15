@@ -15,12 +15,12 @@ const ProjectListScreen = () => {
   // console.count("ProjectListScreen");
   const { open } = useProjectModal();
 
-  const [paramsObj, setParamsObj] = useProjectsSearchParams();
+  const [params, setParams] = useProjectsSearchParams();
   const {
     isLoading,
     data: list,
     error,
-  } = useProjects(useDebounce(paramsObj, 500));
+  } = useProjects(useDebounce(params, 500));
 
   const { data: users } = useUsers();
 
@@ -32,11 +32,7 @@ const ProjectListScreen = () => {
           Create Project
         </Button>
       </Row>
-      <SearchPanel
-        paramsObj={paramsObj}
-        setParamsObj={setParamsObj}
-        users={users || []}
-      />
+      <SearchPanel params={params} setParams={setParams} users={users || []} />
       {error && <ErrorBox error={error}></ErrorBox>}
       <List users={users || []} loading={isLoading} dataSource={list || []} />
     </Container>

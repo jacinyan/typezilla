@@ -5,22 +5,22 @@ import UserSelect from "./UserSelect";
 
 interface SearchPanelProps {
   users: User[];
-  paramsObj: Partial<Pick<Project, "name" | "projectLeadId">>;
-  //dynamically updates the type of setParamsObj WRT paramsObj
-  setParamsObj: (paramsObj: SearchPanelProps["paramsObj"]) => void;
+  params: Partial<Pick<Project, "name" | "projectLeadId">>;
+  //dynamically updates the type of setParams WRT params
+  setParams: (params: SearchPanelProps["params"]) => void;
 }
 
-const SearchPanel = ({ paramsObj, setParamsObj }: SearchPanelProps) => {
+const SearchPanel = ({ params, setParams }: SearchPanelProps) => {
   return (
     // @emotion supports inline styles while React doesn't ...
     <Form layout={"inline"} css={{ marginBottom: "2rem" }}>
       <Form.Item>
         <Input
           type="text"
-          value={paramsObj.name}
+          value={params.name}
           onChange={(e) =>
-            setParamsObj({
-              ...paramsObj,
+            setParams({
+              ...params,
               name: e.target.value,
             })
           }
@@ -30,10 +30,10 @@ const SearchPanel = ({ paramsObj, setParamsObj }: SearchPanelProps) => {
       <Form.Item>
         <UserSelect
           defaultOption={"Project Lead"}
-          value={paramsObj.projectLeadId}
+          value={params.projectLeadId}
           onChange={(value) =>
-            setParamsObj({
-              ...paramsObj,
+            setParams({
+              ...params,
               projectLeadId: value,
             })
           }

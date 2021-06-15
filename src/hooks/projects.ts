@@ -62,26 +62,23 @@ export const useDeleteProject = (queryKey: QueryKey) => {
 };
 
 export const useProjectsQueryKey = () => {
-  const [paramsObj] = useProjectsSearchParams();
-  return ["projects", paramsObj];
+  const [params] = useProjectsSearchParams();
+  return ["projects", params];
 };
 
 // final process to confine the data type of projectLeadId to number
 export const useProjectsSearchParams = () => {
-  const [paramsObj, setParamsObj] = useURLSearchParams([
-    "name",
-    "projectLeadId",
-  ]);
+  const [params, setParams] = useURLSearchParams(["name", "projectLeadId"]);
 
   return [
     useMemo(
       () => ({
-        ...paramsObj,
-        projectLeadId: Number(paramsObj.projectLeadId) || undefined,
+        ...params,
+        projectLeadId: Number(params.projectLeadId) || undefined,
       }),
-      [paramsObj]
+      [params]
     ),
-    setParamsObj,
+    setParams,
   ] as const;
 };
 
@@ -92,7 +89,7 @@ export const useProjectIdInURL = () => {
   return Number(id);
 };
 
-export const useProjecInURL = () => useProjectDetails(useProjectIdInURL());
+export const useProjectInURL = () => useProjectDetails(useProjectIdInURL());
 
 // manages the modal open/close states with URL, where create/edit are taken care of respectively
 export const useProjectModal = () => {

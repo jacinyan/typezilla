@@ -18,7 +18,7 @@ import {
   Main,
 } from "./AuthenticatedApp.styles";
 import { Button } from "app/components/misc/General";
-import ProjectModal from "./components/misc/Modals";
+import { ProjectModal } from "./components/misc/Modals";
 import { ProjectPopover } from "./components/misc/Popovers";
 
 export default function AuthenticatedApp() {

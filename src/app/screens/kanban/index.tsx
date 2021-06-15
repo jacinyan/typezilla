@@ -1,14 +1,14 @@
 import SearchPanel from "app/components/kanban/SearchPanel";
 import KanbanLane from "app/components/kanban/Swimlane";
 import { useSwimlanes, useSwimlanesSearchParams } from "hooks/kanban";
-import { useProjecInURL } from "hooks/projects";
+import { useProjectInURL } from "hooks/projects";
 import { useDocumentTitle } from "hooks/_helpers";
 import { Container, Wrapper } from "./index.styles";
 
 const KanbanScreen = () => {
   useDocumentTitle("Kanban");
 
-  const { data: currProject } = useProjecInURL();
+  const { data: currProject } = useProjectInURL();
   const { data: swimlanes } = useSwimlanes(useSwimlanesSearchParams());
 
   return (
