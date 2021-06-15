@@ -1,21 +1,23 @@
-import Column from "app/components/kanban/Column";
-import { useKanbans, useKanbansSearchParams } from "hooks/kanbans";
-import { useProjectDetailsFromURL } from "hooks/projects";
+import SearchPanel from "app/components/kanban/SearchPanel";
+import KanbanLane from "app/components/kanban/Swimlane";
+import { useSwimlanes, useSwimlanesSearchParams } from "hooks/kanban";
+import { useProjecInURL } from "hooks/projects";
 import { useDocumentTitle } from "hooks/_helpers";
 import { Container } from "./index.styles";
 
 const KanbanScreen = () => {
-  useDocumentTitle("Kanban List");
+  useDocumentTitle("Kanban");
 
-  const { data: kanbans } = useKanbans(useKanbansSearchParams());
-  const { data: currProject } = useProjectDetailsFromURL();
+  const { data: currProject } = useProjecInURL();
+  const { data: swimlanes } = useSwimlanes(useSwimlanesSearchParams());
 
   return (
     <div>
       <h3>{currProject?.name} Kanban</h3>
+      <SearchPanel />
       <Container>
-        {kanbans?.map((kanban) => (
-          <Column key={kanban.id} kanban={kanban} />
+        {swimlanes?.map((swimlane) => (
+          <KanbanLane key={swimlane.id} swimlane={swimlane} />
         ))}
       </Container>
     </div>

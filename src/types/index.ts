@@ -24,7 +24,7 @@ export interface Project {
   createdAt: number;
 }
 
-export interface Kanban {
+export interface Swimlane {
   id: number;
   name: string;
   projectId: number;
@@ -37,8 +37,13 @@ export interface Task {
   projectId: number;
   //task group
   epicId: number;
-  kanbanId: number;
+  swimlaneId: number;
   //bug or task
   typeId: number;
-  note: string;
+  notes: string;
+}
+
+export interface TaskType {
+  id: number;
+  name: string;
 }

@@ -11,12 +11,12 @@ const ProjectScreen = () => {
       <h1>Project Screen</h1>
       {/* https://reacttraining.com/blog/react-router-v6-pre/ */}
       <Link to={"kanban"}>Kanban</Link>
-      <Link to={"epic"}>Epic</Link>
+      <Link to={"epics"}>Epics</Link>
       <Routes>
         {/* projcects/:projectsId/kanban */}
         <Route path={"kanban"} element={<KanbanScreen />} />
         {/* projcects/:projectsId/epic */}
-        <Route path={"epic"} element={<EpicScreen />} />
+        <Route path={"epics"} element={<EpicScreen />} />
         {/* remove unmatched routes from the history stack to get out of the infinite loop by replacing them so that home page is reachable*/}
         <Navigate to={window.location.pathname + "/kanban"} replace />
       </Routes>

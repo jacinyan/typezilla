@@ -92,8 +92,7 @@ export const useProjectIdInURL = () => {
   return Number(id);
 };
 
-export const useProjectDetailsFromURL = () =>
-  useProjectDetails(useProjectIdInURL());
+export const useProjecInURL = () => useProjectDetails(useProjectIdInURL());
 
 // manages the modal open/close states with URL, where create/edit are taken care of respectively
 export const useProjectModal = () => {
