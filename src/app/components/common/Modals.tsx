@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Drawer, Spin, Form, Input, Modal } from "antd";
+import { Drawer, Spin, Form, Input, Modal, Button } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import {
   useEditProject,
@@ -11,7 +11,7 @@ import { useEditTask, useTaskModal, useTaskQueryKey } from "hooks/tasks";
 import { useEffect } from "react";
 import UserSelect from "../project-list/UserSelect";
 import TaskTypeSelect from "../kanban/TaskTypeSelect";
-import { Button, ErrorBox } from "./General";
+import ErrorBox from "app/components/common/ErrorBox";
 
 export const ProjectModal = () => {
   const { projectModalOpen, close, projectDetails, isLoading } =

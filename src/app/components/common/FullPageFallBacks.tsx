@@ -1,7 +1,7 @@
 import { DevTools } from "typezilla-mockserver";
 import styled from "@emotion/styled";
 import { Spin } from "antd";
-import { ErrorBox } from "./General";
+import ErrorBox from "app/components/common/ErrorBox";
 
 export const FullPageLoader = (): JSX.Element => {
   return (

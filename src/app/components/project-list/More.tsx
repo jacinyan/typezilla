@@ -1,12 +1,10 @@
-import { Dropdown, Menu } from "antd";
-import { Modal } from "antd";
+import { Dropdown, Menu, Button, Modal } from "antd";
 import {
   useDeleteProject,
   useProjectModal,
   useProjectsQueryKey,
 } from "hooks/projects";
 import { Project } from "types";
-import { Button } from "../misc/General";
 
 export const More = ({ project }: { project: Project }) => {
   const { startEdit } = useProjectModal();

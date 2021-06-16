@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import SearchPanel from "app/components/project-list/SearchPanel";
 import List from "app/components/project-list/List";
 import {
@@ -8,7 +9,8 @@ import {
 import { useDebounce, useDocumentTitle } from "hooks/_helpers";
 import { useUsers } from "hooks/users";
 import { Container } from "./index.styles";
-import { Button, ErrorBox, Row } from "app/components/misc/General";
+import ErrorBox from "app/components/common/ErrorBox";
+import FlexRow from "app/components/common/FlexRow";
 
 const ProjectListScreen = () => {
   useDocumentTitle("Project List", false);
@@ -26,12 +28,10 @@ const ProjectListScreen = () => {
 
   return (
     <Container>
-      <Row spaceBetween marginBottom={2}>
+      <FlexRow spaceBetween marginBottom={2}>
         <h1>Project List</h1>
-        <Button onClick={open} type={"link"}>
-          Create Project
-        </Button>
-      </Row>
+        <Button onClick={open}>Create Project</Button>
+      </FlexRow>
       <SearchPanel params={params} setParams={setParams} users={users || []} />
       {error && <ErrorBox error={error}></ErrorBox>}
       <List users={users || []} loading={isLoading} dataSource={list || []} />

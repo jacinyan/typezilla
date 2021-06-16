@@ -1,6 +1,6 @@
-import { useTaskTypes } from "hooks/task-types";
 import React from "react";
-import IdSelect from "../misc/IdSelect";
+import { useTaskTypes } from "hooks/task-types";
+import IdSelect from "../common/IdSelect";
 
 const TaskTypeSelect = (props: React.ComponentProps<typeof IdSelect>) => {
   const { data: taskTypes } = useTaskTypes();

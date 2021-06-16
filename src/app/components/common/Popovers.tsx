@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
-import { Popover, Typography, List, Divider } from "antd";
+import { Popover, Typography, List, Divider, Button } from "antd";
 import { useProjectModal, useProjects } from "hooks/projects";
-import { Button } from "./General";
 
 export const ProjectPopover = () => {
   const { open } = useProjectModal();
@@ -20,7 +19,7 @@ export const ProjectPopover = () => {
         ))}
       </List>
       <Divider />
-      <Button onClick={open} type={"link"}>
+      <Button onClick={open} type={"link"} style={{ padding: 0 }}>
         Create Project
       </Button>
     </Container>

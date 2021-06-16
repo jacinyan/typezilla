@@ -10,5 +10,6 @@ export const Container = styled.div`
 export const LanesWrapper = styled.div`
   display: flex;
   overflow-x: scroll;
+  //relative to Container
   flex: 1;
 `;

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Row } from "./components/misc/General";
+import FlexRow from "./components/common/FlexRow";
 
 const Container = styled.div`
   display: grid;
@@ -7,13 +7,13 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const Header = styled(Row)`
+const Header = styled(FlexRow)`
   padding: 3.2rem;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
   z-index: 1;
 `;
 
-const HeaderLeft = styled(Row)``;
+const HeaderLeft = styled(FlexRow)``;
 
 const HeaderRight = styled.div``;
 

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Table } from "antd";
 import { TableProps } from "antd/lib/table";
 import { useEditProject, useProjectsQueryKey } from "hooks/projects";
-import Marking from "../misc/Marking";
+import Marking from "../common/Marking";
 import { User, Project } from "types";
 import dayjs from "dayjs";
 import { More } from "./More";

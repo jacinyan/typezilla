@@ -1,7 +1,7 @@
-import { Input } from "antd";
+import { Input, Button } from "antd";
 import { useTasksSearchParams } from "hooks/tasks";
 import { useSetSearchParams } from "hooks/_helpers";
-import { Button, Row } from "../misc/General";
+import FlexRow from "../common/FlexRow";
 import UserSelect from "../project-list/UserSelect";
 import TaskTypeSelect from "./TaskTypeSelect";
 
@@ -18,7 +18,7 @@ const SearchPanel = () => {
   };
 
   return (
-    <Row marginBottom={4} gap>
+    <FlexRow marginBottom={4} gap>
       <Input
         style={{ width: "20rem" }}
         placeholder={"Task Name"}
@@ -36,7 +36,7 @@ const SearchPanel = () => {
         onChange={(value) => setSearchParams({ typeId: value })}
       />
       <Button onClick={reset}>Clear Filter</Button>
-    </Row>
+    </FlexRow>
   );
 };
 

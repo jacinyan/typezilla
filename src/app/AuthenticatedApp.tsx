@@ -4,7 +4,7 @@ import {
   Routes,
   BrowserRouter as Router,
 } from "react-router-dom";
-import { Dropdown, Menu } from "antd";
+import { Dropdown, Menu, Button } from "antd";
 import ProjectListScreen from "./screens/project-list";
 import ProjectScreen from "./screens/project";
 import { useAuth } from "hooks/auth";
@@ -17,9 +17,8 @@ import {
   HeaderRight,
   Main,
 } from "./AuthenticatedApp.styles";
-import { Button } from "app/components/misc/General";
-import { ProjectModal } from "./components/misc/Modals";
-import { ProjectPopover } from "./components/misc/Popovers";
+import { ProjectModal } from "./components/common/Modals";
+import { ProjectPopover } from "./components/common/Popovers";
 
 export default function AuthenticatedApp() {
   return (
@@ -50,7 +49,7 @@ const AuthedHeader = () => {
         <Button
           type={"link"}
           onClick={resetRoutes}
-          style={{ display: "flex", alignItems: "center" }}
+          style={{ display: "flex", alignItems: "center", padding: 0 }}
         >
           <img src={logo} alt={"logo"} style={{ height: "4.5rem" }} />
         </Button>

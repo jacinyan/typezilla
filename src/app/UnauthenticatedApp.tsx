@@ -9,7 +9,8 @@ import {
   Background,
   Title,
 } from "./UnunthenticatedApp.styles";
-import { Button, ErrorBox } from "app/components/misc/General";
+import ErrorBox from "app/components/common/ErrorBox";
+import { Button } from "antd";
 
 const UnAuthenticatedApp = () => {
   const [registered, setRegistered] = useState(false);
