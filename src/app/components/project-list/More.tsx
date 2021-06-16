@@ -16,7 +16,7 @@ export const More = ({ project }: { project: Project }) => {
   const confirmDeleteProject = (id: number) => {
     Modal.confirm({
       title: "Are you sure you want to delete the project?",
-      content: "Click to confirm",
+      content: "Click to Confirm",
       okText: "Confirm",
       onOk() {
         deleteProject({ id });

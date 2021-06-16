@@ -11,10 +11,8 @@ import {
 import { useAsyncTask } from "hooks/api";
 import { useMount } from "hooks/_helpers";
 import { User } from "types";
-import {
-  FullPageLoader,
-  FullPageError,
-} from "app/components/common/FullPageFallBacks";
+import FullPageLoader from "app/components/common/FullPageLoader";
+import FullPageError from "app/components/common/FullPageError";
 
 interface AuthForm {
   username: string;
