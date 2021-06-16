@@ -1,13 +1,14 @@
 import styled from "@emotion/styled";
 
+//grid in project screen
 export const Container = styled.div`
   display: grid;
   grid-template-columns: 16rem 1fr;
 `;
 
 export const Aside = styled.div`
-  background-color: rgb(244, 245, 247);
   display: flex;
+  background-color: rgb(244, 245, 247);
 `;
 
 export const Main = styled.div`

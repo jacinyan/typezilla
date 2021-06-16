@@ -1,18 +1,18 @@
 import styled from "@emotion/styled";
 import { Card } from "antd";
 import { useTasks, useTasksSearchParams } from "hooks/tasks";
-import { Swimlane } from "types";
+import { SwimlaneProps } from "types";
 import TaskType from "./TaskType";
 
-const KanbanLane = ({ swimlane }: { swimlane: Swimlane }) => {
+const Swimlane = ({ swimlane }: { swimlane: SwimlaneProps }) => {
   const { data: allTasks } = useTasks(useTasksSearchParams());
 
   const tasks = allTasks?.filter((task) => task.swimlaneId === swimlane.id);
 
   return (
     <Container>
-      <Wrapper>
-        <h4>{swimlane.name}</h4>
+      <h4>{swimlane.name}</h4>
+      <TasksWrapper>
         <div>
           {tasks?.map((task) => (
             <Card style={{ marginBottom: "0.5rem" }} key={task.id}>
@@ -21,12 +21,12 @@ const KanbanLane = ({ swimlane }: { swimlane: Swimlane }) => {
             </Card>
           ))}
         </div>
-      </Wrapper>
+      </TasksWrapper>
     </Container>
   );
 };
 
-export default KanbanLane;
+export default Swimlane;
 
 const Container = styled.div`
   min-width: 27rem;
@@ -38,9 +38,8 @@ const Container = styled.div`
   margin-right: 1.5rem;
 `;
 
-const Wrapper = styled.div`
+const TasksWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   overflow-x: scroll;
   flex: 1;
 

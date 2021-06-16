@@ -3,7 +3,7 @@ import { Row } from "./components/misc/General";
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 6rem 1fr 6rem;
+  grid-template-rows: 6rem 1fr;
   height: 100vh;
 `;
 

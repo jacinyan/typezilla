@@ -10,6 +10,7 @@ import {
 import { useEditTask, useTaskModal, useTaskQueryKey } from "hooks/tasks";
 import { useEffect } from "react";
 import UserSelect from "../project-list/UserSelect";
+import TaskTypeSelect from "../kanban/TaskTypeSelect";
 import { Button, ErrorBox } from "./General";
 
 export const ProjectModal = () => {
@@ -121,6 +122,8 @@ export const TaskModal = () => {
 
   return (
     <Modal
+      onCancel={onCancel}
+      onOk={onOk}
       okText={"Confirm"}
       cancelText={"Cancel"}
       confirmLoading={editLoading}
@@ -132,7 +135,21 @@ export const TaskModal = () => {
         form={form}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
-      ></Form>
+      >
+        <Form.Item
+          label={"Task Name"}
+          name={"name"}
+          rules={[{ required: true, message: "Please enter the task name" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item label={"Assignee"} name={"assigneeId"}>
+          <UserSelect defaultOption={"Assignee"} />
+        </Form.Item>
+        <Form.Item label={"Type"} name={"typeId"}>
+          <TaskTypeSelect />
+        </Form.Item>
+      </Form>
     </Modal>
   );
 };

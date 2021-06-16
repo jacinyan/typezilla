@@ -24,7 +24,7 @@ export interface Project {
   createdAt: number;
 }
 
-export interface Swimlane {
+export interface SwimlaneProps {
   id: number;
   name: string;
   projectId: number;
