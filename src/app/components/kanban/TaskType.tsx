@@ -7,7 +7,7 @@ const TaskType = ({ id }: { id: number }) => {
   const name = taskTypes?.find((taskType) => taskType.id === id)?.name;
 
   return name ? (
-    <img src={name === "task" ? taskIcon : bugIcon} alt="" />
+    <img src={name === "task" ? taskIcon : bugIcon} alt={"task-icon"} />
   ) : null;
 };
 

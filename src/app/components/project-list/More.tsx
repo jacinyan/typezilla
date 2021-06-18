@@ -6,7 +6,7 @@ import {
 } from "hooks/projects";
 import { Project } from "types";
 
-export const More = ({ project }: { project: Project }) => {
+const More = ({ project }: { project: Project }) => {
   const { startEdit } = useProjectModal();
   const { mutate: deleteProject } = useDeleteProject(useProjectsQueryKey());
 
@@ -15,7 +15,7 @@ export const More = ({ project }: { project: Project }) => {
 
   const confirmDeleteProject = (id: number) => {
     Modal.confirm({
-      title: "Are you sure you want to delete the project?",
+      title: "Are you sure you want to delete this project?",
       content: "Click to Confirm",
       okText: "Confirm",
       onOk() {
@@ -44,3 +44,5 @@ export const More = ({ project }: { project: Project }) => {
     </Dropdown>
   );
 };
+
+export default More;

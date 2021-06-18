@@ -1,5 +1,9 @@
 import { QueryKey, useMutation, useQuery } from "react-query";
-import { useConfigureFetch, useCreateQueriesConfig } from "./api";
+import {
+  useConfigureFetch,
+  useCreateQueriesConfig,
+  useDeleteQueriesConfig,
+} from "./api";
 import { SwimlaneProps } from "types";
 import { useProjectIdInURL } from "./projects";
 
@@ -21,11 +25,20 @@ export const useCreateSwimlane = (queryKey: QueryKey) => {
   );
 };
 
+export const useDeleteSwimlane = (queryKey: QueryKey) => {
+  const $fetch = useConfigureFetch();
+
+  return useMutation(
+    ({ id }: { id: number }) => $fetch(`swimlanes/${id}`, { method: "DELETE" }),
+    useDeleteQueriesConfig(queryKey)
+  );
+};
+
 export const useSwimlanesSearchParams = () => ({
   projectId: useProjectIdInURL(),
 });
 
-export const useSwimlaneQueryKey = () => [
+export const useSwimlanesQueryKey = () => [
   "swimlanes",
   useSwimlanesSearchParams(),
 ];

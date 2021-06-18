@@ -75,6 +75,7 @@ export const useAsyncTask = <D>(
           asyncRun(asyncRunConfig?.retry(), asyncRunConfig);
         }
       });
+
       safeDispatch({ status: "loading" });
       //TODO: test minimum request time, followed by refactoring with useCallback for setData ops
       try {
@@ -109,7 +110,7 @@ export const useAsyncTask = <D>(
 //general config for optimistic updates with methods except 'GET'
 export const useQueriesConfig = (
   queryKey: QueryKey,
-  //given the complexity of types , the infamous 'any' has to show up :(
+  //given the complexity of types , the infamous 'any' has to show up a lot of times :(
   //yet optimistic updates is an isolate feature so we can live with that
   callback: (target: any, prev?: any[]) => any[]
 ) => {

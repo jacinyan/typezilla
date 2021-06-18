@@ -16,8 +16,15 @@ const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
     username: string;
     password: string;
   }) => {
+    const trimmedValues = {
+      ...values,
+      username: values.username.trim(),
+      password: values.password.trim(),
+    };
+    // console.log(trimmedValues);
+
     try {
-      await asyncRun(login(values));
+      await asyncRun(login(trimmedValues));
     } catch (error) {
       onError(error);
     }

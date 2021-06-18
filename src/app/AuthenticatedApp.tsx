@@ -17,7 +17,7 @@ import {
   HeaderRight,
   Main,
 } from "./AuthenticatedApp.styles";
-import { ProjectModal } from "./components/common/Modals";
+import ProjectModal from "./components/common/ProjectModal";
 import { ProjectPopover } from "./components/common/Popovers";
 
 export default function AuthenticatedApp() {

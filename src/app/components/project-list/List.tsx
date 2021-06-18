@@ -5,7 +5,7 @@ import { useEditProject, useProjectsQueryKey } from "hooks/projects";
 import Marking from "../common/Marking";
 import { User, Project } from "types";
 import dayjs from "dayjs";
-import { More } from "./More";
+import More from "./More";
 
 interface ListProps extends TableProps<Project> {
   users: User[];

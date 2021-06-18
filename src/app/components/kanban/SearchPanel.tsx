@@ -21,7 +21,7 @@ const SearchPanel = () => {
     <FlexRow marginBottom={4} gap>
       <Input
         style={{ width: "20rem" }}
-        placeholder={"Task Name"}
+        placeholder={"Task Name (Case Sensitive)"}
         value={searchParams.name}
         onChange={(e) => setSearchParams({ name: e.target.value })}
       />

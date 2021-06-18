@@ -24,7 +24,7 @@ const SearchPanel = ({ params, setParams }: SearchPanelProps) => {
               name: e.target.value,
             })
           }
-          placeholder={"Project Name"}
+          placeholder={"Project Name (Case Sensitive)"}
         />
       </Form.Item>
       <Form.Item>

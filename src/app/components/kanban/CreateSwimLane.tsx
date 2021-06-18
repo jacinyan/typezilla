@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Input } from "antd";
-import { LanesWrapper } from "app/screens/kanban/index.styles";
-import { useCreateSwimlane, useSwimlaneQueryKey } from "hooks/kanban";
+import { Container } from "app/components/kanban/swimlane/Swimlane";
+import { useCreateSwimlane, useSwimlanesQueryKey } from "hooks/kanban";
 import { useProjectIdInURL } from "hooks/projects";
 
 export const CreateSwimLane = () => {
   const [name, setName] = useState("");
   const projectId = useProjectIdInURL();
   const { mutateAsync: createSwimlane } = useCreateSwimlane(
-    useSwimlaneQueryKey()
+    useSwimlanesQueryKey()
   );
 
   const submit = async () => {
@@ -17,7 +17,7 @@ export const CreateSwimLane = () => {
   };
 
   return (
-    <LanesWrapper>
+    <Container>
       <Input
         size={"large"}
         placeholder={"Create New Lane"}
@@ -25,6 +25,6 @@ export const CreateSwimLane = () => {
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-    </LanesWrapper>
+    </Container>
   );
 };

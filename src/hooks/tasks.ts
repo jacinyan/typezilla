@@ -1,14 +1,22 @@
 import { QueryKey, useMutation, useQuery } from "react-query";
-import { useConfigureFetch, useEditQueriesConfig } from "./api";
+import {
+  useConfigureFetch,
+  useCreateQueriesConfig,
+  useDeleteQueriesConfig,
+  useEditQueriesConfig,
+} from "./api";
 import { Task } from "types";
 import { useProjectIdInURL } from "./projects";
-import { useURLSearchParams } from "./_helpers";
+import { useDebounce, useURLSearchParams } from "./_helpers";
 import { useCallback, useMemo } from "react";
 
 export const useTasks = (params?: Partial<Task>) => {
   const $fetch = useConfigureFetch();
+  const debouncedParams = { ...params, name: useDebounce(params?.name, 200) };
 
-  return useQuery<Task[]>(["tasks", params], () => $fetch("tasks", { params }));
+  return useQuery<Task[]>(["tasks", params], () =>
+    $fetch("tasks", { params: debouncedParams })
+  );
 };
 
 export const useTaskDetails = (id?: number) => {
@@ -24,6 +32,15 @@ export const useTaskDetails = (id?: number) => {
   );
 };
 
+export const useCreateTask = (queryKey: QueryKey) => {
+  const $fetch = useConfigureFetch();
+
+  return useMutation(
+    (params: Partial<Task>) => $fetch(`tasks`, { method: "POST", params }),
+    useCreateQueriesConfig(queryKey)
+  );
+};
+
 export const useEditTask = (queryKey: QueryKey) => {
   const $fetch = useConfigureFetch();
 
@@ -31,6 +48,15 @@ export const useEditTask = (queryKey: QueryKey) => {
     (params: Partial<Task>) =>
       $fetch(`tasks/${params.id}`, { method: "PATCH", params }),
     useEditQueriesConfig(queryKey)
+  );
+};
+
+export const useDeleteTask = (queryKey: QueryKey) => {
+  const $fetch = useConfigureFetch();
+
+  return useMutation(
+    ({ id }: { id: number }) => $fetch(`tasks/${id}`, { method: "DELETE" }),
+    useDeleteQueriesConfig(queryKey)
   );
 };
 
@@ -56,7 +82,7 @@ export const useTasksSearchParams = () => {
   );
 };
 
-export const useTaskQueryKey = () => ["tasks", useTasksSearchParams()];
+export const useTasksQueryKey = () => ["tasks", useTasksSearchParams()];
 
 export const useTaskModal = () => {
   const [{ editingTaskId }, setEditingTaskId] = useURLSearchParams([

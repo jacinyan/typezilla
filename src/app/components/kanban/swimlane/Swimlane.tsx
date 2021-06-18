@@ -1,26 +1,29 @@
 import styled from "@emotion/styled";
-import { Card } from "antd";
+import FlexRow from "app/components/common/FlexRow";
 import { useTasks, useTasksSearchParams } from "hooks/tasks";
+import { Fragment } from "react";
 import { SwimlaneProps } from "types";
-import TaskType from "./TaskType";
+import CreateTask from "./CreateTask";
+import More from "./More";
+import TaskCard from "./TaskCard";
 
 const Swimlane = ({ swimlane }: { swimlane: SwimlaneProps }) => {
   const { data: allTasks } = useTasks(useTasksSearchParams());
-
   const tasks = allTasks?.filter((task) => task.swimlaneId === swimlane.id);
 
   return (
     <Container>
-      <h4>{swimlane.name}</h4>
+      <FlexRow spaceBetween>
+        <h4>{swimlane.name}</h4>
+        <More swimlane={swimlane} />
+      </FlexRow>
       <TasksWrapper>
-        <div>
-          {tasks?.map((task) => (
-            <Card style={{ marginBottom: "0.5rem" }} key={task.id}>
-              <div>{task.name}</div>
-              <TaskType id={task.typeId} />
-            </Card>
-          ))}
-        </div>
+        {tasks?.map((task) => (
+          <Fragment key={task.id}>
+            <TaskCard task={task} />
+          </Fragment>
+        ))}
+        <CreateTask swimlaneId={swimlane.id} />
       </TasksWrapper>
     </Container>
   );
@@ -28,7 +31,7 @@ const Swimlane = ({ swimlane }: { swimlane: SwimlaneProps }) => {
 
 export default Swimlane;
 
-const Container = styled.div`
+export const Container = styled.div`
   min-width: 27rem;
   border-radius: 6px;
   background-color: rgb(244, 245, 247);
@@ -39,7 +42,6 @@ const Container = styled.div`
 `;
 
 const TasksWrapper = styled.div`
-  display: flex;
   overflow-x: scroll;
   flex: 1;
 

@@ -20,12 +20,19 @@ const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
     password: string;
     confirm_password: string;
   }) => {
-    if (confirm_password !== rest.password) {
+    const trimmedRest = {
+      ...rest,
+      username: rest.username.trim(),
+      password: rest.password.trim(),
+    };
+    confirm_password = confirm_password.trim();
+
+    if (confirm_password !== trimmedRest.password) {
       onError(new Error("Passwords do not match"));
       return;
     }
     try {
-      await asyncRun(register(rest));
+      await asyncRun(register(trimmedRest));
     } catch (error) {
       onError(error);
     }

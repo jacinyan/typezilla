@@ -1,19 +1,16 @@
-import styled from "@emotion/styled";
-import { Drawer, Spin, Form, Input, Modal, Button } from "antd";
+import { useEffect } from "react";
+import { Drawer, Spin, Form, Input, Button } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import {
-  useEditProject,
   useCreateProject,
+  useEditProject,
   useProjectModal,
   useProjectsQueryKey,
 } from "hooks/projects";
-import { useEditTask, useTaskModal, useTaskQueryKey } from "hooks/tasks";
-import { useEffect } from "react";
-import UserSelect from "../project-list/UserSelect";
-import TaskTypeSelect from "../kanban/TaskTypeSelect";
 import ErrorBox from "app/components/common/ErrorBox";
+import UserSelect from "../project-list/UserSelect";
 
-export const ProjectModal = () => {
+const ProjectModal = () => {
   const { projectModalOpen, close, projectDetails, isLoading } =
     useProjectModal();
   const useMutateProject = projectDetails ? useEditProject : useCreateProject;
@@ -48,7 +45,15 @@ export const ProjectModal = () => {
       visible={projectModalOpen}
       width={"100%"}
     >
-      <Container>
+      <div
+        style={{
+          flexDirection: "column",
+          height: "80vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         {isLoading ? (
           <Spin size={"large"} />
         ) : (
@@ -94,70 +99,9 @@ export const ProjectModal = () => {
             </Form>
           </>
         )}
-      </Container>
+      </div>
     </Drawer>
   );
 };
 
-export const TaskModal = () => {
-  const [form] = useForm();
-  const { editingTaskId, taskDetails, close } = useTaskModal();
-  const { mutateAsync: editTask, isLoading: editLoading } = useEditTask(
-    useTaskQueryKey()
-  );
-
-  const onCancel = () => {
-    close();
-    form.resetFields();
-  };
-
-  const onOk = async () => {
-    await editTask({ ...taskDetails, ...form.getFieldsValue() });
-    close();
-  };
-
-  useEffect(() => {
-    form.setFieldsValue(taskDetails);
-  }, [form, taskDetails]);
-
-  return (
-    <Modal
-      onCancel={onCancel}
-      onOk={onOk}
-      okText={"Confirm"}
-      cancelText={"Cancel"}
-      confirmLoading={editLoading}
-      title={"Edit Task"}
-      visible={!!editingTaskId}
-    >
-      <Form
-        initialValues={taskDetails}
-        form={form}
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-      >
-        <Form.Item
-          label={"Task Name"}
-          name={"name"}
-          rules={[{ required: true, message: "Please enter the task name" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item label={"Assignee"} name={"assigneeId"}>
-          <UserSelect defaultOption={"Assignee"} />
-        </Form.Item>
-        <Form.Item label={"Type"} name={"typeId"}>
-          <TaskTypeSelect />
-        </Form.Item>
-      </Form>
-    </Modal>
-  );
-};
-
-const Container = styled.div`
-  flex-direction: column;
-  height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+export default ProjectModal;
