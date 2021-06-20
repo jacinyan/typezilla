@@ -1,13 +1,17 @@
 import { Spin } from "antd";
+import Drag from "app/components/common/Drag";
+import Drop from "app/components/common/Drop";
+import DropChild from "app/components/common/DropChild";
 import TaskModal from "app/components/common/TaskModal";
 import { CreateSwimLane } from "app/components/kanban/CreateSwimLane";
 import SearchPanel from "app/components/kanban/SearchPanel";
 import Swimlane from "app/components/kanban/swimlane/Swimlane";
+import { useDragEnd } from "hooks/dragndrop";
 import { useSwimlanes, useSwimlanesSearchParams } from "hooks/kanban";
 import { useProjectInURL } from "hooks/projects";
 import { useTasks, useTasksSearchParams } from "hooks/tasks";
 import { useDocumentTitle } from "hooks/_helpers";
-import { Fragment } from "react";
+import { DragDropContext } from "react-beautiful-dnd";
 import { Container, LanesContainer } from "./index.styles";
 
 const KanbanScreen = () => {
@@ -20,24 +24,40 @@ const KanbanScreen = () => {
   const { isLoading: taskLoading } = useTasks(useTasksSearchParams());
   const isLoading = taskLoading || swimlaneLoading;
 
+  const onDragEnd = useDragEnd();
+
   return (
-    <Container>
-      <h1>{currProject?.name} Kanban</h1>
-      <SearchPanel />
-      {isLoading ? (
-        <Spin size={"large"}></Spin>
-      ) : (
-        <LanesContainer>
-          {swimlanes?.map((swimlane) => (
-            <Fragment key={swimlane.id}>
-              <Swimlane swimlane={swimlane} />
-            </Fragment>
-          ))}
-          <CreateSwimLane />
-        </LanesContainer>
-      )}
-      <TaskModal />
-    </Container>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Container>
+        <h1>{currProject?.name} Kanban</h1>
+        <SearchPanel />
+        {isLoading ? (
+          <Spin size={"large"}></Spin>
+        ) : (
+          <LanesContainer>
+            <Drop
+              type={"COLUMN"}
+              direction={"horizontal"}
+              droppableId={"swimlanes"}
+            >
+              <DropChild style={{ display: "flex" }}>
+                {swimlanes?.map((swimlane, index) => (
+                  <Drag
+                    key={swimlane.id}
+                    draggableId={"swimlane" + swimlane.id}
+                    index={index}
+                  >
+                    <Swimlane swimlane={swimlane} />
+                  </Drag>
+                ))}
+              </DropChild>
+            </Drop>
+            <CreateSwimLane />
+          </LanesContainer>
+        )}
+        <TaskModal />
+      </Container>
+    </DragDropContext>
   );
 };
 

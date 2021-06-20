@@ -19,7 +19,7 @@ export const resetRoutes = () =>
   (window.location.href = window.location.origin);
 
 /**
- * passed in an object and returns a corresponding key-value pair
+ * inputs an object and returns a corresponding key-value pair
  * @param obj
  * @param keys
  */

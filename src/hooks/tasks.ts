@@ -1,18 +1,19 @@
 import { QueryKey, useMutation, useQuery } from "react-query";
 import {
   useConfigureFetch,
-  useCreateQueriesConfig,
-  useDeleteQueriesConfig,
-  useEditQueriesConfig,
+  useCreateQueryConfig,
+  useDeleteQueryConfig,
+  useEditQueryConfig,
+  useReorderQueryConfig,
 } from "./api";
-import { Task } from "types";
+import { SortProps, Task } from "types";
 import { useProjectIdInURL } from "./projects";
 import { useDebounce, useURLSearchParams } from "./_helpers";
 import { useCallback, useMemo } from "react";
 
 export const useTasks = (params?: Partial<Task>) => {
   const $fetch = useConfigureFetch();
-  const debouncedParams = { ...params, name: useDebounce(params?.name, 200) };
+  const debouncedParams = { ...params, name: useDebounce(params?.name, 500) };
 
   return useQuery<Task[]>(["tasks", params], () =>
     $fetch("tasks", { params: debouncedParams })
@@ -37,7 +38,7 @@ export const useCreateTask = (queryKey: QueryKey) => {
 
   return useMutation(
     (params: Partial<Task>) => $fetch(`tasks`, { method: "POST", params }),
-    useCreateQueriesConfig(queryKey)
+    useCreateQueryConfig(queryKey)
   );
 };
 
@@ -47,7 +48,7 @@ export const useEditTask = (queryKey: QueryKey) => {
   return useMutation(
     (params: Partial<Task>) =>
       $fetch(`tasks/${params.id}`, { method: "PATCH", params }),
-    useEditQueriesConfig(queryKey)
+    useEditQueryConfig(queryKey)
   );
 };
 
@@ -56,7 +57,20 @@ export const useDeleteTask = (queryKey: QueryKey) => {
 
   return useMutation(
     ({ id }: { id: number }) => $fetch(`tasks/${id}`, { method: "DELETE" }),
-    useDeleteQueriesConfig(queryKey)
+    useDeleteQueryConfig(queryKey)
+  );
+};
+
+export const useReorderTask = (queryKey: QueryKey) => {
+  const $fetch = useConfigureFetch();
+
+  return useMutation(
+    (params: SortProps) =>
+      $fetch("tasks/reorder", {
+        params,
+        method: "POST",
+      }),
+    useReorderQueryConfig(queryKey)
   );
 };
 

@@ -18,7 +18,7 @@ import {
   Main,
 } from "./AuthenticatedApp.styles";
 import ProjectModal from "./components/common/ProjectModal";
-import { ProjectPopover } from "./components/common/Popovers";
+import ProjectPopover from "./components/common/ProjectPopover";
 
 export default function AuthenticatedApp() {
   return (

@@ -2,9 +2,9 @@ import styled from "@emotion/styled";
 import { Popover, Typography, List, Divider, Button } from "antd";
 import { useProjectModal, useProjects } from "hooks/projects";
 
-export const ProjectPopover = () => {
+const ProjectPopover = () => {
   const { open } = useProjectModal();
-
+  //fetched all the projects then sort out marked projects
   const { data: projects } = useProjects();
   const markedProjects = projects?.filter((project) => project.marked === true);
 
@@ -35,3 +35,5 @@ export const ProjectPopover = () => {
 const Container = styled.div`
   min-width: 30rem;
 `;
+
+export default ProjectPopover;

@@ -22,7 +22,7 @@ const UnAuthenticatedApp = () => {
       <Background />
       <Card>
         <Title>{registered ? "Sign Up" : "Login"}</Title>
-        {error && <ErrorBox error={error}></ErrorBox>}
+        {error && <ErrorBox error={error} />}
         {registered ? (
           <RegisterScreen onError={setError} />
         ) : (

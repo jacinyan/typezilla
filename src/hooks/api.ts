@@ -1,11 +1,11 @@
 import { useCallback, useReducer, useState } from "react";
+import { QueryKey, useQueryClient } from "react-query";
 import { useAuth } from "./auth";
 import { configureFetch } from "api";
 import { AsyncState } from "types";
 import { useSafeDispatch } from "./_helpers";
-import { QueryKey, useQueryClient } from "react-query";
 
-//embeds the token if it exists when $fetch is instantiated from configureFetch
+//simply for the use of useAuth so that a token can be embedded if it exists, when $fetch is instantiated from configureFetch
 export const useConfigureFetch = () => {
   const { user } = useAuth();
 
@@ -77,7 +77,7 @@ export const useAsyncTask = <D>(
       });
 
       safeDispatch({ status: "loading" });
-      //TODO: test minimum request time, followed by refactoring with useCallback for setData ops
+
       try {
         const data = await promise;
         setData(data);
@@ -107,48 +107,60 @@ export const useAsyncTask = <D>(
   };
 };
 
-//general config for optimistic updates with methods except 'GET'
+//Queries factory with all other methods except 'GET', where onMutate is also configured for optimistic updates
 export const useQueriesConfig = (
   queryKey: QueryKey,
-  //given the complexity of types , the infamous 'any' has to show up a lot of times :(
-  //yet optimistic updates is an isolate feature so we can live with that
-  callback: (target: any, prev?: any[]) => any[]
+  //given the complexity of the types in here , the infamous 'any' has to show up a lot of times :(
+  //yet optimistic updates is an isolated feature so we can live with that
+  callback: (target: any, old?: any[]) => any[]
 ) => {
+  //create queryClient
   const queryClient = useQueryClient();
+
   return {
     onSuccess: () => queryClient.invalidateQueries(queryKey),
-    //https://react-query.tanstack.com/reference/useMutation
+    //https://react-query.tanstack.com/guides/optimistic-updates
     onMutate: async (target: any) => {
-      // fetch the local data beforehand
+      await queryClient.cancelQueries(queryKey);
+
       const prevItems = queryClient.getQueryData(queryKey);
-      // console.log((prevItems as any[]).map((prevItem: any) => prevItem.marked));
-      queryClient.setQueryData(queryKey, (prev?: any[]) => {
-        return callback(target, prev);
+
+      //for multiple queries
+      queryClient.setQueryData(queryKey, (old?: any[]) => {
+        return callback(target, old);
       });
+
       return { prevItems };
     },
     onError: (error: any, newItem: any, context: any) => {
       queryClient.setQueryData(queryKey, context.prevItems);
     },
+    onSettled: () => {
+      queryClient.invalidateQueries(queryKey);
+    },
   };
 };
 
-export const useCreateQueriesConfig = (queryKey: QueryKey) =>
-  useQueriesConfig(queryKey, (target, prev) =>
-    prev ? [...prev, target] : [target]
+// the following config hooks are the products of the useQueriesConfig
+export const useCreateQueryConfig = (queryKey: QueryKey) =>
+  useQueriesConfig(queryKey, (target, old) =>
+    old ? [...old, target] : [target]
   );
 
-export const useEditQueriesConfig = (queryKey: QueryKey) =>
+export const useEditQueryConfig = (queryKey: QueryKey) =>
   useQueriesConfig(
     queryKey,
-    (target, prev) =>
-      prev?.map((item) =>
+    (target, old) =>
+      old?.map((item) =>
         item.id === target.id ? { ...item, ...target } : item
       ) || []
   );
 
-export const useDeleteQueriesConfig = (queryKey: QueryKey) =>
+export const useDeleteQueryConfig = (queryKey: QueryKey) =>
   useQueriesConfig(
     queryKey,
-    (target, prev) => prev?.filter((item) => item.id !== target.id) || []
+    (target, old) => old?.filter((item) => item.id !== target.id) || []
   );
+
+export const useReorderQueryConfig = (queryKey: QueryKey) =>
+  useQueriesConfig(queryKey, (target, old) => old || []);

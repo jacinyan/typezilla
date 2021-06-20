@@ -21,19 +21,23 @@ const ProjectModal = () => {
     isLoading: mutateLoading,
   } = useMutateProject(useProjectsQueryKey());
 
+  //control the form instance below
   const [form] = useForm();
   const onFinish = (values: any) => {
+    //when creating a project, projectDetails is undefined
     mutateAsync({ ...projectDetails, ...values }).then(() => {
       form.resetFields();
       close();
     });
   };
 
+  // if the modal is closed without submitting any data, form will still be reset
   const closeModal = () => {
     form.resetFields();
     close();
   };
 
+  // after being mounted or updated, data will be refilled
   useEffect(() => {
     form.setFieldsValue(projectDetails);
   }, [projectDetails, form]);
@@ -84,8 +88,8 @@ const ProjectModal = () => {
               >
                 <Input placeholder={"Please enter the team name"} />
               </Form.Item>
-              <Form.Item label={"Supervisor"} name={"supervisorId"}>
-                <UserSelect defaultOption={"Supervisor"} />
+              <Form.Item label={"Project Lead"} name={"projectLeadId"}>
+                <UserSelect defaultOption={"Project Lead"} />
               </Form.Item>
               <Form.Item>
                 <Button

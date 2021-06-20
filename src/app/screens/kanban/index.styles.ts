@@ -7,7 +7,7 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 
-export const LanesContainer = styled.div`
+export const LanesContainer = styled("div")`
   display: flex;
   overflow-x: scroll;
   //relative to Container

@@ -33,7 +33,7 @@ const ProjectListScreen = () => {
         <Button onClick={open}>Create Project</Button>
       </FlexRow>
       <SearchPanel params={params} setParams={setParams} users={users || []} />
-      {error && <ErrorBox error={error}></ErrorBox>}
+      {error && <ErrorBox error={error} />}
       <List users={users || []} loading={isLoading} dataSource={list || []} />
     </Container>
   );

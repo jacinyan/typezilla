@@ -47,3 +47,15 @@ export interface TaskType {
   id: number;
   name: string;
 }
+
+export interface SortProps {
+  //origin item
+  fromId: number;
+  //target item
+  referenceId: number;
+  //insert position
+  type: "before" | "after";
+  //for tasks
+  fromSwimlaneId?: number;
+  toSwimlaneId?: number;
+}

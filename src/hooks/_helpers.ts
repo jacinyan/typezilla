@@ -31,19 +31,19 @@ export const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
   );
 };
 
-export const useDebounce = <V>(value: V, delay?: number) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
+export const useDebounce = <P>(params: P, timeout?: number) => {
+  const [debouncedParams, setDebouncedParams] = useState(params);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
+    const timeoutId = setTimeout(() => {
+      setDebouncedParams(params);
+    }, timeout);
     return () => {
-      clearTimeout(timeout);
+      clearTimeout(timeoutId);
     };
-  }, [value, delay]);
+  }, [params, timeout]);
 
-  return debouncedValue;
+  return debouncedParams;
 };
 
 export const useDocumentTitle = (title: string, persistOnUnmount = false) => {
@@ -64,17 +64,12 @@ export const useDocumentTitle = (title: string, persistOnUnmount = false) => {
   }, [persistOnUnmount, defaultTitle]);
 };
 
-// 'useURLSearchParams' accesses the values of specific keys from the address bar and returns them in the form of objects with the help of react-router-dom v6 using URLSearchParams API
-export const useURLSearchParams = <K extends string>(
-  keys: K[]
-): readonly [
-  { [key in K]: string },
-  (params: Partial<{ [key in K]: unknown }>) => void
-] => {
+// accesses the values of given input specific keys, and eventually returns these key-value pairs in the form of objects and a method.
+export const useURLSearchParams = <K extends string>(keys: K[]) => {
   const [searchParams] = useSearchParams();
   //calling another custom hook, only whom controls the state of search params
   const setSearchParams = useSetSearchParams();
-
+  //memoized keys from input, e.g. projectCreate, editingProjectId...
   const [stateKeys] = useState(keys);
 
   return [
@@ -85,7 +80,7 @@ export const useURLSearchParams = <K extends string>(
         },
       [searchParams, stateKeys]
     ),
-    //reason for this anonymous func is to restrict the type of input params to a narrower range instead of a plain 'set' method, where the keys are dependent on the generic K
+    //instead of a plain 'set' method, this func is to restrict the type of input params to a narrower range of string literals depending on the keys in the generic K so that only the input keys in useURLSearchParams are valid whenever setSearchParams is called
     (params: Partial<{ [key in K]: unknown }>) => {
       return setSearchParams(params);
     },

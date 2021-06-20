@@ -55,6 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     asyncRun,
     setData: setUser,
   } = useAsyncTask<User | null>();
+  //include queryClient in the context on top of existing async handlers for later use
   const queryClient = useQueryClient();
 
   //point free for (user)=> setUser(user)

@@ -12,7 +12,7 @@ const FullPageError = ({ error }: { error?: Error | null }): JSX.Element => {
       }}
     >
       <DevTools />
-      <ErrorBox error={error}></ErrorBox>
+      <ErrorBox error={error} />
     </div>
   );
 };
