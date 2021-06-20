@@ -9,6 +9,7 @@ import {
 } from "./api";
 import { useSetSearchParams, useURLSearchParams } from "./_helpers";
 import { Project } from "types";
+import { removeEmptyQueryValues } from "utils";
 
 // fetches projects when ProjectScreen loads, when no params are input, the whole project list is returned
 export const useProjects = (params?: Partial<Project>) => {
@@ -16,7 +17,7 @@ export const useProjects = (params?: Partial<Project>) => {
 
   // useQuery's second type param TError is default to unknown, which should have been explicitly declared 'Error' for any component that consumes the returned QueryResult
   // An ErrorBox is abstracted for this reason without having to do so
-  return useQuery<Project[]>(["projects", params], () =>
+  return useQuery<Project[]>(["projects", removeEmptyQueryValues(params)], () =>
     $fetch("projects", { params })
   );
 };
