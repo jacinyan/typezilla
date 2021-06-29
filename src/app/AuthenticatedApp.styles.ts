@@ -9,8 +9,9 @@ const Container = styled.div`
 
 const Header = styled(FlexRow)`
   padding: 3.2rem;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1); */
   z-index: 1;
+  background-color: rgb(0, 82, 204);
 `;
 
 const HeaderLeft = styled(FlexRow)``;

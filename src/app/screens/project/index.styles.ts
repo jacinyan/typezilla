@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 export const Container = styled.div`
   display: grid;
   grid-template-columns: 16rem 1fr;
+  width: 100%;
 `;
 
 export const Aside = styled.div`

@@ -1,7 +1,6 @@
+import { Button, Dropdown, Menu, Modal } from "antd";
 import { useDeleteSwimlane, useSwimlanesQueryKey } from "hooks/kanban";
 import { SwimlaneProps } from "types";
-import { Button, Dropdown, Menu } from "antd";
-import { Modal } from "antd";
 
 const More = ({ swimlane }: { swimlane: SwimlaneProps }) => {
   const { mutateAsync } = useDeleteSwimlane(useSwimlanesQueryKey());

@@ -1,4 +1,5 @@
 import { Menu } from "antd";
+import { UnorderedListOutlined, HddOutlined } from "@ant-design/icons";
 import { Link, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import EpicScreen from "../epic";
 import KanbanScreen from "../kanban";
@@ -17,17 +18,21 @@ const ProjectScreen = () => {
   return (
     <Container>
       <Aside>
-        {/* https://reacttraining.com/blog/react-router-v6-pre/ */}
-        <Menu mode={"inline"} selectedKeys={[useRouteType()]}>
-          <Menu.Item key={"kanban"}>
+        <Menu
+          mode={"inline"}
+          selectedKeys={[useRouteType()]}
+          style={{ backgroundColor: "#fafafa" }}
+        >
+          <Menu.Item key={"kanban"} icon={<HddOutlined />}>
             <Link to={"kanban"}>Kanban</Link>
           </Menu.Item>
-          <Menu.Item key={"epics"}>
+          <Menu.Item key={"epics"} icon={<UnorderedListOutlined />}>
             <Link to={"epics"}>Epics</Link>
           </Menu.Item>
         </Menu>
       </Aside>
       <Main>
+        {/* https://reacttraining.com/blog/react-router-v6-pre/ */}
         <Routes>
           {/* projcects/:projectsId/kanban */}
           <Route path={"kanban"} element={<KanbanScreen />} />

@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Drawer, Spin, Form, Input, Button } from "antd";
-import { useForm } from "antd/lib/form/Form";
 import {
   useCreateProject,
   useEditProject,
@@ -22,7 +21,7 @@ const ProjectModal = () => {
   } = useMutateProject(useProjectsQueryKey());
 
   //control the form instance below
-  const [form] = useForm();
+  const [form] = Form.useForm();
   const onFinish = (values: any) => {
     //when creating a project, projectDetails is undefined
     mutateAsync({ ...projectDetails, ...values }).then(() => {

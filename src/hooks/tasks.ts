@@ -1,15 +1,15 @@
+import { useCallback, useMemo } from "react";
 import { QueryKey, useMutation, useQuery } from "react-query";
 import {
   useConfigureFetch,
   useCreateQueryConfig,
   useDeleteQueryConfig,
   useEditQueryConfig,
-  useReorderQueryConfig,
+  useReorderTaskQueryConfig,
 } from "./api";
 import { SortProps, Task } from "types";
 import { useProjectIdInURL } from "./projects";
 import { useDebounce, useURLSearchParams } from "./_helpers";
-import { useCallback, useMemo } from "react";
 
 export const useTasks = (params?: Partial<Task>) => {
   const $fetch = useConfigureFetch();
@@ -70,7 +70,7 @@ export const useReorderTask = (queryKey: QueryKey) => {
         params,
         method: "POST",
       }),
-    useReorderQueryConfig(queryKey)
+    useReorderTaskQueryConfig(queryKey)
   );
 };
 

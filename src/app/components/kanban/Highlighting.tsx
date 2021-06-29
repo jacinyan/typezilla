@@ -1,5 +1,3 @@
-import React from "react";
-
 const Highlighting = ({ name, keyword }: { name: string; keyword: string }) => {
   if (!keyword) return <>{name}</>;
 

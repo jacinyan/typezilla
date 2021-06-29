@@ -59,3 +59,14 @@ export interface SortProps {
   fromSwimlaneId?: number;
   toSwimlaneId?: number;
 }
+
+export interface Epic {
+  id: number;
+  name: string;
+  projectId: number;
+  swimlaneId: number;
+  //start time
+  start: number;
+  //end time
+  end: number;
+}

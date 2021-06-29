@@ -1,5 +1,5 @@
 import { Card } from "antd";
-import TaskType from "../TaskType";
+import TaskType from "./TaskType";
 import Highlighting from "./Highlighting";
 import { useTaskModal, useTasksSearchParams } from "hooks/tasks";
 import { Task } from "types";

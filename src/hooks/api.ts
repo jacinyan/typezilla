@@ -2,8 +2,9 @@ import { useCallback, useReducer, useState } from "react";
 import { QueryKey, useQueryClient } from "react-query";
 import { useAuth } from "./auth";
 import { configureFetch } from "api";
-import { AsyncState } from "types";
+import { AsyncState, Task } from "types";
 import { useSafeDispatch } from "./_helpers";
+import { reorder } from "./reorder";
 
 //simply for the use of useAuth so that a token can be embedded if it exists, when $fetch is instantiated from configureFetch
 export const useConfigureFetch = () => {
@@ -162,5 +163,19 @@ export const useDeleteQueryConfig = (queryKey: QueryKey) =>
     (target, old) => old?.filter((item) => item.id !== target.id) || []
   );
 
-export const useReorderQueryConfig = (queryKey: QueryKey) =>
-  useQueriesConfig(queryKey, (target, old) => old || []);
+export const useReorderSwimlaneQueryConfig = (queryKey: QueryKey) =>
+  useQueriesConfig(queryKey, (target, old) =>
+    reorder({ list: old, ...target })
+  );
+
+export const useReorderTaskQueryConfig = (queryKey: QueryKey) =>
+  useQueriesConfig(queryKey, (target, old) => {
+    // optimistic updates on the order of tasks
+    const orderedList = reorder({ list: old, ...target }) as Task[];
+    // task sort has also an impact on the swimlane where the task belongs
+    return orderedList.map((item) =>
+      item.id === target.fromId
+        ? { ...item, swimlaneId: target.toSwimlaneId }
+        : item
+    );
+  });

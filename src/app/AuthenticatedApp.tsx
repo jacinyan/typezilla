@@ -1,15 +1,10 @@
-import {
-  Navigate,
-  Route,
-  Routes,
-  BrowserRouter as Router,
-} from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Dropdown, Menu, Button } from "antd";
 import ProjectListScreen from "./screens/project-list";
 import ProjectScreen from "./screens/project";
 import { useAuth } from "hooks/auth";
 import { resetRoutes } from "utils";
-import logo from "assets/logo.svg";
+import logoHeader from "assets/logo-header.svg";
 import {
   Container,
   Header,
@@ -19,25 +14,24 @@ import {
 } from "./AuthenticatedApp.styles";
 import ProjectModal from "./components/common/ProjectModal";
 import ProjectPopover from "./components/common/ProjectPopover";
+import UserPopover from "./components/common/UserPopover";
 
 export default function AuthenticatedApp() {
   return (
     <Container>
-      <Router>
-        <AuthedHeader />
-        <Main>
-          <Routes>
-            <Route path={"/projects"} element={<ProjectListScreen />} />
-            <Route
-              //https://reacttraining.com/blog/react-router-v6-pre/
-              path={"/projects/:projectId/*"}
-              element={<ProjectScreen />}
-            />
-            <Navigate to={"/projects"} />
-          </Routes>
-        </Main>
-        <ProjectModal />
-      </Router>
+      <AuthedHeader />
+      <Main>
+        <Routes>
+          <Route path={"/projects"} element={<ProjectListScreen />} />
+          <Route
+            //https://reacttraining.com/blog/react-router-v6-pre/
+            path={"/projects/:projectId/*"}
+            element={<ProjectScreen />}
+          />
+          <Navigate to={"/projects"} />
+        </Routes>
+      </Main>
+      <ProjectModal />
     </Container>
   );
 }
@@ -51,10 +45,10 @@ const AuthedHeader = () => {
           onClick={resetRoutes}
           style={{ display: "flex", alignItems: "center", padding: 0 }}
         >
-          <img src={logo} alt={"logo"} style={{ height: "4.5rem" }} />
+          <img src={logoHeader} alt={"logo"} style={{ height: "4.5rem" }} />
         </Button>
         <ProjectPopover />
-        <span>Users</span>
+        <UserPopover />
       </HeaderLeft>
       <HeaderRight>
         <User />
@@ -69,7 +63,7 @@ const User = () => {
   return (
     user && (
       <>
-        <span>Hi,</span>
+        <span style={{ color: "#fff" }}>Hi,</span>
         <Dropdown
           overlay={
             <Menu>
@@ -86,7 +80,7 @@ const User = () => {
             onClick={(e) => {
               e.preventDefault();
             }}
-            style={{ padding: "0.5rem" }}
+            style={{ padding: "0.5rem", color: "#fff" }}
           >
             {user.name}
           </Button>

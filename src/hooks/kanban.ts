@@ -3,7 +3,7 @@ import {
   useConfigureFetch,
   useCreateQueryConfig,
   useDeleteQueryConfig,
-  useReorderQueryConfig,
+  useReorderSwimlaneQueryConfig,
 } from "./api";
 import { SortProps, SwimlaneProps } from "types";
 import { useProjectIdInURL } from "./projects";
@@ -44,7 +44,7 @@ export const useReorderSwimlane = (queryKey: QueryKey) => {
         params,
         method: "POST",
       }),
-    useReorderQueryConfig(queryKey)
+    useReorderSwimlaneQueryConfig(queryKey)
   );
 };
 

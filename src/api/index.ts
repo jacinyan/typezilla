@@ -8,6 +8,7 @@ interface Config extends RequestInit {
   params?: object;
   token?: string;
 }
+//centralize requests except auth
 export const configureFetch = async (
   endpoint: string,
   { params, token, headers, ...restConfig }: Config = {}

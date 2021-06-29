@@ -17,6 +17,7 @@ export const useProjects = (params?: Partial<Project>) => {
 
   // useQuery's second type param TError is default to unknown, which should have been explicitly declared 'Error' for any component that consumes the returned QueryResult
   // An ErrorBox is abstracted for this reason without having to do so
+  //update removeEmptyQueryValues to centralize the query key to be an empty object regardless of whether its' null or undefined or no inputs
   return useQuery<Project[]>(["projects", removeEmptyQueryValues(params)], () =>
     $fetch("projects", { params })
   );
@@ -28,7 +29,7 @@ export const useProjectDetails = (id?: number) => {
   return useQuery<Project>(
     ["project", { id }],
     () => $fetch(`projects/${id}`),
-    //enabled prop is to prevent useQuery from running the above callback if the id param is undefined
+    //'enabled' is to prevent useQuery from running the above callback if the id param is undefined
     {
       enabled: Boolean(id),
     }
@@ -114,7 +115,7 @@ export const useProjectModal = () => {
 
   return {
     // with ' editingProjectId', open the modal immediately without waiting for project details to be in place
-    // summarizes the open/close state with 'projectModalOpen'
+    // centralizes the open/close state with 'projectModalOpen'
     projectModalOpen: projectCreate === "true" || Boolean(editingProjectId),
     open,
     close,

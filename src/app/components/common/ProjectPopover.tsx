@@ -1,15 +1,14 @@
-import styled from "@emotion/styled";
 import { Popover, Typography, List, Divider, Button } from "antd";
 import { useProjectModal, useProjects } from "hooks/projects";
 
 const ProjectPopover = () => {
   const { open } = useProjectModal();
-  //fetched all the projects then sort out marked projects
-  const { data: projects } = useProjects();
-  const markedProjects = projects?.filter((project) => project.marked === true);
+  //different queryKey for different caches in useProjects, hence refetch
+  const { data: projects, refetch } = useProjects();
+  const markedProjects = projects?.filter((project) => project.marked);
 
   const content = (
-    <Container>
+    <div style={{ minWidth: "30rem" }}>
       <Typography.Text type={"secondary"}>Marked Projects</Typography.Text>
       <List>
         {markedProjects?.map((project) => (
@@ -22,18 +21,18 @@ const ProjectPopover = () => {
       <Button onClick={open} type={"link"} style={{ padding: 0 }}>
         Create Project
       </Button>
-    </Container>
+    </div>
   );
 
   return (
-    <Popover placement={"bottom"} content={content}>
-      <span>Projects</span>
+    <Popover
+      placement={"bottom"}
+      content={content}
+      onVisibleChange={() => refetch()}
+    >
+      <span style={{ fontSize: "1.8rem", color: "#fff" }}>Projects</span>
     </Popover>
   );
 };
-
-const Container = styled.div`
-  min-width: 30rem;
-`;
 
 export default ProjectPopover;

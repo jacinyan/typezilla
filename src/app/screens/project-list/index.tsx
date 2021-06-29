@@ -11,6 +11,7 @@ import { useUsers } from "hooks/users";
 import { Container } from "./index.styles";
 import ErrorBox from "app/components/common/ErrorBox";
 import FlexRow from "app/components/common/FlexRow";
+import { Profiler } from "app/components/common/Profiler";
 
 const ProjectListScreen = () => {
   useDocumentTitle("Project List", false);
@@ -27,19 +28,25 @@ const ProjectListScreen = () => {
   const { data: users } = useUsers();
 
   return (
-    <Container>
-      <FlexRow spaceBetween marginBottom={2}>
-        <h1>Project List</h1>
-        <Button onClick={open}>Create Project</Button>
-      </FlexRow>
-      <SearchPanel params={params} setParams={setParams} users={users || []} />
-      {error && <ErrorBox error={error} />}
-      <List users={users || []} loading={isLoading} dataSource={list || []} />
-    </Container>
+    <Profiler id={"project-list"}>
+      <Container>
+        <FlexRow spaceBetween marginBottom={2}>
+          <h1>Project List</h1>
+          <Button onClick={open}>Create Project</Button>
+        </FlexRow>
+        <SearchPanel
+          params={params}
+          setParams={setParams}
+          users={users || []}
+        />
+        {error && <ErrorBox error={error} />}
+        <List users={users || []} loading={isLoading} dataSource={list || []} />
+      </Container>
+    </Profiler>
   );
 };
 
-ProjectListScreen.whyDidYouRender = false;
+// ProjectListScreen.whyDidYouRender = true;
 // class ProjectListScreen extends React.Component<any, any>{
 // static whyDidYouRender = true
 //....
