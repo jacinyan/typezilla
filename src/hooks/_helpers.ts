@@ -5,8 +5,7 @@ import { removeEmptyQueryValues, subset } from "utils";
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [callback]);
 };
 
 //returns the status that indicates whether or not a comp is mounted, false by default

@@ -1,5 +1,5 @@
 //infinitely simplified simulation of a 3rd party auth provider
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useCallback } from "react";
 import { useQueryClient } from "react-query";
 import {
   getToken,
@@ -68,9 +68,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
   //checks token whenever the app mounts
-  useMount(() => {
-    asyncRun(bootstrapUser());
-  });
+  useMount(
+    useCallback(() => {
+      asyncRun(bootstrapUser());
+    }, [asyncRun])
+  );
 
   return isIdle || isLoading ? (
     <FullPageLoader />
