@@ -8,7 +8,7 @@ import {
   Header,
   Background,
   Title,
-} from "./UnunthenticatedApp.styles";
+} from "./UnauthenticatedApp.styles";
 import ErrorBox from "app/components/common/ErrorBox";
 import { Button } from "antd";
 

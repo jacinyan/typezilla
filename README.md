@@ -1,46 +1,191 @@
-# Getting Started with Create React App
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="">
+    <img src="" alt="Logo" width="80" height="80">
+  </a>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  <h3 align="center">Typezilla</h3>
 
-## Available Scripts
+  <p align="center">
+    An agile tracking project management system based on React Hooks with TypeScript
+    <br />
+    <br />
+    <a href="">View Demo</a>
+  </p>
+</p>
 
-In the project directory, you can run:
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#app-structure">App Structure</a></li>
+        <li><a href="#tech-stack">Tech Stack</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#features">Features</a>
+    </li>
+    <li><a href="#to-do">To-Do</a></li>
+  </ol>
+</details>
 
-### `yarn start`
+<!-- ABOUT THE PROJECT -->
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## About The Project
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+This project is inspired by an professional experience with agile methodology. Jira has its significant place in this, and therefore the project is named Typezilla, as a respectful parody. On top of that, the project acts as a reinforcement of what I have learned about React.js, with a main focus on building custom React hooks, and a first ever practice in TypeScript syntax developing React applications.
 
-### `yarn test`
+### App Structure
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+.
+├── src
+│   ├── __tests__
+│   │   ├── integration
+│   │   │   └── ProjectList.tsx
+│   │   └── unit
+│   │       ├── components
+│   │       │   └── Highlighting.tsx
+│   │       ├── functions
+│   │       │   └── configureFetch.ts
+│   │       └── hooks
+│   │           └── useAsync.ts
+│   ├── api
+│   │   └── index.ts
+│   ├── app
+│   │   ├── App.css
+│   │   ├── App.tsx
+│   │   ├── AuthenticatedApp.styles.ts
+│   │   ├── AuthenticatedApp.tsx
+│   │   ├── UnauthenticatedApp.tsx
+│   │   ├── UnunthenticatedApp.styles.ts
+│   │   ├── components
+│   │   │   ├── common
+│   │   │   │   ├── Drag.tsx
+│   │   │   │   ├── Drop.tsx
+│   │   │   │   ├── DropChild.tsx
+│   │   │   │   ├── ErrorBoundary.tsx
+│   │   │   │   ├── ErrorBox.tsx
+│   │   │   │   ├── FlexRow.tsx
+│   │   │   │   ├── FullPageError.tsx
+│   │   │   │   ├── FullPageLoader.tsx
+│   │   │   │   ├── IdSelect.tsx
+│   │   │   │   ├── Marking.tsx
+│   │   │   │   ├── Profiler.tsx
+│   │   │   │   ├── ProjectModal.tsx
+│   │   │   │   ├── ProjectPopover.tsx
+│   │   │   │   ├── TaskModal.tsx
+│   │   │   │   └── UserPopover.tsx
+│   │   │   ├── epic
+│   │   │   │   └── CreateEpic.tsx
+│   │   │   ├── kanban
+│   │   │   │   ├── CreateSwimLane.tsx
+│   │   │   │   ├── CreateTask.tsx
+│   │   │   │   ├── Highlighting.tsx
+│   │   │   │   ├── More.tsx
+│   │   │   │   ├── SearchPanel.tsx
+│   │   │   │   ├── TaskCard.tsx
+│   │   │   │   ├── TaskType.tsx
+│   │   │   │   ├── TaskTypeSelect.tsx
+│   │   │   │   └── swimlane
+│   │   │   │       ├── index.styles.ts
+│   │   │   │       └── index.tsx
+│   │   │   └── project-list
+│   │   │       ├── List.tsx
+│   │   │       ├── More.tsx
+│   │   │       ├── SearchPanel.tsx
+│   │   │       └── UserSelect.tsx
+│   │   └── screens
+│   │       ├── epic
+│   │       │   ├── index.styles.ts
+│   │       │   └── index.tsx
+│   │       ├── kanban
+│   │       │   ├── index.styles.ts
+│   │       │   └── index.tsx
+│   │       ├── login
+│   │       │   ├── index.styles.ts
+│   │       │   └── index.tsx
+│   │       ├── project
+│   │       │   ├── index.styles.ts
+│   │       │   └── index.tsx
+│   │       ├── project-list
+│   │       │   ├── index.styles.ts
+│   │       │   └── index.tsx
+│   │       └── register
+│   │           ├── index.styles.ts
+│   │           └── index.tsx
+│   ├── assets
+│   │   ├── bug.svg
+│   │   ├── left.svg
+│   │   ├── logo-header.svg
+│   │   ├── logo.svg
+│   │   ├── right.svg
+│   │   └── task.svg
+│   ├── contexts
+│   │   ├── AuthContext.tsx
+│   │   └── index.tsx
+│   ├── hooks
+│   │   ├── _helpers.ts
+│   │   ├── api.ts
+│   │   ├── auth.ts
+│   │   ├── dragndrop.ts
+│   │   ├── epics.ts
+│   │   ├── kanban.ts
+│   │   ├── projects.ts
+│   │   ├── reorder.ts
+│   │   ├── task-types.ts
+│   │   ├── tasks.ts
+│   │   └── users.ts
+│   ├── index.tsx
+│   ├── react-app-env.d.ts
+│   ├── reportWebVitals.ts
+│   ├── setupTests.ts
+│   ├── types
+│   │   └── index.ts
+│   ├── utils
+│   │   └── index.ts
+│   └── wdyr.ts
+├── tsconfig.json
+└── yarn.lock
+```
 
-### `yarn build`
+### Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Client Side
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  - React
+  - React Query
+  - Antd (CSS framework)
+  - React-Beautiful-DnD
+  - Emotion
+  - Fetch Api
+  - Context Api
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Server Side
 
-### `yarn eject`
+  A custom component built with Mock Service Worker using local storage as a distributed backend.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- ## 3rd Party Services
+- ## Deployment
+- Version Control: Git and GitHub
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<!-- Custom Hooks -->
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Custom Hooks List
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- useDebounce: utilised useState, useEffect along with the web API setTimeout to acquire the latest values only without user interactions in a certain period of time to reduce https requests.
+- useAuth:
+-
+-
+-
+-
+-
+-
 
-## Learn More
+<!-- TODO -->
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## To-Do
