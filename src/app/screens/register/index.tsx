@@ -50,14 +50,14 @@ const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
         name={"password"}
         rules={[{ required: true, message: "Please enter your password" }]}
       >
-        <Input type="text" id={"password"} placeholder={"Password"} />
+        <Input type="password" id={"password"} placeholder={"Password"} />
       </Form.Item>
       <Form.Item
         name={"confirm_password"}
         rules={[{ required: true, message: "Please confirm your password" }]}
       >
         <Input
-          type="text"
+          type="password"
           id={"confirm_password"}
           placeholder={"Confirm Password"}
         />

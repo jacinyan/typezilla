@@ -37,7 +37,7 @@
 
 ## About The Project
 
-This project is inspired by an professional experience with agile methodology. Jira has its significant place in this, and therefore the project is named Typezilla, as a respectful parody. On top of that, the project acts as a reinforcement of what I have learned about React.js, with a main focus on building custom React hooks, and a first ever practice in TypeScript syntax developing React applications.
+This project is inspired by an professional experience with agile methodology, in which Jira has its significant place. At the same time, I had been planning to embark on my journey using TypeScript, and therefore the project is named Typezilla, as a respectful parody to them both. In a nutshell, the project acts as a reinforcement and improvement of what I have learned about React.js, with a main focus on custom React hooks this time around. This is also my first ever practice in TypeScript syntax building complete React applications.
 
 ### App Structure
 

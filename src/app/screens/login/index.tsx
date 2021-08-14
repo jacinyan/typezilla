@@ -43,7 +43,7 @@ const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
         name={"password"}
         rules={[{ required: true, message: "Please enter your password" }]}
       >
-        <Input type={"text"} id={"password"} placeholder={"Password"} />
+        <Input type={"password"} id={"password"} placeholder={"Password"} />
       </Form.Item>
       <Form.Item>
         <Button type={"primary"} htmlType={"submit"} loading={isLoading}>

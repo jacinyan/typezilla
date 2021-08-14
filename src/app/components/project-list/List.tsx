@@ -20,7 +20,7 @@ const List = ({ users, ...restProps }: ListProps) => {
 
   return (
     <Table
-      rowKey={"id"}
+      rowKey={(project, index) => `complete${project.id}${index}`}
       pagination={false}
       columns={[
         {
