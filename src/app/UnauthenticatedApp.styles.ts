@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { Card as BaseCard } from "antd";
 import logo from "assets/logo.svg";
-import right from "assets/right.svg";
-import left from "assets/left.svg";
+import right from "assets/right.official.svg";
+import left from "assets/left.official.svg";
 
 const Container = styled.div`
   display: flex;
@@ -35,10 +35,10 @@ const Background = styled.div`
   width: 100%;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-position: left bottom, right top;
+  background-position: left bottom, right bottom;
   background-size: 35%, 35%, contain;
   background-image: url(${left}), url(${right});
-  opacity: 0.55;
+  opacity: 0.8;
 `;
 
 const Title = styled.h2`
