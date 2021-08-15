@@ -44,13 +44,23 @@ const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
         name={"username"}
         rules={[{ required: true, message: "Please enter your username" }]}
       >
-        <Input type="text" id={"username"} placeholder={"Username"} />
+        <Input
+          type="text"
+          id={"username"}
+          placeholder={"Username"}
+          style={{ fontSize: 14 }}
+        />
       </Form.Item>
       <Form.Item
         name={"password"}
         rules={[{ required: true, message: "Please enter your password" }]}
       >
-        <Input type="password" id={"password"} placeholder={"Password"} />
+        <Input
+          type="password"
+          id={"password"}
+          placeholder={"Password"}
+          style={{ fontSize: 14 }}
+        />
       </Form.Item>
       <Form.Item
         name={"confirm_password"}
@@ -60,6 +70,7 @@ const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
           type="password"
           id={"confirm_password"}
           placeholder={"Confirm Password"}
+          style={{ fontSize: 14 }}
         />
       </Form.Item>
       <Form.Item>

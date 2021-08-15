@@ -29,7 +29,7 @@
     "react-router-dom": "^6.0.0-beta.0",
     "react-scripts": "4.0.3",
     "typescript": "^4.1.2",
-    "typezilla-mockserver": "0.9.0",
+    "typezilla-mockserver": "0.10.1-alpha.0",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -39,7 +39,7 @@
     "eject": "react-scripts eject",
     "prepare": "husky install",
     "predeploy": "yarn build",
-    "deploy": "gh-pages -d build -r git@github.com:jacinyan/typezilla.git -b gh-pages"
+    "deploy": "gh-pages -d build -r git@github.com:jacinyan/jacinyan.github.io.git -b main"
   },
   "eslintConfig": {
     "extends": [

@@ -11,7 +11,12 @@ const Header = styled(FlexRow)`
   padding: 3.2rem;
   /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1); */
   z-index: 1;
-  background-color: rgb(0, 82, 204);
+  background: linear-gradient(
+    90deg,
+    rgba(4, 9, 72, 1) 0%,
+    rgba(55, 68, 222, 1) 95%
+  );
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
 `;
 
 const HeaderLeft = styled(FlexRow)``;

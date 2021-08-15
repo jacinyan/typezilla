@@ -36,6 +36,8 @@ const EpicScreen = () => {
     });
   };
 
+  console.log(epics);
+
   return (
     <Container>
       <FlexRow spaceBetween>

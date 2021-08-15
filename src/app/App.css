@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;700&display=swap");
 
 html {
   /* 1rem is now 10px */
@@ -6,9 +6,13 @@ html {
 }
 
 body {
-  font-family: "Oxygen", Arial, sans-serif !important;
+  font-family: "Exo 2", Arial, sans-serif !important;
 }
 
 html body #root .App {
   min-height: 100vh;
+}
+
+.App .ant-form-item-explain.ant-form-item-explain-error {
+  font-size: 12px;
 }

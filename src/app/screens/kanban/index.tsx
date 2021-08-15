@@ -26,6 +26,7 @@ const KanbanScreen = () => {
   const isLoading = taskLoading || swimlaneLoading;
 
   const onDragEnd = useDragEnd();
+  // console.log(currProject);
 
   return (
     <Profiler id={"kanban"}>
