@@ -37,7 +37,7 @@
 
 ## About The Project
 
-This project is inspired by an professional experience with agile methodology, in which Jira has its significant place. At the same time, I had been planning to embark on my journey using TypeScript, and therefore the project is named Typezilla, as a respectful parody to them both. In a nutshell, the project acts as a reinforcement and improvement of what I have learned about React.js, with a main focus on custom React hooks this time around. This is also my first ever practice in TypeScript syntax building complete React applications.
+This project is inspired by an professional experience with agile methodology, in which Jira has its significant place. At the same time, I had been planning to embark on my journey using TypeScript, and therefore the project is named Typezilla, as a respectful parody to them both. In a nutshell, the project acts as a reinforcement and improvement of what I have learned about React.js, with a main focus on custom React hooks this time around, despite the fact that the implementations seem gratuitous. This is also my first ever practice in TypeScript syntax building complete React applications.
 
 ### App Structure
 
@@ -167,25 +167,35 @@ This project is inspired by an professional experience with agile methodology, i
 
 - Server Side
 
-  A custom component built with Mock Service Worker using local storage as a distributed backend.
+  - A custom component built with Mock Service Worker using local storage as a distributed backend.
 
-- ## 3rd Party Services
-- ## Deployment
-- Version Control: Git and GitHub
+- CI/CD
+  - Github Actions
+- Deployment
+  - Github Pages
+- Version Control
+  - Git and GitHub
 
 <!-- Custom Hooks -->
 
-## Custom Hooks List
+## List of Main Custom Hooks
 
-- useDebounce: utilised useState, useEffect along with the web API setTimeout to acquire the latest values only without user interactions in a certain period of time to reduce https requests.
-- useAuth:
--
--
--
--
--
--
+- useDebounce: This hook debounces any fast changing value so that it will only reflect the latest value when the useDebounce hook has not been called for the specified time period
+- useMount: This hook calls a function after the component is mounted
+- useMountedRef: This hook keeps track of a component's mounted / un-mounted status and returns a ref object with a boolean value representing said status
+- useSafeDispatch: This hook handles edge cases where states are being set on an unmounted component after async tasks are completed, in conjunction with useMountedRef.
+- useDocumentTitle: This hook sets the current title of the document
+- useURLSearchParams: This hook uses URL query string to state manage search params
+- useAuth: This hooks enables any component to get the current auth state and re-render if it changes
+- useConfigureFetch: This hook is an abstraction of making http requests in conjunction with useAuth for embedding token
+- useAsyncTask: This hook makes async calls and also know the current state of the request
+- useQueriesConfig: With React Query, this hooks highly centralizes the configuration of inputting corresponding http requests parameters (except 'GET') and set up query keys along with the handling of Promises where optimistic updates are also enabled
+- useDragEnd: This hooks provides a simplified way for components to be connected to React-Drag-Drop system
 
-<!-- TODO -->
+The rest of custom hooks are created for dealing CRUD specifically, feel free to check them out in 'src/hooks'
+
+ <!-- TODO -->
 
 ## To-Do
+
+Testing with React Library in process
