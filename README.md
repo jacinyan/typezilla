@@ -11,7 +11,7 @@
     An agile tracking project management system based on React Hooks with TypeScript
     <br />
     <br />
-    <a href="">View Demo</a>
+    <a href="https://jacinyan.github.io/typezilla">View Demo</a>
   </p>
 </p>
 
