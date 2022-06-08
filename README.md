@@ -2,7 +2,7 @@
 <br />
 <p align="center">
   <a href="">
-    <img src="" alt="Logo" width="80" height="80">
+    <img src="public/favicon.ico" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Typezilla</h3>
@@ -11,7 +11,7 @@
     An agile tracking project management system based on React Hooks with TypeScript
     <br />
     <br />
-    <a href="https://jacinyan.github.io/typezilla">View Demo</a>
+    <a href="https://typezilla.vercel.app">View Demo</a>
   </p>
 </p>
 

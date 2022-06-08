@@ -18,7 +18,6 @@
     "antd": "4.10.2",
     "craco-less": "^1.17.1",
     "dayjs": "^1.10.5",
-    "gh-pages": "^3.2.3",
     "history": "^5.0.0",
     "msw": "0.24.1",
     "qs": "^6.10.1",
@@ -37,9 +36,7 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "prepare": "husky install",
-    "predeploy": "yarn build",
-    "deploy": "gh-pages -d build -r git@github.com:jacinyan/jacinyan.github.io.git -b main"
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
