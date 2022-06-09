@@ -28,7 +28,7 @@ export default function AuthenticatedApp() {
             path={"/projects/:projectId/*"}
             element={<ProjectScreen />}
           />
-          <Navigate to={"/projects"} />
+          <Route path="*" element={<Navigate to={"/projects"} replace />} />
         </Routes>
       </Main>
       <ProjectModal />
