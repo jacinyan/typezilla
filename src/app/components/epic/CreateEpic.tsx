@@ -3,6 +3,7 @@ import { Button, Drawer, Form, Input, Spin } from "antd";
 import { DrawerProps } from "antd/es/drawer";
 import { useCreateEpic, useEpicsQueryKey } from "hooks/epics";
 import { useProjectIdInURL } from "hooks/projects";
+import { useSwimlanes, useSwimlanesSearchParams } from "hooks/kanban";
 import ErrorBox from "app/components/common/ErrorBox";
 
 export const CreateEpic = (
@@ -17,9 +18,17 @@ export const CreateEpic = (
   } = useCreateEpic(useEpicsQueryKey());
   const [form] = Form.useForm();
   const projectId = useProjectIdInURL();
+  const { data: swimlanes } = useSwimlanes(useSwimlanesSearchParams());
 
   const onFinish = async (values: any) => {
-    await createEpic({ ...values, projectId });
+    const epicData = {
+      ...values,
+      projectId,
+      swimlaneId: swimlanes?.[0]?.id || 1, 
+      start: Date.now(), 
+      end: Date.now() + 30 * 24 * 60 * 60 * 1000, 
+    };
+    await createEpic(epicData);
     props.onClose();
   };
 

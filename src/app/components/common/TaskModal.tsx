@@ -8,6 +8,7 @@ import {
 } from "hooks/tasks";
 import UserSelect from "../project-list/UserSelect";
 import TaskTypeSelect from "../kanban/TaskTypeSelect";
+import EpicSelect from "./EpicSelect";
 
 const TaskModal = () => {
   const [form] = Form.useForm();
@@ -72,6 +73,9 @@ const TaskModal = () => {
         </Form.Item>
         <Form.Item label={"Type"} name={"typeId"}>
           <TaskTypeSelect />
+        </Form.Item>
+        <Form.Item label={"Epic"} name={"epicId"}>
+          <EpicSelect defaultOption={"Select Epic"} />
         </Form.Item>
       </Form>
       <div style={{ textAlign: "right" }}>

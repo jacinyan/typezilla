@@ -10,7 +10,15 @@ const CreateTask = ({ swimlaneId }: { swimlaneId: number }) => {
   const [inputMode, setInputMode] = useState(false);
 
   const submit = async () => {
-    await createTask({ projectId, name, swimlaneId });
+    await createTask({ 
+      projectId, 
+      name, 
+      swimlaneId,
+      epicId: 1, 
+      assigneeId: 1, 
+      typeId: 1, 
+      notes: "" 
+    });
     setInputMode(false);
     setName("");
   };
